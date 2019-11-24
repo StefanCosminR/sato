@@ -180,6 +180,60 @@
         </section>
 
         <section>
+            <h2>Main Application Workflow</h2>
+            <section>
+                <h3>Query for information</h3>
+                <figure typeof="sa:Image">
+                    <img src="./WADE/QueryForTopics.png" alt="Query">
+                    <figcaption>Fig. 3 - Search for information regarding some topics</figcaption>
+                </figure>
+                <p>
+                    From the Client application, an AJAX call will be made to collect information about some specific
+                    topics.
+                </p>
+                <p>
+                    This request will go through the Load Balancer that stands before the servers that each
+                    expose the SATO API. The Load Balancer chooses to proxy the request to one of the available
+                    server instances.
+                </p>
+                <p>
+                    The chosen server will dispatch a SPARQL query based on the searched topics to each of the
+                    Data Source SPARQL databases. Pages from the selected information will be aggregated into the
+                    Client response.
+                </p>
+            </section>
+
+            <section>
+                <h3>Refresh Data in Triplestores</h3>
+                <figure typeof="sa:Image">
+                    <img src="./WADE/DataRefreshFlow.png" alt="Query">
+                    <figcaption>Fig. 4 - Refresh data stored in each triplestore</figcaption>
+                </figure>
+                <p>
+                    The Refresh Data Job is a periodic operation that assures the freshness of the information stored
+                    in the application triplestores. The Refresh Data Job is composed from two main phases:
+                </p>
+                <ol>
+                    <li>Wait for new refresh</li>
+                    <li>
+                        Trigger Data Source Services Refresh
+                        <ul>
+                            <li>Emit a refresh request to all Data Source Services</li>
+                            <li>
+                                The request will make the Data Source Services to collect new information from
+                                their corresponding Data Source and persist it into the triplestore
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>
+                    After the refresh trigger, the job won't await for any response. It will reenter the first phase
+                    and the Data Source Services will perform the update in parallel.
+                </p>
+            </section>
+        </section>
+
+        <section>
             <h2>Bibliografie</h2>
             <ol class="centered-list">
                 <li><a target=blank href="https://jena.apache.org/getting_started/index.html">Apache Jena</a></li>
