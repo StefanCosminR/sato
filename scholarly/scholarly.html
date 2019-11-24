@@ -17,7 +17,6 @@
     <article typeof="schema:ScholarlyArticle" resource="#">
         <h1>SATO Documentation</h1>
         <section>
-            <!--            <span>Authors</span>-->
             <ol class="inline-list">
                 <li class="inline-list-item" property="schema:author" typeof="sa:ContributorRole">
                     <a property="schema:author" href="https://github.com/StefanCosminR" typeof="schema:Person">
@@ -56,8 +55,9 @@
             <p>
                 Information about software development is readily available on the web today, unfortunately it is mostly
                 simply data, understandable by humans in the right context but very hard to aggregate and search by
-                computers. SATO tries to unite big software development resources (such as GitHub, MDN, DevDocs etc.)
-                under one API adding semantics to data by making them available in the RDF format.
+                computers. SATO makes a step forward in this direction and comes up with a solution to unite big
+                software development resources (such as GitHub, MDN, DevDocs etc.) under one mashup API adding
+                semantics to data by making them available in the RDF format.
             </p>
         </section>
 
@@ -73,21 +73,30 @@
                     In order to ensure a secure experience for the users of the API, the service uses a well known and
                     tested authentication system provided by <a property="schema:url"
                                                                 href="https://firebase.google.com">Firebase</a>.
-                    It also allows us to have a scalable and easily available authentication API.
+                    The provided authentication service allows us to have a scalable and easily available
+                    authentication API. More over, our service would benefit of the possibility to implement
+                    OAuth 2.0 based authentication for our customers to use other already existing accounts from
+                    <a property="schema:url" href="https://www.facebook.com/">Facebook</a>,
+                    <a property="schema:url" href="https://twitter.com/login">Twitter</a>,
+                    <a property="schema:url" href="https://github.com/">Github</a> and others.
                 </p>
             </section>
             <section>
                 <h3>Data source services</h3>
                 <p>
-                    The data available about software development is using RDF in most cases, to solve this and to
-                    minimize
-                    the calls to external APIs we introduced the data source services. These have the role to
-                    interrogate
-                    their specific API (GitHub, MDN etc.) on demand, convert the date to RDF and store it in their own
-                    triplestore. In order to have more control over the refresh interval of its data, each service
-                    exposes
-                    and API that will be called by a "Data Refresh Job" when it considers it's the best time to update
-                    the databases.
+                    The data available about software development is not using an RDF format in most cases.
+                    To solve this and to minimize the calls to external APIs we introduced the "Data Source Services".
+                </p>
+                <p>
+                    A "Data Source" is an existing service that offers information to our service (eg: Github,
+                    MDN etc.).
+                    These type of services have the role to interrogate their corresponding API (GitHub, MDN etc.)
+                    on demand, convert the date to RDF and store it in their own triplestore.
+                </p>
+                <p>
+                    In order to have control over the freshness of the data, each service exposes and API endpoint
+                    that will be called by a "Data Refresh Job" when it considers it is the best time to update the
+                    databases.
                 </p>
             </section>
             <section>
@@ -105,8 +114,6 @@
             <img src="./WADE/SATO-Main-Modules.png" alt="Module Architecture">
             <figcaption>Fig. 2 - Module architecture</figcaption>
         </figure>
-
-
 
         <section>
             <h2>Bibliografie</h2>

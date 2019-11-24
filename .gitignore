@@ -1,2 +1,4 @@
 .DS_Store
 /scholarly/.DS_Store
+.idea
+*.iml
