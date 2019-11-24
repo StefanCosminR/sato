@@ -70,6 +70,49 @@
                 <figcaption>Fig. 1 - Service architecture</figcaption>
             </figure>
             <section>
+                <h3>General Overview</h3>
+                <p>
+                    The SATO service promotes an architecture based on micro-services so that it can scale well and
+                    be available 99% of the time. Being a micro-service based application, SATO has multiple loosely
+                    coupled and high cohesive components:
+                </p>
+                <ol>
+                    <li>Multiple servers that expose the SATO API</li>
+                    <li>SATO servers Load Balancer</li>
+                    <li>Data Source Services</li>
+                    <li>Data Source SPARQL Databases</li>
+                    <li>Users Service</li>
+                    <li>Data Refresher Service/Job</li>
+                    <li>User Interface Server</li>
+                    <li>Content Distribution Network</li>
+                    <li>Client Application</li>
+                </ol>
+                <p>
+                    The scalability of SATO service comes from distributing the tasks across multiple resolvers.
+                    The resolvers either work in parallel or act as a group responsible for resolving some operations
+                    and the workload is distributed across the group.
+                </p>
+                <p>
+                    The entities that work in parallel are the Data Source Services about which details are given
+                    in the following subsections. For performance and availability reasons, to avoid cases when
+                    there exist a single resolver and has a lot of workload causing it to fail in the end, for the
+                    SATO servers an Autoscaling Group is created on which a Load Balancer decides to which instance
+                    of the Group to forward the request.
+                </p>
+                <p>
+                    For ensuring that users data is not lost and is easy to query, storage services from
+                    <a property="schema:url" href="https://firebase.google.com">Firebase</a> are used. This services
+                    assure read and write performance and benefit of a data replication feature typical to Cloud
+                    Storage Services that copies the stored information into more locations (default is 3). More over,
+                    this feature gives a performance boost because the write operations are by default executed on a
+                    replica and the read operations on the other replicas.
+                </p>
+                <p>
+                    The Client Web application load time is boosted by using a Cloud Content Distribution
+                    Network for general data caching.
+                </p>
+            </section>
+            <section>
                 <h3>Authentication</h3>
                 <p>
                     In order to ensure a secure experience for the users of the API, the service uses a well known and
