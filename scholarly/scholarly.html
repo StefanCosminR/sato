@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <title>SATO Report</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet' type="text/css">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width">
+
+    <title>SATO Report</title>
 </head>
 
 <body prefix="schema: http://schema.org/ xsd: http://www.w3.org/2001/XMLSchema# sa: https://ns.science.ai/">
@@ -84,7 +86,7 @@
             <section>
                 <h3>Data source services</h3>
                 <p>
-                    The data available about software development is not using an RDF format in most cases.
+                    The data available about software development is not using a RDF format in most cases.
                     To solve this and to minimize the calls to external APIs we introduced the "Data Source Services".
                 </p>
                 <p>
@@ -109,11 +111,73 @@
                 </p>
             </section>
         </section>
-        <h2>Module architecture</h2>
-        <figure typeof="sa:Image">
-            <img src="./WADE/SATO-Main-Modules.png" alt="Module Architecture">
-            <figcaption>Fig. 2 - Module architecture</figcaption>
-        </figure>
+
+        <section>
+            <h2>Module architecture</h2>
+            <figure typeof="sa:Image">
+                <img src="./WADE/SATO-Main-Modules.png" alt="Module Architecture">
+                <figcaption>Fig. 2 - Module architecture</figcaption>
+            </figure>
+            <section>
+                <h3>General overview</h3>
+                <p>
+                    The application is composed from multiple reusable modules that are common between some application
+                    components. The most notable and important modules which are detailed in the following subsections
+                    are:
+                </p>
+                <ol>
+                    <li>Data Source Adapters Module</li>
+                    <li>Data Transformation Module</li>
+                    <li>Data Persistence Module</li>
+                    <li>Models Module</li>
+                </ol>
+            </section>
+            <section>
+                <h3>Data Source Adapters Module</h3>
+                <p>
+                    The application is based on the Data Source Services which are responsible for collecting relevant
+                    information about different topics.
+                </p>
+                <p>
+                    Each of those services will use an Adapter object that corresponds to a single Data Source. The
+                    Adapter object will wrap the API calls to the Data Source with business logic necessary to
+                    validate the API input, process and store the gathered information in a triplestore.
+                </p>
+            </section>
+            <section>
+                <h3>Data Transformation Module</h3>
+                <p>
+                    When refreshing the triplestore information, each Adapter will have to transform the collected
+                    data from the format it was received in to a RDF format accepted by the triplestore where
+                    the information will be saved.
+                </p>
+                <p>
+                    To decouple the data transformation logic from the storing logic, each Data Source Adapter will
+                    know the correct Data Transformer for his Data Source response and pass it to the Data Persistence
+                    Module where the transformation will be called and the transformation result will be stored.
+                </p>
+            </section>
+            <section>
+                <h3>Data Persistence Module</h3>
+                <p>
+                    The Data Persistence Module implements the business logic to correctly store the data collected by
+                    Data Source Adapters. When calling the data store logic, a Data Transformer will be called to
+                    transform the data in a triplestore compatible format that will be saved.
+                </p>
+                <p>
+                    The Adapters know how to use the Data Persistence Module and the Data Persistence Module knows how
+                    to use the Data Transformers passed by the Adapters in order to transform and persist the data.
+                </p>
+            </section>
+            <section>
+                <h3>Models Module</h3>
+                <p>
+                    This module contains simple classes that define concepts, entities, input and output formats.
+                    It is a common module used across the application in contexts where building an input object,
+                    an output object or any Object Oriented representation of an information is required.
+                </p>
+            </section>
+        </section>
 
         <section>
             <h2>Bibliografie</h2>
