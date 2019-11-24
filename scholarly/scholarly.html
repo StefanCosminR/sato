@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>SATO Report</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet' type="text/css">
+</head>
+
+<body prefix="schema: http://schema.org/ xsd: http://www.w3.org/2001/XMLSchema# sa: https://ns.science.ai/">
+<header>
+    <p class="title">Webdev Smart Aid Tool (SATO)</p>
+</header>
+
+<fieldset>
+    <article typeof="schema:ScholarlyArticle" resource="#">
+        <h1>SATO Documentation</h1>
+        <section>
+            <!--            <span>Authors</span>-->
+            <ol class="inline-list">
+                <li class="inline-list-item" property="schema:author" typeof="sa:ContributorRole">
+                    <a property="schema:author" href="https://github.com/StefanCosminR" typeof="schema:Person">
+                        <span property="schema:givenName">Stefan-Cosmin</span>
+                        <span property="schema:familyName">Romanescu</span>
+                    </a>
+                </li>
+                <li class="inline-list-item" property="schema:author" typeof="sa:ContributorRole">
+                    <a property="schema:author" href="https://github.com/DragosDorneanu" typeof="schema:Person">
+                        <span property="schema:givenName">Dragos-Andrei</span>
+                        <span property="schema:familyName">Dorneanu</span>
+                    </a>
+                </li>
+            </ol>
+        </section>
+
+        <section typeof="sa:Abstract">
+            <h2>Abstract</h2>
+            <p>
+                Develop a multi-device (micro-)service-oriented system able to model and manage, in a smart way, public
+                technical content regarding Web development (such as tutorials, presentations, examples of source-code,
+                news, etc.) from multiple sources such as DevDocs, GitHub Pages, MDN Web Docs, Programmable Web, Reddit,
+                and others.
+            </p>
+            <p>
+                Using the Linked Data principles, the application will generate and expose for human users and software
+                – via a SPARQL endpoint – knowledge of interest for Web developers according to various criteria: topic
+                (e.g., a certain programming language/paradigm, only guides/references about a specific framework),
+                target platform, purpose, geographical area, period of time, user preferences, etc.) Additional
+                knowledge provided by Wikidata and ACM Computing Classification System will be used.
+            </p>
+        </section>
+
+        <section typeof="sa:MaterialsAndMethods">
+            <h2>Motivation</h2>
+            <p>
+                Information about software development is readily available on the web today, unfortunately it is mostly
+                simply data, understandable by humans in the right context but very hard to aggregate and search by
+                computers. SATO tries to unite big software development resources (such as GitHub, MDN, DevDocs etc.)
+                under one API adding semantics to data by making them available in the RDF format.
+            </p>
+        </section>
+
+        <section>
+            <h2>The service architecture</h2>
+            <figure typeof="sa:Image">
+                <img src="./WADE/SATO-Architecture.png" alt="Service Architecture">
+                <figcaption>Fig. 1 - Service architecture</figcaption>
+            </figure>
+            <section>
+                <h3>Authentication</h3>
+                <p>
+                    In order to ensure a secure experience for the users of the API, the service uses a well known and
+                    tested authentication system provided by <a property="schema:url"
+                                                                href="https://firebase.google.com">Firebase</a>.
+                    It also allows us to have a scalable and easily available authentication API.
+                </p>
+            </section>
+            <section>
+                <h3>Data source services</h3>
+                <p>
+                    The data available about software development is using RDF in most cases, to solve this and to
+                    minimize
+                    the calls to external APIs we introduced the data source services. These have the role to
+                    interrogate
+                    their specific API (GitHub, MDN etc.) on demand, convert the date to RDF and store it in their own
+                    triplestore. In order to have more control over the refresh interval of its data, each service
+                    exposes
+                    and API that will be called by a "Data Refresh Job" when it considers it's the best time to update
+                    the databases.
+                </p>
+            </section>
+            <section>
+                <h3>Public facing API</h3>
+                <p>
+                    In order to access the data collected by aforementioned services, we expose a microservice that
+                    checks
+                    for user authentication, accepts SPARQL queries, offers some predefined queries based on the user
+                    preferences and aggregates the query result from all data source services.
+                </p>
+            </section>
+        </section>
+        <h2>Module architecture</h2>
+        <figure typeof="sa:Image">
+            <img src="./WADE/SATO-Main-Modules.png" alt="Module Architecture">
+            <figcaption>Fig. 2 - Module architecture</figcaption>
+        </figure>
+
+
+
+        <section>
+            <h2>Bibliografie</h2>
+            <ol class="centered-list">
+                <li><a target=blank href="https://jena.apache.org/getting_started/index.html">Apache Jena</a></li>
+                <li><a target=blank href="https://docs.docker.com">Docker</a></li>
+            </ol>
+        </section>
+    </article>
+</fieldset>
+<footer>
+    <p>
+        Project for <a href="https://profs.info.uaic.ro/~busaco/teach/courses/wade/">WADE</a>
+        &middot;
+        <a href="http://www.info.uaic.ro/bin/Main/">@UAIC Iasi</a>
+    </p>
+</footer>
+</body>
+</html>

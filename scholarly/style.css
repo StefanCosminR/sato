@@ -1,0 +1,193 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Libre Baskerville", Times, serif;
+    background: #f7f7f7;
+    color: #434343;
+    margin: 0;
+}
+
+body > section, article {
+    padding: 0 10px;
+    margin: 0 auto 120px auto;
+    max-width: 900px;
+}
+header {
+    border-top: 8px solid #36b4a7;
+    border-bottom: 2px solid #BDD5E9;
+    box-shadow: 2px 0 4px #BCBCBC;
+    margin-bottom: 64px;
+    background: #fff;
+}
+header p.title, header p.subtitle {
+    max-width: 900px;
+    padding: 0 10px;
+    font-variant: small-caps;
+    margin: 0 auto;
+}
+header p.title {
+    font-size: 32px;
+    margin-top: 16px;
+}
+header p.subtitle {
+    margin-bottom: 8px;
+}
+caption {
+    font-family: "Libre Baskerville", Times, serif;
+    text-align: left;
+    padding: 16px;
+    margin-top: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    caption-side: bottom;
+    font-style: italic;
+    /* we're removing the border (28+4=32) + horizontal padding (88+108=196px) = 228px */
+    max-width: calc(100vw - 228px)
+}
+
+figure {
+    text-align: center;
+    box-sizing: border-box;
+    margin: 24px 0px;
+    padding-top: 32px;
+}
+figcaption {
+    text-align: left;
+    font: normal normal 300 13px/18px;
+    color: #9E9E9E;
+    margin: 24px 0px 32px 0px;
+    padding: 0 0px 24px 0;
+    letter-spacing: .35px;
+    border-bottom: 1px solid #eee;
+    font-style: italic;
+    hyphens: auto;
+}
+figure[typeof="sa:Image"] {
+    border-top: 1px solid #eee;
+}
+
+section:target h2, section:target h3, article:target h1 {
+    color: #36b4a7;
+}
+
+article img {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+}
+
+article {
+    /* the padding is 116px 116px 80px 116px, from which we remove the border */
+    padding: 88px 88px 72px 108px;
+    background: #fff;
+    border-top: 28px solid transparent;
+    border-right: 28px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 4px solid transparent;
+    border-image: url('card-bg.png') 28 28 8 4 repeat;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 24px;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+h1, h2, h3 {
+    font-variant: small-caps;
+    text-align: center;
+    font-weight: 300;
+}
+h1 {
+    padding-top:  16px;
+    padding-bottom: 16px;
+    letter-spacing: .75px;
+    font-size: 24px;
+    line-height: 32px;
+}
+h2 {
+    padding-top: 16px;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    letter-spacing: .75px;
+    font-size: 20px;
+}
+h3 {
+    padding-top: 16px;
+    padding-bottom: 0;
+    letter-spacing:.5px;
+    font-size: 16px;
+}
+
+a {
+    color: #36b4a7;
+}
+a, :link, :visited {
+    text-decoration: none;
+    color: #36b4a7;
+}
+a:active {
+    color: #70f1e0;
+}
+
+article > section:first-of-type {
+    margin-top: 30px;
+}
+/* the authors' list */
+article > section:first-of-type ol::before {
+    display: block;
+    float: left;
+    width: 150px;
+    margin-left: -150px;
+    font-variant: small-caps;
+    color: #9E9E9E;
+}
+article > section:first-of-type ol:first-of-type::before {
+    content: 'Authors';
+}
+article > section:first-of-type ol:not(:first-of-type)::before {
+    content: 'Affiliations';
+}
+article > section:first-of-type ol {
+    list-style-type: none;
+    margin-left: 150px;
+    counter-reset: affiliations;
+}
+article > section:first-of-type ol:not(:first-of-type) li::before {
+    counter-increment: affiliations;
+    content: counter(affiliations, lower-latin) '.';
+    font-size: 12px;
+    display: inline;
+}
+article > section:first-of-type li {
+    display: inline;
+}
+article > section:first-of-type li::after {
+    content: ',';
+}
+article > section:first-of-type li:last-child::after {
+    content: normal;
+}
+article > section:first-of-type a[property="sa:roleAffiliation"] {
+    font-size: 12px;
+    vertical-align: super;
+}
+
+footer {
+    font-size: 15px;
+    box-shadow: -1px 0px 2px #BCBCBC;
+    background: rgb(189, 233, 222);
+    /*border-top: 2px solid #F9EABD;*/
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+footer p {
+    max-width: 900px;
+    padding: 14px 10px;
+    margin: 0 auto;
+    text-align: center;
+}
+footer a:link, footer a:visited {
+    color: green;
+}
