@@ -283,47 +283,68 @@
                 <figcaption>Fig. 5 - UML diagram</figcaption>
             </figure>
             <section>
+                <h3>General Overview</h3>
                 <p>
-                    The main components of the services are modeled as follows.
+                    In this section, the main classes that compose the SATO service components are described and their
+                    principal use cases are detailed. The classes hierarchy presented in the above UML diagram are used
+                    to compose the Authentication mechanism and the Data Source Services.
                 </p>
             </section>
             <section>
-                <h3>Authentication service</h3>
+                <h3>Authentication Service</h3>
                 <p>
                     The authentication service has the main purpose of being a facade to the Users database,
                     as such its classes are modeled to resemble the database.
                 </p>
                 <p>
-                    An important interface for this service is called "<b>Identifiable</b>". It exposes a property ID or
-                    setter and getters for an ID, depending if the programming language used supports properties
-                    inside interfaces. Since databases need to have a primary key on each table, this interface will most likely
-                    be used by a vast number of objects that map directly to the database. It is also useful for processing,
-                    knowing and object uses this interface helps us by using a HashMap instead of an Array if we need
-                    to cache these objects in memory.
+                    An important interface for this service is called "<b>Identifiable</b>". It contains a property ID
+                    that helps in uniquely identifying model instances.
                 </p>
                 <p>
-                    The main class in this module is the "<b>User</b>" class. This will contain only a userName and password
-                    if the user chose to use this form of authentication. Another important field is "<b>interests</b>",
-                    this is an array of all the interests of a user so we could over personalized content. The interests
-                    are instances of class "<b>Topic</b>" that holds an URL to its schema so we could better build a knowledge
-                    graph of user interests.
+                    Since databases need to have a primary key on each table, this interface is used by a vast number
+                    of objects that map directly to the database. It is useful for creating a homogeneous base
+                    structure for the SATO concepts that must be queried and processed. Also, having this interface
+                    helps in easy building of an in memory cache by using an efficient data structure for CRUD
+                    operations such as a HashMap instead of an Array.
+                </p>
+                <p>
+                    The main class in this module is the "<b>User</b>" class. This contains only a userName and password
+                    for users that chose to use this form of authentication instead of OAuth 2.0 services.
+                    Another important field is "<b>interests</b>" which is an array of all the interests of a user that
+                    helps in composing personalized content. The interests are instances of class "<b>Topic</b>" that
+                    holds an URL to the corresponding topic schema. The schema URL is used for improving the quality of
+                    the knowledge graph of user interests that SATO service uses.
                 </p>
             </section>
             <section>
-                <h3>Data source service</h3>
-                <p>
-                    The data source services have two important interfaces:
-                </p>
-                <p>
-                    The "<b>DataSource</b>" interface holds an URL to a data sources. Each specific service will create a
-                    class implementing this interface which will provide the logic for querying its destined data source
-                </p>
-                <p>
-                    The "<b>Transformer</b>" interface exposes a single method, called transform. This method will take as input
-                    some form of raw data and it will return it in the RDF format. As in the previous case, each service
-                    will implement this interface and provide a class that will know to do this transformation
-                    based on the DataSource they use.
-                </p>
+                <h3>Data Source Service</h3>
+                <p>The data source services use two important interfaces:</p>
+                <ol>
+                    <li>
+                        <b>DataSource</b>
+                        <ul>
+                            <li>Holds an URL to a data source</li>
+                            <li>
+                                Each specific service will create a class implementing this interface which will
+                                provide the logic for querying its destined data source
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Transformer</b>
+                        <ul>
+                            <li>Exposes a single method, called "transform"</li>
+                            <li>
+                                This method will take as input the raw data collected from a Data Source and it will
+                                return it in the RDF format that will be persisted
+                            </li>
+                            <li>
+                                As in the previous case, each service will implement this interface and pass it to a
+                                class that will know how to use the transformer and to store the result.
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
                 <p>
                     Another important component is the "<b>DataCollector</b>" class. This takes as input a data source and a
                     transformer, applies the transformation on the data received by the data source and it will use
