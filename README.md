@@ -25,7 +25,7 @@ SATO makes a step forward in this direction and comes up with a solution to unit
 Below you can find a minimal project presentation. You can check the full application documentation by reading the Scholarly HTML documentation that can be found in the "scholarly/scholarly.html" file in this repository.
 
 ## General Architecture
-![alt text](https://github.com/StefanCosminR/sato/blob/master/scholarly/WADE/SATO-Architecture.png)
+![alt text](https://github.com/StefanCosminR/sato/raw/master/scholarly/WADE/SATO-Architecture.png)
 The SATO service promotes an architecture based on micro-services so that it can scale well and be available 99% of the time. Being a micro-service based application, SATO has multiple loosely coupled and high cohesive components:
 
 1. Multiple servers that expose the SATO API
@@ -39,7 +39,7 @@ The SATO service promotes an architecture based on micro-services so that it can
 9. Client Application
 
 ## Modules Architecture
-![alt text](https://github.com/StefanCosminR/sato/blob/master/scholarly/WADE/SATO-Main-Modules.png)
+![alt text](https://github.com/StefanCosminR/sato/raw/master/scholarly/WADE/SATO-Main-Modules.png)
 The application is composed from multiple reusable modules that are common between some application components. The most notable and important modules which are detailed in the following subsections are:
 
 1. Data Source Adapters Module
@@ -50,7 +50,7 @@ The application is composed from multiple reusable modules that are common betwe
 
 ## Main Service Tasks
 #### Query for specific topics
-![alt text](https://github.com/StefanCosminR/sato/blob/master/scholarly/WADE/QueryForTopics.png)
+![alt text](https://github.com/StefanCosminR/sato/raw/master/scholarly/WADE/QueryForTopics.png)
 
 #### Refresh RDF Data
-![alt text](https://github.com/StefanCosminR/sato/blob/master/scholarly/WADE/DataRefreshFlow.png)
+![alt text](https://github.com/StefanCosminR/sato/raw/master/scholarly/WADE/DataRefreshFlow.png)
