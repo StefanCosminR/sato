@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet' type="text/css">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width">
+
+    <title>SATO Report</title>
+</head>
+
+<body prefix="schema: http://schema.org/ xsd: http://www.w3.org/2001/XMLSchema# sa: https://ns.science.ai/">
+<header>
+    <p class="title">Webdev Smart Aid Tool (SATO)</p>
+</header>
+
+<fieldset>
+    <article typeof="schema:ScholarlyArticle" resource="#">
+        <h1>SATO Documentation</h1>
+        <section>
+            <ol class="inline-list">
+                <li class="inline-list-item" property="schema:author" typeof="sa:ContributorRole">
+                    <a property="schema:author" href="https://github.com/StefanCosminR" typeof="schema:Person">
+                        <span property="schema:givenName">Stefan-Cosmin</span>
+                        <span property="schema:familyName">Romanescu</span>
+                    </a>
+                </li>
+                <li class="inline-list-item" property="schema:author" typeof="sa:ContributorRole">
+                    <a property="schema:author" href="https://github.com/DragosDorneanu" typeof="schema:Person">
+                        <span property="schema:givenName">Dragos-Andrei</span>
+                        <span property="schema:familyName">Dorneanu</span>
+                    </a>
+                </li>
+            </ol>
+        </section>
+
+        <section typeof="sa:Abstract">
+            <h2>Abstract</h2>
+            <p>
+                Develop a multi-device (micro-)service-oriented system able to model and manage, in a smart way, public
+                technical content regarding Web development (such as tutorials, presentations, examples of source-code,
+                news, etc.) from multiple sources such as DevDocs, GitHub Pages, MDN Web Docs, Programmable Web, Reddit,
+                and others.
+            </p>
+            <p>
+                Using the Linked Data principles, the application will generate and expose for human users and software
+                – via a SPARQL endpoint – knowledge of interest for Web developers according to various criteria: topic
+                (e.g., a certain programming language/paradigm, only guides/references about a specific framework),
+                target platform, purpose, geographical area, period of time, user preferences, etc.) Additional
+                knowledge provided by Wikidata and ACM Computing Classification System will be used.
+            </p>
+        </section>
+
+        <section typeof="sa:MaterialsAndMethods">
+            <h2>Motivation</h2>
+            <p>
+                Information about software development is readily available on the web today, unfortunately it is mostly
+                simply data, understandable by humans in the right context but very hard to aggregate and search by
+                computers. SATO makes a step forward in this direction and comes up with a solution to unite big
+                software development resources (such as GitHub, MDN, DevDocs etc.) under one mashup API adding
+                semantics to data by making them available in the RDF format.
+            </p>
+        </section>
+
+        <section>
+            <h2>The service architecture</h2>
+            <figure typeof="sa:Image">
+                <img src="./WADE/SATO-Architecture.png" alt="Service Architecture">
+                <figcaption>Fig. 1 - Service architecture</figcaption>
+            </figure>
+            <section>
+                <h3>General Overview</h3>
+                <p>
+                    The SATO service promotes an architecture based on micro-services so that it can scale well and
+                    be available 99% of the time. Being a micro-service based application, SATO has multiple loosely
+                    coupled and high cohesive components:
+                </p>
+                <ol>
+                    <li>Multiple servers that expose the SATO API</li>
+                    <li>SATO servers Load Balancer</li>
+                    <li>Data Source Services</li>
+                    <li>Data Source SPARQL Databases</li>
+                    <li>Users Service</li>
+                    <li>Data Refresher Service/Job</li>
+                    <li>User Interface Server</li>
+                    <li>Content Distribution Network</li>
+                    <li>Client Application</li>
+                </ol>
+                <p>
+                    The scalability of SATO service comes from distributing the tasks across multiple resolvers.
+                    The resolvers either work in parallel or act as a group responsible for resolving some operations
+                    and the workload is distributed across the group.
+                </p>
+                <p>
+                    The entities that work in parallel are the Data Source Services about which details are given
+                    in the following subsections. For performance and availability reasons, to avoid cases when
+                    there exist a single resolver and has a lot of workload causing it to fail in the end, for the
+                    SATO servers an Autoscaling Group is created on which a Load Balancer decides to which instance
+                    of the Group to forward the request.
+                </p>
+                <p>
+                    For ensuring that users data is not lost and is easy to query, storage services from
+                    <a property="schema:url" href="https://firebase.google.com">Firebase</a> are used. This services
+                    assure read and write performance and benefit of a data replication feature typical to Cloud
+                    Storage Services that copies the stored information into more locations (default is 3). More over,
+                    this feature gives a performance boost because the write operations are by default executed on a
+                    replica and the read operations on the other replicas.
+                </p>
+                <p>
+                    The Client Web application load time is boosted by using a Cloud Content Distribution
+                    Network for general data caching.
+                </p>
+            </section>
+            <section>
+                <h3>Authentication</h3>
+                <p>
+                    In order to ensure a secure experience for the users of the API, the service uses a well known and
+                    tested authentication system provided by <a property="schema:url"
+                                                                href="https://firebase.google.com">Firebase</a>.
+                    The provided authentication service allows us to have a scalable and easily available
+                    authentication API. More over, our service would benefit of the possibility to implement
+                    OAuth 2.0 based authentication for our customers to use other already existing accounts from
+                    <a property="schema:url" href="https://www.facebook.com/">Facebook</a>,
+                    <a property="schema:url" href="https://twitter.com/login">Twitter</a>,
+                    <a property="schema:url" href="https://github.com/">Github</a> and others.
+                </p>
+            </section>
+            <section>
+                <h3>Data source services</h3>
+                <p>
+                    The data available about software development is not using a RDF format in most cases.
+                    To solve this and to minimize the calls to external APIs we introduced the "Data Source Services".
+                </p>
+                <p>
+                    A "Data Source" is an existing service that offers information to our service (eg: Github,
+                    MDN etc.).
+                    These type of services have the role to interrogate their corresponding API (GitHub, MDN etc.)
+                    on demand, convert the date to RDF and store it in their own triplestore.
+                </p>
+                <p>
+                    In order to have control over the freshness of the data, each service exposes and API endpoint
+                    that will be called by a "Data Refresh Job" when it considers it is the best time to update the
+                    databases.
+                </p>
+            </section>
+            <section>
+                <h3>Public facing API</h3>
+                <p>
+                    In order to access the data collected by aforementioned services, we expose a microservice that
+                    checks
+                    for user authentication, accepts SPARQL queries, offers some predefined queries based on the user
+                    preferences and aggregates the query result from all data source services.
+                </p>
+            </section>
+        </section>
+
+        <section>
+            <h2>Module architecture</h2>
+            <figure typeof="sa:Image">
+                <img src="./WADE/SATO-Main-Modules.png" alt="Module Architecture">
+                <figcaption>Fig. 2 - Module architecture</figcaption>
+            </figure>
+            <section>
+                <h3>General overview</h3>
+                <p>
+                    The application is composed from multiple reusable modules that are common between some application
+                    components. The most notable and important modules which are detailed in the following subsections
+                    are:
+                </p>
+                <ol>
+                    <li>Data Source Adapters Module</li>
+                    <li>Data Transformation Module</li>
+                    <li>Data Persistence Module</li>
+                    <li>Models Module</li>
+                </ol>
+            </section>
+            <section>
+                <h3>Data Source Adapters Module</h3>
+                <p>
+                    The application is based on the Data Source Services which are responsible for collecting relevant
+                    information about different topics.
+                </p>
+                <p>
+                    Each of those services will use an Adapter object that corresponds to a single Data Source. The
+                    Adapter object will wrap the API calls to the Data Source with business logic necessary to
+                    validate the API input, process and store the gathered information in a triplestore.
+                </p>
+            </section>
+            <section>
+                <h3>Data Transformation Module</h3>
+                <p>
+                    When refreshing the triplestore information, each Adapter will have to transform the collected
+                    data from the format it was received in to a RDF format accepted by the triplestore where
+                    the information will be saved.
+                </p>
+                <p>
+                    To decouple the data transformation logic from the storing logic, each Data Source Adapter will
+                    know the correct Data Transformer for his Data Source response and pass it to the Data Persistence
+                    Module where the transformation will be called and the transformation result will be stored.
+                </p>
+            </section>
+            <section>
+                <h3>Data Persistence Module</h3>
+                <p>
+                    The Data Persistence Module implements the business logic to correctly store the data collected by
+                    Data Source Adapters. When calling the data store logic, a Data Transformer will be called to
+                    transform the data in a triplestore compatible format that will be saved.
+                </p>
+                <p>
+                    The Adapters know how to use the Data Persistence Module and the Data Persistence Module knows how
+                    to use the Data Transformers passed by the Adapters in order to transform and persist the data.
+                </p>
+            </section>
+            <section>
+                <h3>Models Module</h3>
+                <p>
+                    This module contains simple classes that define concepts, entities, input and output formats.
+                    It is a common module used across the application in contexts where building an input object,
+                    an output object or any Object Oriented representation of an information is required.
+                </p>
+            </section>
+        </section>
+
+        <section>
+            <h2>Main Application Workflow</h2>
+            <section>
+                <h3>Query for information</h3>
+                <figure typeof="sa:Image">
+                    <img src="./WADE/QueryForTopics.png" alt="Query">
+                    <figcaption>Fig. 3 - Search for information regarding some topics</figcaption>
+                </figure>
+                <p>
+                    From the Client application, an AJAX call will be made to collect information about some specific
+                    topics.
+                </p>
+                <p>
+                    This request will go through the Load Balancer that stands before the servers that each
+                    expose the SATO API. The Load Balancer chooses to proxy the request to one of the available
+                    server instances.
+                </p>
+                <p>
+                    The chosen server will dispatch a SPARQL query based on the searched topics to each of the
+                    Data Source SPARQL databases. Pages from the selected information will be aggregated into the
+                    Client response.
+                </p>
+            </section>
+
+            <section>
+                <h3>Refresh Data in Triplestores</h3>
+                <figure typeof="sa:Image">
+                    <img src="./WADE/DataRefreshFlow.png" alt="Query">
+                    <figcaption>Fig. 4 - Refresh data stored in each triplestore</figcaption>
+                </figure>
+                <p>
+                    The Refresh Data Job is a periodic operation that assures the freshness of the information stored
+                    in the application triplestores. The Refresh Data Job is composed from two main phases:
+                </p>
+                <ol>
+                    <li>Wait for new refresh</li>
+                    <li>
+                        Trigger Data Source Services Refresh
+                        <ul>
+                            <li>Emit a refresh request to all Data Source Services</li>
+                            <li>
+                                The request will make the Data Source Services to collect new information from
+                                their corresponding Data Source and persist it into the triplestore
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>
+                    After the refresh trigger, the job won't await for any response. It will reenter the first phase
+                    and the Data Source Services will perform the update in parallel.
+                </p>
+            </section>
+        </section>
+
+        <section>
+            <h2>UML diagram</h2>
+            <figure typeof="sa:Image">
+                <img src="./WADE/UMLDiagram.png" alt="UML diagram">
+                <figcaption>Fig. 5 - UML diagram</figcaption>
+            </figure>
+            <section>
+                <h3>General Overview</h3>
+                <p>
+                    In this section, the main classes that compose the SATO service components are described and their
+                    principal use cases are detailed. The classes hierarchy presented in the above UML diagram are used
+                    to compose the Authentication mechanism and the Data Source Services.
+                </p>
+            </section>
+            <section>
+                <h3>Authentication Service</h3>
+                <p>
+                    The authentication service has the main purpose of being a facade to the Users database,
+                    as such its classes are modeled to resemble the database.
+                </p>
+                <p>
+                    An important interface for this service is called "<b>Identifiable</b>". It contains a property ID
+                    that helps in uniquely identifying model instances.
+                </p>
+                <p>
+                    Since databases need to have a primary key on each table, this interface is used by a vast number
+                    of objects that map directly to the database. It is useful for creating a homogeneous base
+                    structure for the SATO concepts that must be queried and processed. Also, having this interface
+                    helps in easy building of an in memory cache by using an efficient data structure for CRUD
+                    operations such as a HashMap instead of an Array.
+                </p>
+                <p>
+                    The main class in this module is the "<b>User</b>" class. This contains only a userName and password
+                    for users that chose to use this form of authentication instead of OAuth 2.0 services.
+                    Another important field is "<b>interests</b>" which is an array of all the interests of a user that
+                    helps in composing personalized content. The interests are instances of class "<b>Topic</b>" that
+                    holds an URL to the corresponding topic schema. The schema URL is used for improving the quality of
+                    the knowledge graph of user interests that SATO service uses.
+                </p>
+            </section>
+            <section>
+                <h3>Data Source Service</h3>
+                <p>The data source services use two important interfaces:</p>
+                <ol>
+                    <li>
+                        <b>DataSource</b>
+                        <ul>
+                            <li>Holds an URL to a data source</li>
+                            <li>
+                                Each specific service will create a class implementing this interface which will
+                                provide the logic for querying its destined data source
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Transformer</b>
+                        <ul>
+                            <li>Exposes a single method, called "transform"</li>
+                            <li>
+                                This method will take as input the raw data collected from a Data Source and it will
+                                return it in the RDF format that will be persisted
+                            </li>
+                            <li>
+                                As in the previous case, each service will implement this interface and pass it to a
+                                class that will know how to use the transformer and to store the result.
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>
+                    Another important component is the "<b>DataCollector</b>" class. This takes as input a data source and a
+                    transformer, applies the transformation on the data received by the data source and it will use
+                    a connection to a Triplestore to write the obtained RDF Data.
+                </p>
+            </section>
+        </section>
+
+        <section>
+            <h2>Bibliografie</h2>
+            <ol class="centered-list">
+                <li><a target=blank href="https://jena.apache.org/getting_started/index.html">Apache Jena</a></li>
+                <li><a target=blank href="https://docs.docker.com">Docker</a></li>
+            </ol>
+        </section>
+    </article>
+</fieldset>
+<footer>
+    <p>
+        Project for <a href="https://profs.info.uaic.ro/~busaco/teach/courses/wade/">WADE</a>
+        &middot;
+        <a href="http://www.info.uaic.ro/bin/Main/">@UAIC Iasi</a>
+    </p>
+</footer>
+</body>
+</html>
