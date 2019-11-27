@@ -214,6 +214,33 @@ paths:
       description: Exposed by data sources so the refresher job can trigger automatic updates of the data in triplestores
       security:
         - api_key: []
+  '/users/{id}/suggestions':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - user
+      responses:
+        '200':
+          description: Knowledge represented as JSON-LD
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - api_key: []
+      description: Get suggested knowledge based on user interests
+      operationId: users-user-suggestions
 externalDocs:
   description: See AsyncAPI example
   url: 'https://mermade.github.io/shins/asyncapi.html'
