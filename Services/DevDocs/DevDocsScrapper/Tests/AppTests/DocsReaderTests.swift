@@ -24,6 +24,24 @@ class DocsReaderTests: XCTestCase {
         XCTAssert(true)
     }
     
+    func testLoadArticles() throws {
+        print("\n\n\n\n")
+        // add your tests here
+        var docsReader = DocsReader(folderPath: "/Users/stefancosmin/Faculty/wade/sato/Services/DevDocs/DevDocsRepo/public/docs")
+        
+        try docsReader.populateContents()
+        let nodeLibrary = docsReader.libraries["node"]!
+        
+        let node = Node(using: nodeLibrary)
+        let articles = try node.getArticles()
+        
+        dump(articles)
+
+        
+        print("\n\n\n\n")
+        XCTAssert(true)
+    }
+    
     func bench() {
         var someDict = [String: [String]]()
         
@@ -57,7 +75,7 @@ class DocsReaderTests: XCTestCase {
                 someDict["\(i)"] = oldStr
             }
         }
-    
+        
     }
     
 }

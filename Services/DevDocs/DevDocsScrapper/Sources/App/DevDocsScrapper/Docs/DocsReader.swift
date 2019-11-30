@@ -24,7 +24,7 @@ extension DocsReader {
         let contents = try fm.contentsOfDirectory(atPath: folderPath)
 
         libraries = contents
-            .map({ $0.split(separator: "~") })
+            .map({(libraryName) -> [Substring] in libraryName.split(separator: DocConfig.LIBRARY_VERSION_SEPARATOR) })
             .reduce(into: [:]) { libraries, libraryVersionPair in
                 let hasVersion = libraryVersionPair.count > 1
 
