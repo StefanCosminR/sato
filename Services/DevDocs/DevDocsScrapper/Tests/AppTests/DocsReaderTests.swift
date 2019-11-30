@@ -36,7 +36,25 @@ class DocsReaderTests: XCTestCase {
         let articles = try node.getArticles()
         
         dump(articles)
-
+        
+        
+        print("\n\n\n\n")
+        XCTAssert(true)
+    }
+    
+    func testLoadIndex() throws {
+        print("\n\n\n\n")
+        // add your tests here
+        var docsReader = DocsReader(folderPath: "/Users/stefancosmin/Faculty/wade/sato/Services/DevDocs/DevDocsRepo/public/docs")
+        
+        try docsReader.populateContents()
+        let nodeLibrary = docsReader.libraries["node"]!
+        
+        let node = Node(using: nodeLibrary)
+        let index = try node.getIndexContent()
+        
+        dump(index)
+        
         
         print("\n\n\n\n")
         XCTAssert(true)

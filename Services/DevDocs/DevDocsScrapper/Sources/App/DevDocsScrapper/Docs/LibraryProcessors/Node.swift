@@ -39,4 +39,18 @@ public struct Node {
         
         return articles
     }
+    
+    public func getIndexContent() throws -> DocLibraryIndex {
+        let indexFileURL = URL(fileURLWithPath: library.rootFolder)
+            .appendingPathComponent(library.name)
+            .appendingPathComponent("index.json")
+        
+        let indexFile = try String(contentsOf: indexFileURL, encoding: .utf8)
+        guard let indexFileData = indexFile.data(using: .utf8) else {
+            throw Errors.CouldNotTransformToData
+        }
+        let decoder = JSONDecoder()
+        
+        return try decoder.decode(DocLibraryIndex.self, from: indexFileData)
+    }
 }
