@@ -34,11 +34,14 @@ extension DocsReader {
                 if hasVersion {
                     currentVersion = String(libraryVersionPair[1])
                 }
+                
+                if let _ = libraries[libraryName]?.addVersion(currentVersion) {} else {
+                    var library = DocLibrary(rootFolder: folderPath, name: libraryName)
+                    library.addVersion(currentVersion)
+                    
+                    libraries[libraryName] = library
+                }
 
-                var library = libraries[libraryName] ?? DocLibrary(rootFolder: folderPath, name: libraryName)
-                library.addVersion(currentVersion)
-
-                libraries[libraryName] = library
             }
     }
 }
