@@ -2,3 +2,4 @@
 /scholarly/.DS_Store
 .idea
 *.iml
+target/
