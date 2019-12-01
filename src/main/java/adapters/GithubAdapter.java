@@ -1,7 +1,8 @@
-package adapters.src;
+package adapters;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import models.github.Repository;
 import utils.HttpRequests;
@@ -16,14 +17,15 @@ import java.util.List;
 import static java.net.http.HttpResponse.BodyHandlers;
 
 @Log4j2
-public class GithubClientAdapter {
+@AllArgsConstructor
+public class GithubAdapter {
   private static final String API_CALL_FORMAT = "https://api.github.com/%s";
   private static final String REPOSITORIES_ENDPOINT_FORMAT = "repositories?since=%s";
 
   private HttpClient client;
   private ObjectMapper objectMapper;
 
-  public GithubClientAdapter() {
+  public GithubAdapter() {
     this.client = HttpClient.newHttpClient();
     this.objectMapper = new ObjectMapper();
   }

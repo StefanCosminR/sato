@@ -1,6 +1,7 @@
 package models.github;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,11 +14,22 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
   private int id;
+
   private String url;
+
   private String type;
+
   private String login;
-  private String repos_url;
-  private boolean site_admin;
-  private String followers_url;
-  private String following_url;
+
+  @JsonProperty("repos_url")
+  private String reposUrl;
+
+  @JsonProperty("site_admin")
+  private boolean isSiteAdmin;
+
+  @JsonProperty("followers_url")
+  private String followersUrl;
+
+  @JsonProperty("following_url")
+  private String followingUrl;
 }
