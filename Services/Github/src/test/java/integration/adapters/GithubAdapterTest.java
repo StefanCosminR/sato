@@ -10,6 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -34,7 +35,7 @@ public class GithubAdapterTest {
   }
 
   @Test
-  void test_list_repositories() {
+  void test_list_repositories() throws IOException {
     List<Repository> repos = adapter.listRepositories(START_AFTER_ID);
     assertNotNull(repos);
   }
