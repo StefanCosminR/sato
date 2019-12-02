@@ -1,12 +1,7 @@
-//
-//  RedditPost.swift
-//  
-//
-//  Created by Stefan Romanescu on 01/12/2019.
-//
+// Create by Stefan Romanescu on 01/12/2019
+// Using Swift 5.0
 
 import Foundation
-
 
 struct RedditPost: Codable {
     var domain: String
@@ -31,10 +26,11 @@ extension RedditPost {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        let tempLink = (try? container.decode(String.self, forKey: .fullLink))!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let tempLink = (try? container.decode(String.self, forKey: .fullLink))!
+            .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         
         domain = try container.decode(String.self, forKey: .domain)
-        fullLink =se URL(string: tempLink)!
+        fullLink = URL(string: tempLink)!
         score = try container.decode(Int.self, forKey: .score)
         subreddit = try container.decode(String.self, forKey: .subreddit)
         title = try container.decode(String.self, forKey: .title)

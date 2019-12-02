@@ -8,9 +8,11 @@ final class RedditDataCollectorTests: XCTestCase {
         
         let api = RedditAPI()
         
-        api.getPosts(for: .programming) { posts, error in
-            XCTAssert(error == nil)
-            if let error = error {
+        api.getPosts(for: .programming) { result in
+            switch result {
+            case .success(let redditPosts):
+                print("success")
+            case .failure(let error):
                 print("Error: \(error)")
                 return
             }

@@ -1,12 +1,7 @@
-//
-//  RedditAPI.swift
-//  
-//
-//  Created by Stefan Romanescu on 01/12/2019.
-//
+// Create by Stefan Romanescu on 01/12/2019
+// Using Swift 5.0
 
 import Foundation
-
 
 struct RedditAPI {
     
@@ -25,7 +20,8 @@ struct RedditAPI {
         return validURL
     }
     
-    func getPosts(for subreddit: Subreddit, completionHandler:  @escaping (_ redditPosts: [RedditPost]?, _ error: Error?) -> ()) {
+    func getPosts(for subreddit: Subreddit,
+                  onCompletion:  @escaping (_ result: Result<[RedditPost], Error>) -> ()) {
         let timeInterval = getTimeInterval(daysPrior: 7)
         
         let queryParams = [
@@ -41,12 +37,12 @@ struct RedditAPI {
         
         let task = URLSession.shared.dataTask(with: redditURL) { data, urlResponse, error in
             if let error = error {
-                completionHandler(nil, error)
+                onCompletion(.failure(error))
                 return
             }
             
             guard let data = data else {
-                completionHandler([], nil)
+                onCompletion(.success([]))
                 return
             }
             
@@ -54,9 +50,9 @@ struct RedditAPI {
             
             do {
                 let redditPosts = try decoder.decode(ApiResult.self, from: data)
-                completionHandler(redditPosts.data, nil)
+                onCompletion(.success(redditPosts.data))
             } catch {
-                completionHandler(nil, error)
+                onCompletion(.failure(error))
             }
             
         }
