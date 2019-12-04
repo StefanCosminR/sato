@@ -1,6 +1,5 @@
-package unit.adapters;
+package adapters;
 
-import adapters.GithubAdapter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.github.Repository;
 import models.github.TopicList;
@@ -33,7 +32,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(MockitoExtension.class)
-public class GithubAdapterTest {
+public class GithubAdapterUnitTests {
   private static final String EMPTY_TOPIC_LIST = "{ \"name\": [] }";
   private static final String REPOSITORY_NAME = "projectName";
   private static final String EMPTY_JSON_LIST = "[]";
