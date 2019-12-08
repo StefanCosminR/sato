@@ -1,6 +1,5 @@
-package integration.adapters;
+package adapters;
 
-import adapters.GithubAdapter;
 import models.github.Repository;
 import models.github.TopicList;
 import models.github.User;
@@ -10,13 +9,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class GithubAdapterTest {
+public class GithubAdapterIntegrationTests {
   private static final int START_AFTER_ID = 0;
 
   private GithubAdapter adapter;
@@ -35,7 +33,7 @@ public class GithubAdapterTest {
   }
 
   @Test
-  void test_list_repositories() throws IOException {
+  void test_list_repositories() {
     List<Repository> repos = adapter.listRepositories(START_AFTER_ID);
     assertNotNull(repos);
   }
