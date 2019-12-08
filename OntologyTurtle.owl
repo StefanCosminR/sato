@@ -1,0 +1,203 @@
+@prefix : <http://www.semanticweb.org/wade/ontologies/sato#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/wade/ontologies/sato> .
+
+<http://www.semanticweb.org/wade/ontologies/sato> rdf:type owl:Ontology ;
+                                                   owl:versionIRI <http://www.semanticweb.org/wade/ontologies/sato/1.0.0> .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/wade/ontologies/sato#contributesTo
+:contributesTo rdf:type owl:ObjectProperty ;
+               owl:inverseOf :hasContributor .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#follows
+:follows rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty ;
+         owl:inverseOf :isFollowedBy ;
+         rdfs:domain :GitHubUser ;
+         rdfs:range :GitHubUser .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#hasAuthor
+:hasAuthor rdf:type owl:ObjectProperty ;
+           owl:inverseOf :isAuthorOf ;
+           rdfs:domain :Article ;
+           rdfs:range :Author .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#hasContributor
+:hasContributor rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf owl:topObjectProperty ;
+                rdfs:domain :Repository ;
+                rdfs:range :Contributor .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#hasPreference
+:hasPreference rdf:type owl:ObjectProperty ;
+               rdfs:domain :User ;
+               rdfs:range :Preference .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#hasProgrammingLanguage
+:hasProgrammingLanguage rdf:type owl:ObjectProperty ;
+                        rdfs:domain :Repository ;
+                        rdfs:range :ProgrammingLanguage .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#hasStars
+:hasStars rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty ;
+          rdfs:domain :Repository ;
+          rdfs:range [ rdf:type owl:Restriction ;
+                       owl:onProperty owl:topDataProperty ;
+                       owl:someValuesFrom xsd:integer
+                     ] .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#hasTopic
+:hasTopic rdf:type owl:ObjectProperty ;
+          rdfs:domain :Resource ;
+          rdfs:range :Topic .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#isAuthorOf
+:isAuthorOf rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#isFollowedBy
+:isFollowedBy rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#isOwnedBy
+:isOwnedBy rdf:type owl:ObjectProperty ;
+           owl:inverseOf :owns .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#owns
+:owns rdf:type owl:ObjectProperty ;
+      rdfs:domain :GitHubUser ;
+      rdfs:range :Repository .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#refersTo
+:refersTo rdf:type owl:ObjectProperty ;
+          rdfs:domain :Topic ;
+          rdfs:range :Domain .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/wade/ontologies/sato#Article
+:Article rdf:type owl:Class ;
+         rdfs:subClassOf :Resource .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#Author
+:Author rdf:type owl:Class ;
+        rdfs:subClassOf :User ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :isAuthorOf ;
+                          owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                          owl:onClass :Author
+                        ] .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#Contributor
+:Contributor rdf:type owl:Class ;
+             owl:equivalentClass :GitHubUser ;
+             rdfs:subClassOf :User ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :contributesTo ;
+                               owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass :Contributor
+                             ] .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#Domain
+:Domain rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#Follower
+:Follower rdf:type owl:Class ;
+          owl:equivalentClass :GitHubUser ;
+          rdfs:subClassOf :User ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :follows ;
+                            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass :Follower
+                          ] .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#GitHubUser
+:GitHubUser rdf:type owl:Class ;
+            rdfs:subClassOf :User ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :owns ;
+                              owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                              owl:onClass :GitHubUser
+                            ] .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#Preference
+:Preference rdf:type owl:Class ;
+            owl:equivalentClass :Topic .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#ProgrammingLanguage
+:ProgrammingLanguage rdf:type owl:Class ;
+                     rdfs:subClassOf :Topic .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#Repository
+:Repository rdf:type owl:Class ;
+            rdfs:subClassOf :Resource ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasProgrammingLanguage ;
+                              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass :Repository
+                            ] .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#Resource
+:Resource rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#Topic
+:Topic rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#Tutorial
+:Tutorial rdf:type owl:Class ;
+          rdfs:subClassOf :Resource .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#User
+:User rdf:type owl:Class ;
+      rdfs:subClassOf <http://xmlns.com/foaf/0.1/Person> ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :hasPreference ;
+                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                        owl:onClass :User
+                      ] .
+
+
+###  http://xmlns.com/foaf/0.1/Person
+<http://xmlns.com/foaf/0.1/Person> rdf:type owl:Class ;
+                                   rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :hasTopic ;
+                                                     owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                                     owl:onClass :Resource
+                                                   ] .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
