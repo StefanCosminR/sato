@@ -4,60 +4,60 @@
 import Foundation
 
 public struct LibraryMetadata: Codable {
-    public var code: URL
-    public var entries: [LibraryEntry] = []
-    public var home: URL
-    public var name: String = ""
-    public var slug: String = ""
+    public let code: URL
+    public let entries: [LibraryEntry]
+    public let home: URL
+    public let name: String
+    public let slug: String
     
     public struct LibraryEntry: Codable {
-        var name: String
-        var url: URL
-        var tag: String
+        let name: String
+        var path: String
+        let type: String
     }
     
 }
 
-public extension LibraryMetadata {
-    static func readLibrary(atPath libraryFolder: String) -> LibraryMetadata? {
+
+extension LibraryMetadata {
+    public static func readLibrary(atPath libraryFolder: String) throws -> LibraryMetadata {
         
         let metaFilePath = URL(fileURLWithPath: libraryFolder).appendingPathComponent("meta.json")
         let indexFilePath = URL(fileURLWithPath: libraryFolder).appendingPathComponent("index.json")
         
-        guard let libraryMetaInfo = readLibraryMetaFile(atPath: metaFilePath) else { return nil }
-        guard let libraryIndexInfo = try? readLibraryInfoFile(atPath: indexFilePath) else { return nil }
+        let libraryMetaInfo = try readLibraryMetaFile(atPath: metaFilePath)
+        var libraryIndexInfo = try readLibraryIndexFile(atPath: indexFilePath)
         
-        let libraryMeta = LibraryMetadata(code: libraryMetaInfo.code,
+        libraryIndexInfo = libraryIndexInfo.map { entry in
+            var entry = entry
+            entry.path = libraryMetaInfo.home.absoluteString + entry.path
+            return entry
+        }
+        
+        
+        let libraryMeta = LibraryMetadata(code:    libraryMetaInfo.code,
                                           entries: libraryIndexInfo,
-                                          home: libraryMetaInfo.home,
-                                          name: libraryMetaInfo.name,
-                                          slug: libraryMetaInfo.slug)
+                                          home:    libraryMetaInfo.home,
+                                          name:    libraryMetaInfo.name,
+                                          slug:    libraryMetaInfo.slug)
         
         return libraryMeta
     }
     
-    static func readLibraryMetaFile(atPath metaFilePath: URL) -> (code: URL, home: URL, name: String, slug: String)? {
+    private static func readLibraryMetaFile(atPath metaFilePath: URL) throws -> Metadata {
         let fm = FileManager.default
         
         guard let metaFileContents = fm.contents(atPath: metaFilePath.path) else {
-            return nil
+            throw Errors.FileNotFound(path: metaFilePath.path)
         }
         
+        let decoder = JSONDecoder()
         
-        guard let json = try? JSONSerialization.jsonObject(with: metaFileContents, options: .mutableContainers) as? [String: Any] else {
-            return nil
-        }
-        
-        guard let name = json["name"] as? String else { return nil }
-        guard let slug = json["slug"] as? String else { return nil }
-        guard let links = json["links"] as? [String: Any] else { return nil }
-        guard let homeURL = links["home"] as? URL else { return nil }
-        guard let codeURL = links["code"] as? URL else { return nil }
-        
-        return (code: codeURL, home: homeURL, name: name, slug: slug)
+        return try decoder.decode(Metadata.self, from: metaFileContents)
     }
     
-    static func readLibraryInfoFile(atPath indexFilePath: URL) throws -> [LibraryEntry] {
+    
+    private static func readLibraryIndexFile(atPath indexFilePath: URL) throws -> [LibraryEntry] {
         let fm = FileManager.default
         
         guard let indexFileData = fm.contents(atPath: indexFilePath.path) else {
@@ -65,13 +65,43 @@ public extension LibraryMetadata {
         }
         
         let decoder = JSONDecoder()
-        
-        struct IndexFile: Decodable { var entries: [LibraryEntry] }
-        
-        let indexFile = try decoder.decode(IndexFile.self, from: indexFileData)
+        let indexFile = try decoder.decode(Index.self, from: indexFileData)
         
         return indexFile.entries
     }
-
+    
+    private struct Metadata: Decodable {
+        var name: String
+        var slug: String
+        var code: URL
+        var home: URL
+        
+        private enum RootKeys: String, CodingKey {
+            case name
+            case slug
+            case links
+        }
+        
+        private enum LinksKeys: String, CodingKey {
+            case code
+            case home
+        }
+        
+        init(from decoder: Decoder) throws {
+            let rootContainer = try decoder.container(keyedBy: RootKeys.self)
+            
+            name = try rootContainer.decode(String.self, forKey: .name)
+            slug = try rootContainer.decode(String.self, forKey: .slug)
+            
+            let linksContainer = try rootContainer.nestedContainer(keyedBy: LinksKeys.self, forKey: .links)
+            
+            code = try linksContainer.decode(URL.self, forKey: .code)
+            home = try linksContainer.decode(URL.self, forKey: .home)
+            
+        }
+    }
+    
+    private struct Index: Decodable {
+        var entries: [LibraryEntry]
+    }
 }
-
