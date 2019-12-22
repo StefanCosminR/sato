@@ -12,12 +12,13 @@ final class RedditDataCollectorTests: XCTestCase {
             switch result {
             case .success(let redditPosts):
                 print("success")
+                dump(redditPosts)
             case .failure(let error):
                 print("Error: \(error)")
                 return
             }
             
-//            dump(posts)
+      
             
             expectation.fulfill()
         }
