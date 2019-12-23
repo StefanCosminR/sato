@@ -10,7 +10,7 @@ final class DevDocsDataCollectorTests: XCTestCase {
             XCTAssertEqual(libraryMetadata.name, "Angular")
             XCTAssertEqual(libraryMetadata.slug, "angular")
             XCTAssertEqual(libraryMetadata.home.absoluteString, "https://angular.io/")
-            XCTAssertEqual(libraryMetadata.code.absoluteString, "https://github.com/angular/angular")
+            XCTAssertEqual(libraryMetadata.code?.absoluteString, "https://github.com/angular/angular")
             XCTAssertEqual(libraryMetadata.entries.count, 669)
 
         }())

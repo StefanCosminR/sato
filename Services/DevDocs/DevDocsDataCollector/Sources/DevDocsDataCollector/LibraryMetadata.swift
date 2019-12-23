@@ -4,16 +4,16 @@
 import Foundation
 
 public struct LibraryMetadata: Codable {
-    public let code: URL
+    public let code: URL?
     public let entries: [LibraryEntry]
     public let home: URL
     public let name: String
     public let slug: String
     
     public struct LibraryEntry: Codable {
-        let name: String
-        var path: String
-        let type: String
+        public let name: String
+        public var path: String
+        public let type: String
     }
     
 }
@@ -26,14 +26,7 @@ extension LibraryMetadata {
         let indexFilePath = URL(fileURLWithPath: libraryFolder).appendingPathComponent("index.json")
         
         let libraryMetaInfo = try readLibraryMetaFile(atPath: metaFilePath)
-        var libraryIndexInfo = try readLibraryIndexFile(atPath: indexFilePath)
-        
-        libraryIndexInfo = libraryIndexInfo.map { entry in
-            var entry = entry
-            entry.path = libraryMetaInfo.home.absoluteString + entry.path
-            return entry
-        }
-        
+        let libraryIndexInfo = try readLibraryIndexFile(atPath: indexFilePath)
         
         let libraryMeta = LibraryMetadata(code:    libraryMetaInfo.code,
                                           entries: libraryIndexInfo,
@@ -73,7 +66,7 @@ extension LibraryMetadata {
     private struct Metadata: Decodable {
         var name: String
         var slug: String
-        var code: URL
+        var code: URL?
         var home: URL
         
         private enum RootKeys: String, CodingKey {
@@ -95,7 +88,7 @@ extension LibraryMetadata {
             
             let linksContainer = try rootContainer.nestedContainer(keyedBy: LinksKeys.self, forKey: .links)
             
-            code = try linksContainer.decode(URL.self, forKey: .code)
+            code = try? linksContainer.decode(URL.self, forKey: .code)
             home = try linksContainer.decode(URL.self, forKey: .home)
             
         }
