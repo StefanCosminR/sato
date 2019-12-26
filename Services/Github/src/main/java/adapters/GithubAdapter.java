@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import models.github.Repository;
+import models.github.RepositoryLanguages;
 import models.github.TopicList;
+import models.github.User;
 import utils.HttpRequests;
 
 import javax.ws.rs.core.HttpHeaders;
@@ -21,6 +23,7 @@ import static java.net.http.HttpResponse.BodyHandlers;
 @Log4j2
 @AllArgsConstructor
 public class GithubAdapter {
+  private static final String REPOSITORY_INFO_ENDPOINT = "repos/%s/%s";
   private static final String API_CALL_FORMAT = "https://api.github.com/%s";
   private static final String REPOSITORIES_ENDPOINT_FORMAT = "repositories?since=%s";
   private static final String REPOSITORY_TOPICS_ENDPOINT_FORMAT = "repos/%s/%s/topics";
@@ -66,6 +69,40 @@ public class GithubAdapter {
     } catch (InterruptedException | IOException e) {
       log.error("An error occurred while calling the getRepositoryTopics API: {}", e.getMessage());
       return TopicList.builder().build();
+    }
+  }
+
+  public Repository getRepositoryInfo(final String ownerLogin, final String repositoryName) {
+    try {
+      String endpoint = String.format(REPOSITORY_INFO_ENDPOINT, ownerLogin, repositoryName);
+      HttpRequest request = HttpRequests.get(formatEndpoint(endpoint)).build();
+      HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+      return objectMapper.readValue(response.body(), Repository.class);
+    } catch (InterruptedException | IOException e) {
+      log.error("An error occurred while calling the getRepositoryInfo API: {}", e.getMessage());
+      return Repository.builder().build();
+    }
+  }
+
+  public List<User> getContributors(final Repository repository) {
+    try {
+      HttpResponse<String> response = client.send(HttpRequests.get(repository.getContributorsUrl()).build(),
+                                                  BodyHandlers.ofString());
+      return objectMapper.readValue(response.body(), new TypeReference<List<User>>(){});
+    } catch (InterruptedException | IOException e) {
+      log.error("An error occurred while calling the getContributors API: {}", e.getMessage());
+      return Collections.emptyList();
+    }
+  }
+
+  public RepositoryLanguages getLanguages(final Repository repository) {
+    try {
+      HttpResponse<String> response = client.send(HttpRequests.get(repository.getLanguagesUrl()).build(),
+                                                  BodyHandlers.ofString());
+      return objectMapper.readValue(response.body(), RepositoryLanguages.class);
+    } catch (InterruptedException | IOException e) {
+      log.error("An error occurred while calling the getLanguages API: {}", e.getMessage());
+      return new RepositoryLanguages();
     }
   }
 }

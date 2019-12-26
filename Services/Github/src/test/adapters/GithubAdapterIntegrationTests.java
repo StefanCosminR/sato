@@ -1,6 +1,7 @@
 package adapters;
 
 import models.github.Repository;
+import models.github.RepositoryLanguages;
 import models.github.TopicList;
 import models.github.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,13 +17,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class GithubAdapterIntegrationTests {
   private static final int START_AFTER_ID = 0;
+  private static final String REPOSITORY_NAME = "sato";
+  private static final String OWNER_LOGIN = "StefanCosminR";
 
   private GithubAdapter adapter;
 
   private static Stream<Arguments> getRepository() {
     Repository repository = Repository.builder()
-        .owner(User.builder().login("StefanCosminR").build())
-        .name("sato")
+        .owner(User.builder().login(OWNER_LOGIN).build())
+        .name(REPOSITORY_NAME)
         .build();
     return Stream.of(Arguments.arguments(repository));
   }
@@ -43,5 +46,23 @@ public class GithubAdapterIntegrationTests {
   void test_get_repository_topics(final Repository repository) {
     TopicList topics = adapter.getRepositoryTopics(repository);
     assertNotNull(topics);
+  }
+
+  @Test
+  void test_get_repository_info() {
+    Repository repository = adapter.getRepositoryInfo(OWNER_LOGIN, REPOSITORY_NAME);
+    assertNotNull(repository);
+  }
+
+  @Test
+  void test_get_contributors() {
+    List<User> contributors = adapter.getContributors(adapter.getRepositoryInfo(OWNER_LOGIN, REPOSITORY_NAME));
+    assertNotNull(contributors);
+  }
+
+  @Test
+  void test_get_languages() {
+    RepositoryLanguages languages = adapter.getLanguages(adapter.getRepositoryInfo(OWNER_LOGIN, REPOSITORY_NAME));
+    assertNotNull(languages);
   }
 }
