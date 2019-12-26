@@ -46,7 +46,7 @@ public class GithubAdapter {
       String endpoint = String.format(REPOSITORIES_ENDPOINT_FORMAT, startAfterId);
       HttpRequest request = HttpRequests.get(formatEndpoint(endpoint)).build();
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-      return objectMapper.readValue(response.body(), new TypeReference<List<Repository>>(){});
+      return objectMapper.readValue(HttpRequests.getResponseBody(response), new TypeReference<List<Repository>>(){});
     } catch (InterruptedException | IOException e) {
       log.error("An error occurred while calling the listRepository API: {}", e.getMessage());
       return Collections.emptyList();
@@ -65,7 +65,7 @@ public class GithubAdapter {
 
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
 
-      return objectMapper.readValue(response.body(), TopicList.class);
+      return objectMapper.readValue(HttpRequests.getResponseBody(response), TopicList.class);
     } catch (InterruptedException | IOException e) {
       log.error("An error occurred while calling the getRepositoryTopics API: {}", e.getMessage());
       return TopicList.builder().build();
@@ -77,7 +77,7 @@ public class GithubAdapter {
       String endpoint = String.format(REPOSITORY_INFO_ENDPOINT, ownerLogin, repositoryName);
       HttpRequest request = HttpRequests.get(formatEndpoint(endpoint)).build();
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-      return objectMapper.readValue(response.body(), Repository.class);
+      return objectMapper.readValue(HttpRequests.getResponseBody(response), Repository.class);
     } catch (InterruptedException | IOException e) {
       log.error("An error occurred while calling the getRepositoryInfo API: {}", e.getMessage());
       return Repository.builder().build();
@@ -88,7 +88,7 @@ public class GithubAdapter {
     try {
       HttpResponse<String> response = client.send(HttpRequests.get(repository.getContributorsUrl()).build(),
                                                   BodyHandlers.ofString());
-      return objectMapper.readValue(response.body(), new TypeReference<List<User>>(){});
+      return objectMapper.readValue(HttpRequests.getResponseBody(response), new TypeReference<List<User>>(){});
     } catch (InterruptedException | IOException e) {
       log.error("An error occurred while calling the getContributors API: {}", e.getMessage());
       return Collections.emptyList();
@@ -99,7 +99,7 @@ public class GithubAdapter {
     try {
       HttpResponse<String> response = client.send(HttpRequests.get(repository.getLanguagesUrl()).build(),
                                                   BodyHandlers.ofString());
-      return objectMapper.readValue(response.body(), RepositoryLanguages.class);
+      return objectMapper.readValue(HttpRequests.getResponseBody(response), RepositoryLanguages.class);
     } catch (InterruptedException | IOException e) {
       log.error("An error occurred while calling the getLanguages API: {}", e.getMessage());
       return new RepositoryLanguages();
