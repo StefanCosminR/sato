@@ -5,10 +5,7 @@ final class RedditDataCollectorTests: XCTestCase {
     func testGettingRedditPosts() {
         let expectation = XCTestExpectation(description: #"Download post from subreddit "programming""#)
         
-        
-        let api = RedditAPI()
-        
-        api.getPosts(for: .programming) { result in
+        RedditAPI.getPosts(for: .programming) { result in
             switch result {
             case .success(let redditPosts):
                 print("success")
@@ -18,7 +15,23 @@ final class RedditDataCollectorTests: XCTestCase {
                 return
             }
             
-      
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 15)
+    }
+    
+    func testMonkeyLearnAPI() {
+        let expectation = XCTestExpectation(description: "Extract keywords from text")
+        
+        MonkeyLearnAPI.extractKeywords(fromTexts: ["Some text"]) { result in
+            switch result {
+            case .success(let keywords):
+                print("it worked")
+                dump(keywords)
+            case .failure(let error):
+                print("Got Error: \(error)")
+            }
             
             expectation.fulfill()
         }
@@ -32,6 +45,14 @@ final class RedditDataCollectorTests: XCTestCase {
         print(String(getTimeInterval(daysPrior: 7).begin))
         print("\n\n\n\n")
 
+    }
+    
+    func testArrayGroup() {
+        let demo = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        let groups = demo.createGroup(of: 9)
+        
+        XCTAssert(groups[0] == demo[0...8])
+        XCTAssert(groups[1] == demo[9...])
     }
     
     private func getTimeInterval(daysPrior: UInt) -> (begin: Int, end: Int) {

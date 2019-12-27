@@ -3,16 +3,14 @@
 
 import Foundation
 
-struct RedditPost: Codable {
-    var domain: String
-    var fullLink: URL
-    var score: Int
-    var subreddit: String
-    var title: String
-    var totalAwardsReceived: Int
-}
-
-extension RedditPost {
+final class RedditPost: Codable {
+    private(set) var domain: String
+    private(set) var fullLink: URL
+    private(set) var score: Int
+    private(set) var subreddit: String
+    private(set) var title: String
+    private(set) var totalAwardsReceived: Int
+    var tags: [String] = []
     
     private enum CodingKeys: String, CodingKey{
         case domain
@@ -23,7 +21,7 @@ extension RedditPost {
         case totalAwardsReceived = "total_awards_received"
     }
     
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         let tempLink = (try? container.decode(String.self, forKey: .fullLink))!

@@ -5,23 +5,8 @@ import Foundation
 
 struct RedditAPI {
     
-    func constructURL(queryParams: [URLQueryItem]) -> URL {
-        var redditURL = URLComponents()
-        redditURL.scheme = "https"
-        redditURL.host   = "api.pushshift.io"
-        redditURL.path   = "/reddit/search/submission/"
-        redditURL.queryItems = queryParams
-        
-        guard let validURL = redditURL.url else {
-            dump(redditURL)
-            fatalError("There is something wrong with the url")
-        }
-        
-        return validURL
-    }
-    
-    func getPosts(for subreddit: Subreddit,
-                  onCompletion:  @escaping (_ result: Result<[RedditPost], Error>) -> ()) {
+    static func getPosts(for subreddit: Subreddit,
+                         onCompletion:  @escaping (_ result: Result<[RedditPost], Error>) -> ()) {
         let timeInterval = getTimeInterval(daysPrior: 7)
         
         let queryParams = [
@@ -50,7 +35,7 @@ struct RedditAPI {
             
             do {
                 let redditPosts = try decoder.decode(ApiResult.self, from: data)
-                onCompletion(.success(redditPosts.data))
+                populateTags(for: redditPosts.data, onCompletion: onCompletion)
             } catch {
                 onCompletion(.failure(error))
             }
@@ -60,7 +45,53 @@ struct RedditAPI {
         task.resume()
     }
     
-    private func getTimeInterval(daysPrior: UInt) -> (begin: Int, end: Int) {
+    static func populateTags(for posts: [RedditPost],
+                             onCompletion: @escaping (_ result: Result<[RedditPost], Error>) -> ()) {
+        
+        let groupedPosts = posts.createGroup(of: 150)
+        let group = DispatchGroup()
+        
+        for postSlice in groupedPosts {
+            group.enter()
+            
+            let postsTitles = postSlice.map { somePost in somePost.title}
+            MonkeyLearnAPI.extractKeywords(fromTexts: postsTitles) { result in
+                switch result {
+                case .success(let keywords):
+                    for (index, post) in postSlice.enumerated() {
+                        post.tags = keywords[index]
+                    }
+                    
+                    group.leave()
+                case .failure(let error):
+                    onCompletion(.failure(error))
+                    return
+                }
+            }
+        }
+        
+        group.notify(queue: .main) {
+            onCompletion(.success(posts))
+        }
+        
+    }
+    
+    static func constructURL(queryParams: [URLQueryItem]) -> URL {
+        var redditURL = URLComponents()
+        redditURL.scheme = "https"
+        redditURL.host   = "api.pushshift.io"
+        redditURL.path   = "/reddit/search/submission/"
+        redditURL.queryItems = queryParams
+        
+        guard let validURL = redditURL.url else {
+            dump(redditURL)
+            fatalError("There is something wrong with the url")
+        }
+        
+        return validURL
+    }
+    
+    static private func getTimeInterval(daysPrior: UInt) -> (begin: Int, end: Int) {
         var dateComponents = DateComponents()
         dateComponents.setValue(-Int(daysPrior), for: .day) // minus "daysPrior" days
         
@@ -69,9 +100,15 @@ struct RedditAPI {
         
         return (begin: Int(someTimeInThePast.timeIntervalSince1970), end: Int(now.timeIntervalSince1970))
     }
+    
+    private init() {}
 }
 
 
 fileprivate struct ApiResult: Codable {
     let data: [RedditPost]
+}
+
+enum RedditAPIError: String, Error {
+    case cannotReceiveTags
 }
