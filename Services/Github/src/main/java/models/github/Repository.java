@@ -42,4 +42,7 @@ public class Repository {
 
   @JsonProperty("contributors_url")
   private String contributorsUrl;
+
+  @JsonProperty("stargazers_count")
+  private Integer stargazersCount;
 }
