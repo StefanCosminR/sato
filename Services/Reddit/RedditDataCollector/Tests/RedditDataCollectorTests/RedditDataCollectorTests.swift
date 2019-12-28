@@ -55,6 +55,16 @@ final class RedditDataCollectorTests: XCTestCase {
         XCTAssert(groups[1] == demo[9...])
     }
     
+    func testURLEncodeDictionary() {
+        let body: [String: Any] = ["someKey": "someValue", "anotherKey": 2, "url": "nu conteaza ce e aici"]
+        var stringified = body.reduce("") { (carry, keyValue) in "\(carry)\(keyValue.0)=\(keyValue.1)&" }
+
+        stringified.removeLast()
+        let encodedBody = stringified.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        
+        print(encodedBody)
+    }
+    
     private func getTimeInterval(daysPrior: UInt) -> (begin: Int, end: Int) {
         var dateComponents = DateComponents()
         dateComponents.setValue(-Int(daysPrior), for: .day) // minus "daysPrior" days

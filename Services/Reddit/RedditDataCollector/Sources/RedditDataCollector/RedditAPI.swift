@@ -15,7 +15,7 @@ struct RedditAPI {
             URLQueryItem(name: "sort_type", value: "score"),
             URLQueryItem(name: "after", value: String(timeInterval.begin)),
             URLQueryItem(name: "before", value: String(timeInterval.end)),
-            URLQueryItem(name: "size", value: "1000")
+            URLQueryItem(name: "size", value: "2")
         ]
         
         let redditURL = constructURL(queryParams: queryParams)
@@ -48,31 +48,24 @@ struct RedditAPI {
     static func populateTags(for posts: [RedditPost],
                              onCompletion: @escaping (_ result: Result<[RedditPost], Error>) -> ()) {
         
-        let groupedPosts = posts.createGroup(of: 150)
-        let group = DispatchGroup()
         
-        for postSlice in groupedPosts {
-            group.enter()
+        func populate(_ index: Int = 0) {
+            if index == posts.count {
+                onCompletion(.success(posts))
+                return
+            }
             
-            let postsTitles = postSlice.map { somePost in somePost.title}
-            MonkeyLearnAPI.extractKeywords(fromTexts: postsTitles) { result in
-                switch result {
-                case .success(let keywords):
-                    for (index, post) in postSlice.enumerated() {
-                        post.tags = keywords[index]
-                    }
-                    
-                    group.leave()
-                case .failure(let error):
-                    onCompletion(.failure(error))
+            TextRazorAPI.analyze(post: posts[index]) { err in
+                if err != nil {
+                    onCompletion(.failure(err!))
                     return
                 }
+                
+                populate(index + 1)
             }
         }
         
-        group.notify(queue: .main) {
-            onCompletion(.success(posts))
-        }
+        populate()
         
     }
     
