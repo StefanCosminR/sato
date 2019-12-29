@@ -5,7 +5,7 @@ import models.github.RepositoryDataCollection;
 import java.util.HashMap;
 import java.util.Set;
 
-public class GithubResult extends HashMap<Integer, RepositoryDataCollection> {
+public class GithubDataCollectorOutput extends HashMap<Integer, RepositoryDataCollection> {
   public Set<Integer> getRepositoryIds() {
     return this.keySet();
   }
