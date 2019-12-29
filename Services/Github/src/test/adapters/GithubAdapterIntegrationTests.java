@@ -2,6 +2,7 @@ package adapters;
 
 import models.github.Repository;
 import models.github.RepositoryLanguages;
+import models.github.SearchResult;
 import models.github.TopicList;
 import models.github.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,9 +17,12 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class GithubAdapterIntegrationTests {
-  private static final int START_AFTER_ID = 0;
-  private static final String REPOSITORY_NAME = "sato";
   private static final String OWNER_LOGIN = "StefanCosminR";
+  private static final String REPOSITORY_NAME = "sato";
+  private static final int START_AFTER_ID = 0;
+  private static final String TOPIC = "web";
+  private static final int PAGE_SIZE = 30;
+  private static final int PAGE = 1;
 
   private GithubAdapter adapter;
 
@@ -64,5 +68,11 @@ public class GithubAdapterIntegrationTests {
   void test_get_languages() {
     RepositoryLanguages languages = adapter.getLanguages(adapter.getRepositoryInfo(OWNER_LOGIN, REPOSITORY_NAME));
     assertNotNull(languages);
+  }
+
+  @Test
+  void test_search_repository_by_topic() {
+    SearchResult result = adapter.searchRepositoryByTopic(TOPIC, PAGE, PAGE_SIZE);
+    assertNotNull(result);
   }
 }
