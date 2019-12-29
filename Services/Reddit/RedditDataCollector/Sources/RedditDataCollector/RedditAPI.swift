@@ -3,9 +3,9 @@
 
 import Foundation
 
-struct RedditAPI {
+public struct RedditAPI {
     
-    static func getPosts(for subreddit: Subreddit,
+    static public func getPosts(for subreddit: Subreddit,
                          onCompletion:  @escaping (_ result: Result<[RedditPost], Error>) -> ()) {
         let timeInterval = getTimeInterval(daysPrior: 7)
         
@@ -15,7 +15,7 @@ struct RedditAPI {
             URLQueryItem(name: "sort_type", value: "score"),
             URLQueryItem(name: "after", value: String(timeInterval.begin)),
             URLQueryItem(name: "before", value: String(timeInterval.end)),
-            URLQueryItem(name: "size", value: "2")
+            URLQueryItem(name: "size", value: "100")
         ]
         
         let redditURL = constructURL(queryParams: queryParams)
@@ -57,8 +57,11 @@ struct RedditAPI {
             
             TextRazorAPI.analyze(post: posts[index]) { err in
                 if err != nil {
-                    onCompletion(.failure(err!))
-                    return
+                    print("\n-----------------------------------")
+                    debugPrint("Failed to get tags, \(err!)")
+                    dump(posts[index])
+                    print("-----------------------------------\n\n")
+//                    onCompletion(.failure(err!))
                 }
                 
                 populate(index + 1)

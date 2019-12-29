@@ -3,15 +3,15 @@
 
 import Foundation
 
-final class RedditPost: Codable {
-    private(set) var domain: String
-    private(set) var fullLink: URL
-    private(set) var score: Int
-    private(set) var subreddit: String
-    private(set) var title: String
-    private(set) var totalAwardsReceived: Int
-    private(set) var url: URL
-    var tags: [Tag] = []
+public final class RedditPost: Codable {
+    public private(set) var domain: String
+    public private(set) var fullLink: URL
+    public private(set) var score: Int
+    public private(set) var subreddit: String
+    public private(set) var title: String
+    public private(set) var totalAwardsReceived: Int
+    public private(set) var url: URL
+    public var tags: [Tag] = []
     
     private enum CodingKeys: String, CodingKey{
         case domain
@@ -23,7 +23,7 @@ final class RedditPost: Codable {
         case url
     }
     
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         let tempLink = (try? container.decode(String.self, forKey: .fullLink))!
@@ -38,8 +38,8 @@ final class RedditPost: Codable {
         url = URL(string: try container.decode(String.self, forKey: .url))!
     }
     
-    struct Tag {
-        let name: String
-        let extraLink: String?
+    public struct Tag {
+        public let name: String
+        public let extraLink: String?
     }
 }

@@ -19,7 +19,7 @@ struct TextRazorAPI {
         request.httpMethod = "POST"
         request.httpBody = requestBody.data(using: .utf8)!
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("xxxxxx", forHTTPHeaderField: "x-textrazor-key")
+        request.addValue("xxxx", forHTTPHeaderField: "x-textrazor-key")
         
         
         URLSession.shared.dataTask(with: request) { data, _, error in
@@ -61,8 +61,9 @@ struct TextRazorAPI {
                     }
                     
                     chosenTopics += 1
+                    let wikiLink = topic.wikiLink != "None" ? topic.wikiLink : nil
                     
-                    post.tags.append(RedditPost.Tag(name: topic.label, extraLink: topic.wikiLink))
+                    post.tags.append(RedditPost.Tag(name: topic.label, extraLink: wikiLink))
                 }
                 
                 onCompletion(nil)

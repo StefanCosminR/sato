@@ -10,6 +10,7 @@ let package = Package(
         .library(
             name: "RedditDataCollector",
             targets: ["RedditDataCollector"]),
+        .executable(name: "RedditDataCollector-CLI", targets: ["RedditDataCollector-CLI"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -21,6 +22,9 @@ let package = Package(
         .target(
             name: "RedditDataCollector",
             dependencies: []),
+        .target(
+            name: "RedditDataCollector-CLI",
+            dependencies: ["RedditDataCollector"]),
         .testTarget(
             name: "RedditDataCollectorTests",
             dependencies: ["RedditDataCollector"]),
