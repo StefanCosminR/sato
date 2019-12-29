@@ -20,13 +20,13 @@ public func transformLibrariesToTurtle(_ libraries: [String: Library]) -> String
             guard !tutorial.path.contains("peg") else { continue }
             guard !tutorial.name.contains("$") else { continue }
             
-            let escapedPath = tutorial.path.replacingOccurrences(of: " ", with: "%20")
+            guard let escapedPath = tutorial.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { continue }
             let tutorialPath = "\(devdocsUrl)\(meta.slug)/\(escapedPath)"
             
-            let escapedName = tutorial.name.replacingOccurrences(of: "\'", with: #"\'"#)
-                .replacingOccurrences(of: ".", with: #"\."#)
+            let escapedName = tutorial.name
+                .replacingOccurrences(of: #"\"#, with: #"\\"#)
+                .replacingOccurrences(of: "\'", with: #"\'"#)
                 .replacingOccurrences(of: "$", with: #"\$"#)
-                .replacingOccurrences(of: "?", with: #"\?"#)
             
             entriesTurtle += "<\(tutorialPath)> rdf:type :Tutorial .\n"
             entriesTurtle += "<\(tutorialPath)> rdfs:label '''\(escapedName)'''^^xsd:string .\n"
