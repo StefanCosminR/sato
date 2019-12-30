@@ -2,6 +2,7 @@ package adapters;
 
 import constants.github.GithubConfigConstants;
 import models.config.GithubConfig;
+import models.github.RateLimit;
 import utils.AuthorizedHttpRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +28,7 @@ import static java.net.http.HttpResponse.BodyHandlers;
 @Log4j2
 @AllArgsConstructor
 public class GithubAdapter {
+  private static final String RATE_LIMIT_ENDPOINT = "rate_limit";
   private static final String API_CALL_FORMAT = "https://api.github.com/%s";
   private static final String REPOSITORY_INFO_ENDPOINT_FORMAT = "repos/%s/%s";
   private static final String REPOSITORIES_ENDPOINT_FORMAT = "repositories?since=%s";
@@ -46,6 +48,18 @@ public class GithubAdapter {
 
   private static String formatEndpoint(final String endpoint) {
     return String.format(API_CALL_FORMAT, endpoint);
+  }
+
+  public RateLimit checkRateLimit() {
+    try {
+      HttpRequest request = AuthorizedHttpRequest.githubAuth(HttpRequests.get(formatEndpoint(RATE_LIMIT_ENDPOINT)),
+                                                             authToken);
+      HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+      return objectMapper.readValue(HttpRequests.getResponseBody(response), RateLimit.class);
+    } catch (InterruptedException | IOException e) {
+      log.error("An error occurred while calling the searchRepositoryByTopic API: {}", e.getMessage());
+      return RateLimit.builder().build();
+    }
   }
 
   public SearchResult searchRepositoryByTopic(final String topic, final int page, final int pageSize) {
