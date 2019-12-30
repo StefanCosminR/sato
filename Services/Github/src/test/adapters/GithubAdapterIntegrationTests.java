@@ -11,6 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -35,7 +36,7 @@ public class GithubAdapterIntegrationTests {
   }
 
   @BeforeEach
-  void setup() {
+  void setup() throws IOException {
     adapter = new GithubAdapter();
   }
 

@@ -1,5 +1,7 @@
 package adapters;
 
+import constants.github.GithubConfigConstants;
+import models.config.GithubConfig;
 import utils.AuthorizedHttpRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,10 +38,10 @@ public class GithubAdapter {
   private HttpClient client;
   private ObjectMapper objectMapper;
 
-  public GithubAdapter() {
-    this.authToken = "xxxxxxxxxxxxxxxxxxxxxxxxx";  // TODO do not hardcode auth token here
-    this.client = HttpClient.newHttpClient();
+  public GithubAdapter() throws IOException {
     this.objectMapper = new ObjectMapper();
+    this.client = HttpClient.newHttpClient();
+    this.authToken = objectMapper.readValue(GithubConfigConstants.CONFIG_FILE, GithubConfig.class).getAuthToken();
   }
 
   private static String formatEndpoint(final String endpoint) {
