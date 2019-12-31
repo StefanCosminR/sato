@@ -1,0 +1,16 @@
+<mat-toolbar>
+  <span class="logo-area">
+    <img class="logo" src="assets/images/logo.png" alt="SATO logo" />
+  </span>
+  <span class="search-area">
+    <mat-form-field *ngIf="showSearch" class="search-form-field">
+        <input matInput placeholder="Search topic" [(ngModel)]="searchInputValue" [ngModelOptions]="{standalone: true}">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+  </span>
+  <span class="example-spacer"></span>
+  <span class="authentication-area">
+    <button mat-button>Login</button>
+    <button mat-button>Register</button>
+  </span>
+</mat-toolbar>

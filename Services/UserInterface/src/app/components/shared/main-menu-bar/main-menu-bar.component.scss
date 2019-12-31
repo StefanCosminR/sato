@@ -1,0 +1,24 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.authentication-area {
+  color: #147EFB;
+}
+
+.logo-area {
+  display: flex;
+}
+
+.logo {
+  max-width: 4rem;
+}
+
+.search-area {
+  margin-left: 1rem;
+  width: 30rem;
+}
+
+.search-area > mat-form-field {
+  width: 100%;
+}
