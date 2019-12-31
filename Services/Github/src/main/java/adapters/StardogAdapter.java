@@ -5,6 +5,7 @@ import com.complexible.stardog.api.Connection;
 import com.complexible.stardog.api.ConnectionPool;
 import com.complexible.stardog.api.admin.AdminConnection;
 import com.stardog.stark.io.RDFFormats;
+import com.stardog.stark.query.SelectQueryResult;
 import lombok.extern.log4j.Log4j2;
 import persistence.StardogConnectionManager;
 
@@ -54,14 +55,7 @@ public class StardogAdapter {
     }
   }
 
-  private void dropDatabase(final AdminConnection connection, final String database) {
-    Collection<String> databases = connection.list();
-    if (databases.contains(database)) {
-      connection.drop(database);
-    }
-  }
-
-  private void insertData(final String dataFilePath) throws FileNotFoundException {
+  public void insertData(final String dataFilePath) throws FileNotFoundException {
     Connection connection = connectionPool.obtain();
     try {
       connection.begin();
@@ -69,6 +63,22 @@ public class StardogAdapter {
       connection.commit();
     } finally {
       releaseConnection(connection);
+    }
+  }
+
+  public SelectQueryResult query(final String sparqlQuery) {
+    Connection connection = connectionPool.obtain();
+    try {
+      return connection.select(sparqlQuery).execute();
+    } finally {
+      releaseConnection(connection);
+    }
+  }
+
+  private void dropDatabase(final AdminConnection connection, final String database) {
+    Collection<String> databases = connection.list();
+    if (databases.contains(database)) {
+      connection.drop(database);
     }
   }
 

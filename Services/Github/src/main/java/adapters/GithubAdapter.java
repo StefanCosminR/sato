@@ -1,18 +1,18 @@
 package adapters;
 
-import constants.github.GithubConfigConstants;
-import models.config.GithubConfig;
-import models.github.RateLimit;
-import utils.AuthorizedHttpRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import constants.github.GithubConfigConstants;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import models.config.GithubConfig;
+import models.github.RateLimit;
 import models.github.Repository;
 import models.github.RepositoryLanguages;
 import models.github.SearchResult;
 import models.github.TopicList;
 import models.github.User;
+import utils.AuthorizedHttpRequest;
 import utils.HttpRequests;
 
 import javax.ws.rs.core.HttpHeaders;
@@ -42,7 +42,7 @@ public class GithubAdapter {
 
   public GithubAdapter() throws IOException {
     this.objectMapper = new ObjectMapper();
-    this.client = HttpClient.newHttpClient();
+    this.client = HttpRequests.getHttpClient();
     this.authToken = objectMapper.readValue(GithubConfigConstants.CONFIG_FILE, GithubConfig.class).getAuthToken();
   }
 
