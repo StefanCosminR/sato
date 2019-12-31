@@ -1,5 +1,9 @@
 package adapters;
 
+import constants.github.GithubConfigConstants;
+import models.config.GithubConfig;
+import models.github.RateLimit;
+import utils.AuthorizedHttpRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -24,6 +28,7 @@ import static java.net.http.HttpResponse.BodyHandlers;
 @Log4j2
 @AllArgsConstructor
 public class GithubAdapter {
+  private static final String RATE_LIMIT_ENDPOINT = "rate_limit";
   private static final String API_CALL_FORMAT = "https://api.github.com/%s";
   private static final String REPOSITORY_INFO_ENDPOINT_FORMAT = "repos/%s/%s";
   private static final String REPOSITORIES_ENDPOINT_FORMAT = "repositories?since=%s";
@@ -31,22 +36,36 @@ public class GithubAdapter {
   private static final String GITHUB_CUSTOM_MEDIA_TYPE = "application/vnd.github.mercy-preview+json";
   private static final String SEARCH_BY_TOPIC_ENDPOINT_FORMAT = "search/repositories?q=topic:%s&page=%d&per_page=%d";
 
+  private String authToken;
   private HttpClient client;
   private ObjectMapper objectMapper;
 
-  public GithubAdapter() {
-    this.client = HttpClient.newHttpClient();
+  public GithubAdapter() throws IOException {
     this.objectMapper = new ObjectMapper();
+    this.client = HttpClient.newHttpClient();
+    this.authToken = objectMapper.readValue(GithubConfigConstants.CONFIG_FILE, GithubConfig.class).getAuthToken();
   }
 
   private static String formatEndpoint(final String endpoint) {
     return String.format(API_CALL_FORMAT, endpoint);
   }
 
+  public RateLimit checkRateLimit() {
+    try {
+      HttpRequest request = AuthorizedHttpRequest.githubAuth(HttpRequests.get(formatEndpoint(RATE_LIMIT_ENDPOINT)),
+                                                             authToken);
+      HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+      return objectMapper.readValue(HttpRequests.getResponseBody(response), RateLimit.class);
+    } catch (InterruptedException | IOException e) {
+      log.error("An error occurred while calling the searchRepositoryByTopic API: {}", e.getMessage());
+      return RateLimit.builder().build();
+    }
+  }
+
   public SearchResult searchRepositoryByTopic(final String topic, final int page, final int pageSize) {
     try {
       String endpoint = String.format(SEARCH_BY_TOPIC_ENDPOINT_FORMAT, topic, page, pageSize);
-      HttpRequest request = HttpRequests.get(formatEndpoint(endpoint)).build();
+      HttpRequest request = AuthorizedHttpRequest.githubAuth(HttpRequests.get(formatEndpoint(endpoint)), authToken);
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
       return objectMapper.readValue(HttpRequests.getResponseBody(response), SearchResult.class);
     } catch (InterruptedException | IOException e) {
@@ -58,7 +77,7 @@ public class GithubAdapter {
   public List<Repository> listRepositories(final int startAfterId) {
     try {
       String endpoint = String.format(REPOSITORIES_ENDPOINT_FORMAT, startAfterId);
-      HttpRequest request = HttpRequests.get(formatEndpoint(endpoint)).build();
+      HttpRequest request = AuthorizedHttpRequest.githubAuth(HttpRequests.get(formatEndpoint(endpoint)), authToken);
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
       return objectMapper.readValue(HttpRequests.getResponseBody(response), new TypeReference<List<Repository>>(){});
     } catch (InterruptedException | IOException e) {
@@ -73,9 +92,11 @@ public class GithubAdapter {
                                       repository.getOwner().getLogin(),
                                       repository.getName());
 
-      HttpRequest request = HttpRequests.get(formatEndpoint(endpoint))
-          .setHeader(HttpHeaders.ACCEPT, GITHUB_CUSTOM_MEDIA_TYPE)
-          .build();
+      HttpRequest.Builder requestBuilder = HttpRequests
+          .get(formatEndpoint(endpoint))
+          .setHeader(HttpHeaders.ACCEPT, GITHUB_CUSTOM_MEDIA_TYPE);
+
+      HttpRequest request = AuthorizedHttpRequest.githubAuth(requestBuilder, authToken);
 
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
 
@@ -89,7 +110,7 @@ public class GithubAdapter {
   public Repository getRepositoryInfo(final String ownerLogin, final String repositoryName) {
     try {
       String endpoint = String.format(REPOSITORY_INFO_ENDPOINT_FORMAT, ownerLogin, repositoryName);
-      HttpRequest request = HttpRequests.get(formatEndpoint(endpoint)).build();
+      HttpRequest request = AuthorizedHttpRequest.githubAuth(HttpRequests.get(formatEndpoint(endpoint)), authToken);
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
       return objectMapper.readValue(HttpRequests.getResponseBody(response), Repository.class);
     } catch (InterruptedException | IOException e) {
@@ -100,8 +121,8 @@ public class GithubAdapter {
 
   public List<User> getContributors(final Repository repository) {
     try {
-      HttpResponse<String> response = client.send(HttpRequests.get(repository.getContributorsUrl()).build(),
-                                                  BodyHandlers.ofString());
+      HttpRequest request = AuthorizedHttpRequest.githubAuth(HttpRequests.get(repository.getContributorsUrl()), authToken);
+      HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
       return objectMapper.readValue(HttpRequests.getResponseBody(response), new TypeReference<List<User>>(){});
     } catch (InterruptedException | IOException e) {
       log.error("An error occurred while calling the getContributors API: {}", e.getMessage());
@@ -111,8 +132,8 @@ public class GithubAdapter {
 
   public RepositoryLanguages getLanguages(final Repository repository) {
     try {
-      HttpResponse<String> response = client.send(HttpRequests.get(repository.getLanguagesUrl()).build(),
-                                                  BodyHandlers.ofString());
+      HttpRequest request = AuthorizedHttpRequest.githubAuth(HttpRequests.get(repository.getLanguagesUrl()), authToken);
+      HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
       return objectMapper.readValue(HttpRequests.getResponseBody(response), RepositoryLanguages.class);
     } catch (InterruptedException | IOException e) {
       log.error("An error occurred while calling the getLanguages API: {}", e.getMessage());

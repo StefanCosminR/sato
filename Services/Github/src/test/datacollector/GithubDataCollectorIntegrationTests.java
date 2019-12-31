@@ -1,26 +1,47 @@
 package datacollector;
 
 import adapters.GithubAdapter;
-import models.datacollector.GithubResult;
+import models.datacollector.GithubDataCollectorInput;
+import models.datacollector.GithubDataCollectorOutput;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.io.IOException;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class GithubDataCollectorIntegrationTests {
-  private static final int START_AFTER_ID = 0;
   private static final int MILLIS_BETWEEN_DATA_COLLECTION = 300;
+  private static final String TOPIC = "wade";
+  private static final int PAGE_SIZE = 30;
+  private static final int PAGE = 1;
 
   private GithubDataCollector collector;
 
+  private static Stream<Arguments> getGithubDataCollectorInput() {
+    return Stream.of(Arguments.of(
+        GithubDataCollectorInput.builder()
+            .millisBetweenDataCollection(MILLIS_BETWEEN_DATA_COLLECTION)
+            .pageSize(PAGE_SIZE)
+            .verbose(true)
+            .topic(TOPIC)
+            .page(PAGE)
+            .build()
+    ));
+  }
+
   @BeforeEach
-  void setup() {
+  void setup() throws IOException {
     collector = new GithubDataCollector(new GithubAdapter());
   }
 
-  @Test
-  void test_data_collection() {
-    GithubResult result = collector.collect(START_AFTER_ID, MILLIS_BETWEEN_DATA_COLLECTION, true);
+  @ParameterizedTest
+  @MethodSource("getGithubDataCollectorInput")
+  void test_data_collection(final GithubDataCollectorInput input) {
+    GithubDataCollectorOutput result = collector.collect(input);
     assertNotNull(result);
   }
 }

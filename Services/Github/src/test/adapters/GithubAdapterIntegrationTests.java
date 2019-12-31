@@ -1,5 +1,6 @@
 package adapters;
 
+import models.github.RateLimit;
 import models.github.Repository;
 import models.github.RepositoryLanguages;
 import models.github.SearchResult;
@@ -11,6 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -20,7 +22,7 @@ public class GithubAdapterIntegrationTests {
   private static final String OWNER_LOGIN = "StefanCosminR";
   private static final String REPOSITORY_NAME = "sato";
   private static final int START_AFTER_ID = 0;
-  private static final String TOPIC = "web";
+  private static final String TOPIC = "wade";
   private static final int PAGE_SIZE = 30;
   private static final int PAGE = 1;
 
@@ -31,12 +33,18 @@ public class GithubAdapterIntegrationTests {
         .owner(User.builder().login(OWNER_LOGIN).build())
         .name(REPOSITORY_NAME)
         .build();
-    return Stream.of(Arguments.arguments(repository));
+    return Stream.of(Arguments.of(repository));
   }
 
   @BeforeEach
-  void setup() {
+  void setup() throws IOException {
     adapter = new GithubAdapter();
+  }
+
+  @Test
+  void test_check_rate_limit() {
+    RateLimit rateLimit = adapter.checkRateLimit();
+    assertNotNull(rateLimit);
   }
 
   @Test

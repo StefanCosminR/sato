@@ -35,6 +35,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 public class GithubAdapterUnitTests {
   private static final String EMPTY_TOPIC_LIST = "{ \"name\": [] }";
   private static final String REPOSITORY_NAME = "projectName";
+  private static final String AUTH_TOKEN = "abcdefghi";
   private static final String EMPTY_JSON_LIST = "[]";
   private static final String USERNAME = "username";
   private static final int START_AFTER_ID = 0;
@@ -67,7 +68,7 @@ public class GithubAdapterUnitTests {
 
   @BeforeEach
   void setup() {
-    adapter = new GithubAdapter(client, new ObjectMapper());
+    adapter = new GithubAdapter(AUTH_TOKEN, client, new ObjectMapper());
   }
 
   @ParameterizedTest

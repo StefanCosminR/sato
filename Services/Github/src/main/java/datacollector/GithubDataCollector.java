@@ -2,28 +2,29 @@ package datacollector;
 
 import adapters.GithubAdapter;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import models.datacollector.GithubResult;
+import models.datacollector.GithubDataCollectorInput;
+import models.datacollector.GithubDataCollectorOutput;
 import models.github.Repository;
 import models.github.RepositoryDataCollection;
 import utils.ThreadUtils;
 
-@Log4j2
 @AllArgsConstructor
 public class GithubDataCollector {
   private GithubAdapter adapter;
 
-  public GithubResult collect(final int startAfterId, final int millisBetweenDataCollection, final boolean verbose) {
-    GithubResult result = new GithubResult();
-    adapter.listRepositories(startAfterId).forEach(repository -> {
+  public GithubDataCollectorOutput collect(final GithubDataCollectorInput input) {
+    GithubDataCollectorOutput result = new GithubDataCollectorOutput();
+    adapter.searchRepositoryByTopic(input.getTopic(), input.getPage(), input.getPageSize())
+        .getItems()
+        .forEach(repository -> {
       result.put(repository.getId(), collectRepositoryData(repository));
-      if (verbose) {
-        log.info(String.format("Processed %d. %s/%s",
-                               repository.getId(),
-                               repository.getOwner().getLogin(),
-                               repository.getName()));
+      if (input.isVerbose()) {
+        System.out.println(String.format("Processed %d. %s/%s",
+                           repository.getId(),
+                           repository.getOwner().getLogin(),
+                           repository.getName()));
       }
-      ThreadUtils.sleep(millisBetweenDataCollection);
+      ThreadUtils.sleep(input.getMillisBetweenDataCollection());
     });
     return result;
   }
