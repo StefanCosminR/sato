@@ -3,11 +3,13 @@ package workflow;
 import adapters.GithubAdapter;
 import constants.github.GithubApiConstants;
 import datacollector.GithubDataCollector;
+import lombok.AllArgsConstructor;
 import models.datacollector.GithubDataCollectorInput;
 import models.datacollector.GithubDataCollectorOutput;
 
 import java.io.IOException;
 
+@AllArgsConstructor
 public class GithubTopicDataCollectionWorkflow {
   private static final int MILLIS_BETWEEN_DATA_COLLECTION = 300;
   private static final int PAGE_SIZE = 50;

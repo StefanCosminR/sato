@@ -20,6 +20,13 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>stardog-public</id>
+            <url>https://maven.stardog.com</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -38,6 +45,13 @@
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.complexible.stardog</groupId>
+            <artifactId>client-http</artifactId>
+            <version>6.1.0</version>
+            <type>pom</type>
         </dependency>
 
         <dependency>
