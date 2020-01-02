@@ -23,11 +23,11 @@ public class GithubDataTransformer {
                                 RDF.TYPE.toString(),
                                 GithubOntologyObjects.REPOSITORY));
 
-    entry.append(getTurtleEntry(repository.getOwner().getUrl(),
+    entry.append(getTurtleEntry(repository.getOwner().getProfileUrl(),
                                 RDF.TYPE.toString(),
                                 GithubOntologyObjects.GITHUB_USER));
 
-    entry.append(getTurtleEntry(repository.getOwner().getUrl(),
+    entry.append(getTurtleEntry(repository.getOwner().getProfileUrl(),
                                 GithubOntologyPredicates.OWNS,
                                 repository.getHtmlUrl()));
 
@@ -56,17 +56,17 @@ public class GithubDataTransformer {
     });
 
     repositoryInfo.getContributors().forEach(contributor -> {
-      entry.append(getTurtleEntry(contributor.getUrl(),
+      entry.append(getTurtleEntry(contributor.getProfileUrl(),
                                   RDF.TYPE.toString(),
                                   GithubOntologyObjects.GITHUB_USER));
 
-      entry.append(getTurtleEntry(contributor.getUrl(),
+      entry.append(getTurtleEntry(contributor.getProfileUrl(),
                                   RDF.TYPE.toString(),
                                   GithubOntologyObjects.CONTRIBUTOR));
 
       entry.append(getTurtleEntry(repository.getHtmlUrl(),
                                   GithubOntologyPredicates.HAS_CONTRIBUTOR,
-                                  contributor.getUrl()));
+                                  contributor.getProfileUrl()));
     });
 
     return entry.toString();

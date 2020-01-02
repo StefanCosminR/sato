@@ -24,6 +24,9 @@ public class User {
   @JsonProperty("repos_url")
   private String reposUrl;
 
+  @JsonProperty("html_url")
+  private String profileUrl;
+
   @JsonProperty("site_admin")
   private boolean isSiteAdmin;
 
