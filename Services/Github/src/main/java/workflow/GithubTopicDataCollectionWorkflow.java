@@ -2,15 +2,21 @@ package workflow;
 
 import adapters.GithubAdapter;
 import constants.github.GithubApiConstants;
+import constants.turtle.TurtleNamespace;
 import datacollector.GithubDataCollector;
+import datatransformer.GithubDataTransformer;
 import lombok.AllArgsConstructor;
 import models.datacollector.GithubDataCollectorInput;
 import models.datacollector.GithubDataCollectorOutput;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
 
 @AllArgsConstructor
 public class GithubTopicDataCollectionWorkflow {
+  private static final String TOPIC_DATA_FILE_PATH = "ttl/github-topics-data.ttl";
   private static final int MILLIS_BETWEEN_DATA_COLLECTION = 300;
   private static final int PAGE_SIZE = 50;
 
@@ -20,10 +26,9 @@ public class GithubTopicDataCollectionWorkflow {
     this.collector = new GithubDataCollector(new GithubAdapter());
   }
 
-  public void start(final String topic) {
+  public void start(final String topic) throws FileNotFoundException {
     System.out.println(String.format("Collecting repositories for topic '%s'...", topic));
-    GithubDataCollectorOutput data = collectTopicData(topic);
-    System.out.println(data);
+    storeInTurtleFile(collectTopicData(topic), TOPIC_DATA_FILE_PATH);
     // TODO add stardog processing here
   }
 
@@ -51,5 +56,29 @@ public class GithubTopicDataCollectionWorkflow {
         .topic(topic)
         .page(page)
         .build();
+  }
+
+  private void storeInTurtleFile(final GithubDataCollectorOutput topicData,
+                                 final String writePath) throws FileNotFoundException {
+    PrintWriter dataFile = new PrintWriter(writePath);
+    dataFile.println(getNamespaces());
+    dataFile.flush();
+    topicData.forEach((repositoryId, repositoryInfo) -> {
+      System.out.println(String.format("Transforming %s...", repositoryInfo.getGeneralData().getFullName()));
+      dataFile.println(GithubDataTransformer.toTurtle(repositoryInfo));
+      dataFile.flush();
+    });
+  }
+
+  private String getNamespaces() {
+    StringBuilder namespaces = new StringBuilder();
+    Arrays.stream(TurtleNamespace.values())
+        .forEach(namespace -> namespaces.append(formatNamespace(namespace)));
+    namespaces.append('\n');
+    return namespaces.toString();
+  }
+
+  private String formatNamespace(final TurtleNamespace namespace) {
+    return String.format("@prefix %s: <%s> .\n", namespace.name().toLowerCase(), namespace.getUrl());
   }
 }

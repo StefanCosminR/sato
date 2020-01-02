@@ -3,10 +3,11 @@ package workflow;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class GithubTopicDataCollectionWorkflowTests {
-  private static final String TOPIC = "semantic";
+  private static final String TOPIC = "wade";
 
   private GithubTopicDataCollectionWorkflow workflow;
 
@@ -16,7 +17,7 @@ public class GithubTopicDataCollectionWorkflowTests {
   }
 
   @Test
-  public void test_github_topic_data_collector_workflow() {
+  public void test_github_topic_data_collector_workflow() throws FileNotFoundException {
     workflow.start(TOPIC);
   }
 }
