@@ -44,9 +44,9 @@ public class GithubTopicWorkflow {
       pageData = collector.collect(getGithubDataCollectorInput(topic, page));
       storeInTurtleFile(pageData, TOPIC_DATA_FILE_PATH);
       adapter.insertData(TOPIC_DATA_FILE_PATH);
-      totalResults += pageData.size();
+      totalResults += PAGE_SIZE;
       ++page;
-    } while (totalResults < GithubApiConstants.SEARCH_RESULTS_LIMIT && pageData.size() == PAGE_SIZE);
+    } while (totalResults < GithubApiConstants.SEARCH_RESULTS_LIMIT && pageData.size() > 0);
   }
 
   private GithubDataCollectorInput getGithubDataCollectorInput(final String topic, final int page) {
