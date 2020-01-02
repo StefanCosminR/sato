@@ -13,6 +13,8 @@ import java.net.URL;
 @NoArgsConstructor
 public class GithubDataTransformer {
   private static final String NAMESPACE_DELIMITER = ":";
+  private static final String PLUS_REPLACEMENT = "\\+";
+  private static final String SPACE_REPLACEMENT = "_";
 
   public static String toTurtle(final RepositoryDataCollection repositoryInfo) {
     Repository repository = repositoryInfo.getGeneralData();
@@ -97,8 +99,12 @@ public class GithubDataTransformer {
 
   private static String transformNonUrlTurtleEntryComponent(final String component) {
     if (!component.matches(String.format(".*%s.*", NAMESPACE_DELIMITER))) {
-      return String.format("%s%s", NAMESPACE_DELIMITER, component);
+      return String.format("%s%s", NAMESPACE_DELIMITER, sanitizeTurtleEntryComponent(component));
     }
-    return component;
+    return sanitizeTurtleEntryComponent(component);
+  }
+
+  private static String sanitizeTurtleEntryComponent(final String component) {
+    return component.replace(" ", SPACE_REPLACEMENT).replace("+", PLUS_REPLACEMENT);
   }
 }

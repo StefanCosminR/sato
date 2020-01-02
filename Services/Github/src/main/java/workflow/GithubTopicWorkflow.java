@@ -1,6 +1,7 @@
 package workflow;
 
 import adapters.GithubAdapter;
+import adapters.StardogAdapter;
 import constants.github.GithubApiConstants;
 import constants.turtle.TurtleNamespace;
 import datacollector.GithubDataCollector;
@@ -8,6 +9,7 @@ import datatransformer.GithubDataTransformer;
 import lombok.AllArgsConstructor;
 import models.datacollector.GithubDataCollectorInput;
 import models.datacollector.GithubDataCollectorOutput;
+import models.workflow.GithubTopicWorkflowParams;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,37 +17,36 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 
 @AllArgsConstructor
-public class GithubTopicDataCollectionWorkflow {
+public class GithubTopicWorkflow {
   private static final String TOPIC_DATA_FILE_PATH = "ttl/github-topics-data.ttl";
   private static final int MILLIS_BETWEEN_DATA_COLLECTION = 300;
-  private static final int PAGE_SIZE = 50;
+  private static final int PAGE_SIZE = 30;
 
   private GithubDataCollector collector;
+  private StardogAdapter adapter;
 
-  public GithubTopicDataCollectionWorkflow() throws IOException {
+  public GithubTopicWorkflow(final GithubTopicWorkflowParams params) throws IOException {
     this.collector = new GithubDataCollector(new GithubAdapter());
+    this.adapter = new StardogAdapter(params.getStorageUrl(),
+                                      params.getStorageUsername(),
+                                      params.getStoragePassword(),
+                                      params.getDatabase());
   }
 
   public void start(final String topic) throws FileNotFoundException {
-    System.out.println(String.format("Collecting repositories for topic '%s'...", topic));
-    storeInTurtleFile(collectTopicData(topic), TOPIC_DATA_FILE_PATH);
-    // TODO add stardog processing here
-  }
-
-  private GithubDataCollectorOutput collectTopicData(final String topic) {
-    GithubDataCollectorOutput result = new GithubDataCollectorOutput();
     GithubDataCollectorOutput pageData;
+    int totalResults = 0;
     int page = 1;
 
+    adapter.createDatabase();
     do {
-      System.out.println(String.format("Processing page %d", page));
+      System.out.println(String.format("> Processing page %d", page));
       pageData = collector.collect(getGithubDataCollectorInput(topic, page));
-      System.out.println(String.format("Processed page %d", page));
-      result.putAll(pageData);
+      storeInTurtleFile(pageData, TOPIC_DATA_FILE_PATH);
+      adapter.insertData(TOPIC_DATA_FILE_PATH);
+      totalResults += pageData.size();
       ++page;
-    } while (result.size() < GithubApiConstants.SEARCH_RESULTS_LIMIT && pageData.size() == PAGE_SIZE);
-
-    return result;
+    } while (totalResults < GithubApiConstants.SEARCH_RESULTS_LIMIT && pageData.size() == PAGE_SIZE);
   }
 
   private GithubDataCollectorInput getGithubDataCollectorInput(final String topic, final int page) {

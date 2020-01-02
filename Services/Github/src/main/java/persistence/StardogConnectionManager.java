@@ -15,8 +15,9 @@ public final class StardogConnectionManager {
   public static ConnectionConfiguration createConnectionConfig(final String url,
                                                                final String username,
                                                                final String password,
-                                                               final String database) {
-    return ConnectionConfiguration.to(database).server(url).credentials(username, password);
+                                                               final String database,
+                                                               final boolean useReasoning) {
+    return ConnectionConfiguration.to(database).server(url).credentials(username, password).reasoning(useReasoning);
   }
 
   public static ConnectionPool createConnectionPool(final ConnectionConfiguration connectionConfig,

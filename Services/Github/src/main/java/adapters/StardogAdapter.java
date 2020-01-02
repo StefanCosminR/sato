@@ -16,6 +16,7 @@ import java.util.Collection;
 @Log4j2
 public class StardogAdapter {
   private static final int CONNECTION_VALIDITY_TIME = 300;
+  private static final boolean USE_REASONING = true;
   private static final int BLOCK_AT_CAPACITY = 900;
 
   private ConnectionPool connectionPool;
@@ -30,7 +31,7 @@ public class StardogAdapter {
     this.password = password;
     this.database = database;
     this.connectionPool = StardogConnectionManager.createConnectionPool(
-        StardogConnectionManager.createConnectionConfig(url, username, password, database),
+        StardogConnectionManager.createConnectionConfig(url, username, password, database, USE_REASONING),
         CONNECTION_VALIDITY_TIME,
         BLOCK_AT_CAPACITY
     );
