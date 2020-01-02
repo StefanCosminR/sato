@@ -7,15 +7,27 @@ import lombok.NoArgsConstructor;
 import models.github.ErrorResponse;
 
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class HttpRequests {
   private static ObjectMapper objectMapper = new ObjectMapper();
 
+  public static HttpClient getHttpClient() {
+    return HttpClient.newBuilder()
+        .connectTimeout(Duration.ofMinutes(1))
+        .version(HttpClient.Version.HTTP_1_1)
+        .build();
+  }
+
   public static HttpRequest.Builder get(final String uri) {
-    return HttpRequest.newBuilder().GET().uri(URI.create(uri));
+    return HttpRequest.newBuilder()
+        .timeout(Duration.ofMinutes(1))
+        .uri(URI.create(uri))
+        .GET();
   }
 
   public static String getResponseBody(final HttpResponse<String> response) throws JsonProcessingException {

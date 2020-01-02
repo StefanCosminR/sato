@@ -6,7 +6,6 @@ import models.datacollector.GithubDataCollectorInput;
 import models.datacollector.GithubDataCollectorOutput;
 import models.github.Repository;
 import models.github.RepositoryDataCollection;
-import utils.ThreadUtils;
 
 @AllArgsConstructor
 public class GithubDataCollector {
@@ -17,15 +16,14 @@ public class GithubDataCollector {
     adapter.searchRepositoryByTopic(input.getTopic(), input.getPage(), input.getPageSize())
         .getItems()
         .forEach(repository -> {
-      result.put(repository.getId(), collectRepositoryData(repository));
-      if (input.isVerbose()) {
-        System.out.println(String.format("Processed %d. %s/%s",
-                           repository.getId(),
-                           repository.getOwner().getLogin(),
-                           repository.getName()));
-      }
-      ThreadUtils.sleep(input.getMillisBetweenDataCollection());
-    });
+          result.put(repository.getId(), collectRepositoryData(repository));
+          if (input.isVerbose()) {
+            System.out.println(String.format("Processed %d. %s/%s",
+                               repository.getId(),
+                               repository.getOwner().getLogin(),
+                               repository.getName()));
+          }
+        });
     return result;
   }
 

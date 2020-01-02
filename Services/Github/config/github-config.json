@@ -4,6 +4,7 @@
     "web",
     "web-framework",
     "ui",
-    "semantic-web"
+    "semantic-web",
+    "css-framework"
   ]
 }
