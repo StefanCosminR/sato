@@ -79,6 +79,12 @@ public class GithubTopicDataCollectionWorkflow {
   }
 
   private String formatNamespace(final TurtleNamespace namespace) {
-    return String.format("@prefix %s: <%s> .\n", namespace.name().toLowerCase(), namespace.getUrl());
+    String namespacePrefix;
+    if (namespace == TurtleNamespace.SATO) {
+      namespacePrefix = "";
+    } else {
+      namespacePrefix = namespace.name().toLowerCase();
+    }
+    return String.format("@prefix %s: <%s> .\n", namespacePrefix, namespace.getUrl());
   }
 }
