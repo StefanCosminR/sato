@@ -136,7 +136,6 @@
 <https://codonyas.com/python/pattern/> rdf:type :Article .
 <https://codonyas.com/python/pattern/> rdfs:label '''Create 80+ different pattern with python code.'''^^xsd:string .
 
-<http://pos.li/2ec32m> rdf:type :Article .
 <http://pos.li/2ec32m> rdfs:label '''Anti Aging Secrets'''^^xsd:string .
 <http://en.wikipedia.org/EBay> rdf:type :Topic .
 <http://en.wikipedia.org/EBay> rdfs:label '''EBay'''^^xsd:string .
