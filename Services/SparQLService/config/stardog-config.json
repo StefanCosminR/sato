@@ -1,0 +1,6 @@
+{
+  "storageUrl": "http://localhost:5820",
+  "storageUsername": "admin",
+  "storagePassword": "admin",
+  "database": "stardog_test"
+}
