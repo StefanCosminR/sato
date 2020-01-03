@@ -6,3 +6,34 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   align-items: flex-end !important;
 }
 
+.ngx-link-preview-container {
+  .og-link-preview {
+    background-color: white !important;
+    &:hover {
+    }
+    .row {
+      .col {
+        &.preview-image {
+        }
+        &.text-data {
+        }
+        .image {
+          img {
+          }
+        }
+        .title {
+        }
+        .description {
+        }
+        .header {
+          .site-name {
+          }
+        }
+        .footer {
+          .url {
+          }
+        }
+      }
+    }
+  }
+}

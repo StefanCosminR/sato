@@ -3,3 +3,7 @@
 .idea
 *.iml
 target/
+Services/URLMetadata/node_modules
+Services/URLMetadata/package-lock.json
+Services/UserInterface/package-lock.json
+Services/UserInterface/package-lock.json

@@ -1,0 +1,24 @@
+.preview-theme {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.smaller-padding {
+  padding: 8px;
+}
+
+@mixin center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// Usage
+.main__content {
+  margin-top: 2rem;
+  width: 940px;
+  @include center-block ;
+
+  .mat-card {
+    margin-bottom: 2rem;
+  }
+}
