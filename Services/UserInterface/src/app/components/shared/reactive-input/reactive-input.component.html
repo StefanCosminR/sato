@@ -1,0 +1,8 @@
+<mat-form-field>
+  <input (keydown.enter)="submitValue()"
+         matInput
+         placeholder="Search topic"
+         [(ngModel)]="_inputValue"
+         [ngModelOptions]="{standalone: true}">
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>

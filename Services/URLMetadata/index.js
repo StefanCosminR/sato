@@ -9,6 +9,14 @@ function extractMetadataEndSend(url, res) {
         .then(
             (metadata) => {
                 try {
+                    if (metadata.image === '') {
+                        metadata.image = 'https://cdn2.iconfinder.com/data/icons/filled-icons/493/Search-512.png';
+                        metadata['og:image'] = 'https://cdn2.iconfinder.com/data/icons/filled-icons/493/Search-512.png';
+                        // metadata['og:image:secure_url'] = 'http://endlessicons.com/wp-content/uploads/2015/08/search-icon-2-614x460.png';
+                        // metadata['og:width'] = 460;
+                        // metadata['og:height'] = 460;
+                    }
+                    console.log('hai boss....', metadata);
                     const stringifiedBody = JSON.stringify(metadata);
                     res.setHeader('Content-Type', 'application/json');
                     res.write(stringifiedBody);

@@ -14,13 +14,15 @@ import {MatLinkPreviewModule} from '@angular-material-extensions/link-preview';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {NgxLinkifyjsModule} from 'ngx-linkifyjs';
 import {NgxLinkPreviewModule} from 'ngx-link-preview';
+import { ReactiveInputComponent } from './components/shared/reactive-input/reactive-input.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainPageComponent,
     MainMenuBarComponent,
-    SearchPageComponent
+    SearchPageComponent,
+    ReactiveInputComponent
   ],
   imports: [
     BrowserModule,

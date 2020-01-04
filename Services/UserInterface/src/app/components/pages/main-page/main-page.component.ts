@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import {SPARQLEndpointService} from '../../../services/sparqlendpoint.service';
 
 const states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado',
   'Connecticut', 'Delaware', 'District Of Columbia', 'Federated States Of Micronesia', 'Florida', 'Georgia',
@@ -15,23 +15,10 @@ const states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'C
 @Component({
   selector: 'sato-main',
   templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.scss'],
-  animations: [
-    trigger('searchPosition', [
-      state('middle', style({
-        'margin-top': '30vh'
-      })),
-      state('top', style({
-        'margin-top': '5vh'
-      })),
-      transition('middle => top', [
-        animate('0.3s 0.2s ease-out')
-      ])
-    ])
-  ]
+  styleUrls: ['./main-page.component.scss']
 })
 export class MainPageComponent implements OnInit {
-  public inputValue: any;
+  public inputValue: BehaviorSubject<string>;
   public searchIsInMiddle = true;
 
   search = (text$: Observable<string>) =>
@@ -42,10 +29,17 @@ export class MainPageComponent implements OnInit {
         : states.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
     )
 
-  constructor() {
+  constructor(private sparqlEndpointService: SPARQLEndpointService) {
   }
 
   ngOnInit() {
+    this.inputValue = new BehaviorSubject<string>('');
+    this.sparqlEndpointService.searchByTopic('php')
+      .subscribe((data) => {
+        console.log('a mers?', data);
+      }, (error) => {
+        console.log('this looks like an error', error);
+      });
   }
 
   toggleSearchPosition() {
