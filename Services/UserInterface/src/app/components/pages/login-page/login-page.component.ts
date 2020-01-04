@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AuthenticationService } from '../../shared/authentication.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'sato-login-page',
@@ -9,7 +9,7 @@ import { AuthenticationService } from '../../shared/authentication.service';
 })
 export class LoginPageComponent implements OnInit {
 
-  constructor(private authService: AuthenticationService) { }
+  constructor(public authService: AuthenticationService) { }
 
   ngOnInit() {
   }
