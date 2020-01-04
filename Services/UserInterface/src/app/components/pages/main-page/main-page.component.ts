@@ -1,7 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {BehaviorSubject, Subscription} from 'rxjs';
-import {filter} from 'rxjs/operators';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import {BehaviorSubject, Subscription} from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'sato-main',

@@ -1,17 +1,19 @@
 import * as firebase from 'firebase/app';
 
-import { Observable, from, throwError } from 'rxjs';
+import { Injectable, NgZone } from '@angular/core';
+import { from, throwError } from 'rxjs';
 
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  user: Observable<firebase.User>;
+  credentials: firebase.auth.UserCredential;
 
-  constructor(private fireAuth: AngularFireAuth) {
-    this.user = fireAuth.authState;
+  constructor(private fireAuth: AngularFireAuth,
+              private router: Router,
+              private ngZone: NgZone) {
   }
 
   signUp(email: string, password: string): void {
@@ -46,6 +48,9 @@ export class AuthenticationService {
         catchError(error => {
           return throwError(error);
         })
-      ).subscribe(console.log);
+      ).subscribe(credentials => {
+        this.credentials = credentials;
+        this.ngZone.run(() => this.router.navigate(['']));
+      });
   }
 }
