@@ -9,11 +9,14 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
+  readonly LOGIN_CREDENTIALS = 'sato.oauth.credentials';
+
   credentials: firebase.auth.UserCredential;
 
   constructor(private fireAuth: AngularFireAuth,
               private router: Router,
               private ngZone: NgZone) {
+    this.credentials = this.getStoredCredentials();
   }
 
   signUp(email: string, password: string): void {
@@ -39,6 +42,8 @@ export class AuthenticationService {
   }
 
   signOut(): void {
+    this.credentials = undefined;
+    localStorage.removeItem(this.LOGIN_CREDENTIALS);
     this.fireAuth.auth.signOut();
   }
 
@@ -50,7 +55,16 @@ export class AuthenticationService {
         })
       ).subscribe(credentials => {
         this.credentials = credentials;
+        localStorage.setItem(this.LOGIN_CREDENTIALS, JSON.stringify(credentials));
         this.ngZone.run(() => this.router.navigate(['']));
       });
+  }
+
+  private getStoredCredentials(): firebase.auth.UserCredential | undefined {
+    const credentials = localStorage.getItem(this.LOGIN_CREDENTIALS);
+    if (!!credentials) {
+        return JSON.parse(credentials);
+    }
+    return undefined;
   }
 }

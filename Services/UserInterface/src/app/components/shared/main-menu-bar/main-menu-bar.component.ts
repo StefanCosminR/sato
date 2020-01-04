@@ -1,5 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { AuthenticationService } from '../../../services/authentication.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'sato-main-menu-bar',
@@ -13,7 +15,7 @@ export class MainMenuBarComponent implements OnInit {
     // tslint:disable-next-line:variable-name
     public _searchInputValue = '';
 
-    constructor() {
+    constructor(public authService: AuthenticationService) {
     }
 
     ngOnInit() {
