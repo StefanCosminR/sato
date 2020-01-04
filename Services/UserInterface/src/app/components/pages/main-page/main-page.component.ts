@@ -24,7 +24,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
                 filter(value => typeof value === 'string' && value !== '')
             )
             .subscribe((newInputValue) => {
-                console.log('da');
                 const queryParams: Params = { query: encodeURIComponent(newInputValue) };
 
                 this.router.navigate(
@@ -33,6 +32,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
                         queryParams
                     });
             });
+
+        this.subscriptions.push(serachSubscription);
     }
 
     ngOnDestroy() {
