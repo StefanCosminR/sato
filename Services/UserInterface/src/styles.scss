@@ -1,7 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
 .mat-form-field-flex {
   align-items: flex-end !important;
 }
@@ -36,4 +43,26 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       }
     }
   }
+}
+
+.full-width, .full-height-full-width {
+  width: 100%;
+}
+
+.full-height, .full-height-full-width {
+  height: 100%;
+}
+
+.width-centered, .centered {
+  display: flex;
+  justify-content: center;
+}
+
+.height-centered, .centered {
+  display: flex;
+  align-items: center;
+}
+
+.half-width {
+  width: 50%;
 }
