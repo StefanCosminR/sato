@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.curator.shaded.com.google.common.net.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,6 +41,7 @@ public class SparQLController {
   }
 
   @RequestMapping(method = RequestMethod.POST)
+  @CrossOrigin
   public ResponseEntity<String> query(final HttpServletRequest request, final @RequestBody SparQLQuery query) {
     Client client = ClientBuilder.newClient();
     Entity<Form> payload = Entity.form(new Form().param("query", query.getQuery()));
