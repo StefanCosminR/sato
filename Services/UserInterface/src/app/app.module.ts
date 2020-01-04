@@ -25,12 +25,6 @@ import { NgxLinkPreviewModule } from 'ngx-link-preview';
 import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 import { SearchPageComponent } from './components/pages/search-page/search-page.component';
 import { environment } from '../environments/environment';
-import {MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatToolbarModule} from '@angular/material';
-import { SearchPageComponent } from './components/pages/search-page/search-page.component';
-import {MatLinkPreviewModule} from '@angular-material-extensions/link-preview';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {NgxLinkifyjsModule} from 'ngx-linkifyjs';
-import {NgxLinkPreviewModule} from 'ngx-link-preview';
 import { ReactiveInputComponent } from './components/shared/reactive-input/reactive-input.component';
 
 @NgModule({
@@ -39,8 +33,7 @@ import { ReactiveInputComponent } from './components/shared/reactive-input/react
     MainPageComponent,
     MainMenuBarComponent,
     SearchPageComponent,
-    LoginPageComponent
-    SearchPageComponent,
+    LoginPageComponent,
     ReactiveInputComponent
   ],
   imports: [

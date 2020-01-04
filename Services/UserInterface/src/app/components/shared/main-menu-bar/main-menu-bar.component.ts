@@ -17,11 +17,8 @@ export class MainMenuBarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._searchInputValue = this.searchInputValue.getValue();
+        if (this.showSearch === true) {
+            this._searchInputValue = this.searchInputValue.getValue();
+        }
     }
-
-    submitSearch() {
-        this.searchInputValue.next(this._searchInputValue);
-    }
-
 }

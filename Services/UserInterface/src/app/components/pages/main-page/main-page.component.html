@@ -1,11 +1,6 @@
 <div class="main__container">
   <sato-main-menu-bar></sato-main-menu-bar>
   <div class="content__container">
-    <form class="main__container-input">
-      <mat-form-field class="search-form-field">
-        <input matInput placeholder="Search topic" [(ngModel)]="inputValue" [ngModelOptions]="{standalone: true}">
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
-    </form>
+      <sato-reactive-input class="main__container-input" [inputValue]="searchInputValue"></sato-reactive-input>
   </div>
 </div>

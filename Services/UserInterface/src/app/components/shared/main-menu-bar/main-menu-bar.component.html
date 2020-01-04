@@ -1,10 +1,12 @@
 <mat-toolbar>
-  <span class="logo-area">
-    <img class="logo" src="assets/images/logo.png" alt="SATO logo"/>
-  </span>
+    <span class="logo-area">
+        <a [routerLink]="'/'">
+            <img class="logo" src="assets/images/logo.png" alt="SATO logo"/>
+        </a>
+    </span>
     <span class="search-area" *ngIf="showSearch">
-    <sato-reactive-input [inputValue]="searchInputValue"></sato-reactive-input>
-  </span>
+        <sato-reactive-input [inputValue]="searchInputValue"></sato-reactive-input>
+    </span>
     <span class="example-spacer"></span>
     <span class="authentication-area">
         <button mat-button routerLink="/login">Login</button>

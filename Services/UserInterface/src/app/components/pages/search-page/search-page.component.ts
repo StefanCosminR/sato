@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {filter, map} from 'rxjs/operators';
 import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {Link, NgxLinkifyjsService} from 'ngx-linkifyjs';
@@ -17,42 +17,64 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     public searchContent: BehaviorSubject<string>;
     public trackedResources: SPARQLResource[];
 
-    constructor(private route: ActivatedRoute, private http: HttpClient,
+    private subscriptions: Subscription[] = [];
+
+    constructor(private route: ActivatedRoute,
+                private router: Router,
+                private http: HttpClient,
                 private sparqlEndpointService: SPARQLEndpointService) {
     }
 
     ngOnInit() {
         this.searchContent = new BehaviorSubject<string>('');
-        this.searchContent
+        const searchSubscription = this.searchContent
             .pipe(
                 filter(value => typeof value === 'string')
             )
             .subscribe(this.onSearchValueChanged.bind(this));
-        this.queryParamsSubscription = this.route.queryParams.subscribe(param => {
-            this.searchContent.next(param.query);
+
+        const queryParamsSubscription = this.route.queryParams.subscribe(param => {
+            let query = '';
+
+            if (param.query) {
+                query = param.query;
+            }
+
+            this.searchContent.next(decodeURIComponent(query));
         });
+
+        this.subscriptions.push(searchSubscription);
+        this.subscriptions.push(queryParamsSubscription);
 
     }
 
     private onSearchValueChanged(newValue) {
         if (newValue !== '') {
+            const queryParams: Params = { query: encodeURIComponent(newValue) };
+            this.router.navigate(
+                [],
+                {
+                    relativeTo: this.route,
+                    queryParams,
+                    queryParamsHandling: 'merge', // remove to replace all query params by provided
+                });
+
             this.sparqlEndpointService.searchByTopic(newValue)
                 .subscribe((resources: SPARQLResource[]) => {
                     console.log('got resources', resources);
                     this.trackedResources = resources;
                 });
         }
-        console.log('behaviour subject change to', newValue);
     }
 
     ngOnDestroy() {
-        this.queryParamsSubscription.unsubscribe();
-        this.searchContent.unsubscribe();
         this.searchContent.complete();
+        this.subscriptions.forEach(sub => sub.unsubscribe());
+        this.subscriptions = [];
     }
 
     public apiCallbackFn = (route: string) => {
         return this.http.get(route);
-    };
+    }
 
 }
