@@ -8,11 +8,16 @@ import java.net.http.HttpRequest;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AuthorizedHttpRequest {
+  private static final String GITHUB_AUTH_TOKEN_PREFIX = "token ";
+
   public static HttpRequest githubAuth(final HttpRequest.Builder requestBuilder, final String authToken) {
     return requestBuilder.setHeader(HttpHeaders.AUTHORIZATION, formatGithubToken(authToken)).build();
   }
 
   private static String formatGithubToken(final String token) {
-    return String.format("token %s", token);
+    if (token.startsWith(GITHUB_AUTH_TOKEN_PREFIX)) {
+      return token;
+    }
+    return String.format("%s%s", GITHUB_AUTH_TOKEN_PREFIX, token);
   }
 }

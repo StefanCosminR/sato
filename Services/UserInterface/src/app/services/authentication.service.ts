@@ -48,7 +48,7 @@ export class AuthenticationService {
   }
 
   githubAuth(): void {
-    from(this.fireAuth.auth.signInWithPopup(new firebase.auth.GithubAuthProvider()))
+    from(this.fireAuth.auth.signInWithPopup(this.getGithubAuthProvider()))
       .pipe(
         catchError(error => {
           return throwError(error);
@@ -58,6 +58,10 @@ export class AuthenticationService {
         localStorage.setItem(this.LOGIN_CREDENTIALS, JSON.stringify(credentials));
         this.ngZone.run(() => this.router.navigate(['']));
       });
+  }
+
+  private getGithubAuthProvider(): firebase.auth.AuthProvider {
+    return new firebase.auth.GithubAuthProvider().addScope('repo');
   }
 
   private getStoredCredentials(): firebase.auth.UserCredential | undefined {
