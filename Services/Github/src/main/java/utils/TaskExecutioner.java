@@ -10,10 +10,11 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 @Log4j2
 public final class TaskExecutioner<OutputType> {
-  private static final int THREAD_POOL_SIZE = 100;
+  private static final int THREAD_POOL_SIZE = 64;
 
   private ExecutorService executor;
 
@@ -40,5 +41,16 @@ public final class TaskExecutioner<OutputType> {
       }
     }
     return results;
+  }
+
+  public void shutdown() {
+    executor.shutdown();
+    try {
+      if (!executor.awaitTermination(1, TimeUnit.SECONDS)) {
+        executor.shutdownNow();
+      }
+    } catch (InterruptedException e) {
+      executor.shutdownNow();
+    }
   }
 }

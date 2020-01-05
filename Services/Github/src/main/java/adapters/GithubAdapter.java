@@ -173,8 +173,7 @@ public class GithubAdapter {
 
       HttpResponse<String> response = HttpRequests.getHttpClient().send(request, BodyHandlers.ofString());
 
-      return objectMapper.readValue(HttpRequests.getResponseBody(response), new TypeReference<List<Repository>>() {
-      });
+      return objectMapper.readValue(HttpRequests.getResponseBody(response), new TypeReference<List<Repository>>(){});
     } catch (InterruptedException | IOException e) {
       log.error("An error occurred while calling the collectUserRepositories API: {}", e.getMessage());
       return Collections.emptyList();
@@ -200,7 +199,15 @@ public class GithubAdapter {
       ++page;
     } while (repositoryPage.size() > 0);
 
-    return executioner.collectTaskResults(collectTasks).stream().flatMap(Collection::stream).collect(Collectors.toSet());
+    Set<String> interests = executioner
+        .collectTaskResults(collectTasks)
+        .stream()
+        .flatMap(Collection::stream)
+        .collect(Collectors.toSet());
+
+    executioner.shutdown();
+
+    return interests;
   }
 
   public Set<String> getRepositoryInterests(final Repository repository, final String authToken) {

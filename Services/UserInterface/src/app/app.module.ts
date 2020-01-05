@@ -18,12 +18,14 @@ import { FormsModule } from '@angular/forms';
 import { MainMenuBarComponent } from './components/shared/main-menu-bar/main-menu-bar.component';
 import { MainPageComponent } from './components/pages/main-page/main-page.component';
 import { MatLinkPreviewModule } from '@angular-material-extensions/link-preview';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxLinkPreviewModule } from 'ngx-link-preview';
 import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 import { ReactiveInputComponent } from './components/shared/reactive-input/reactive-input.component';
 import { SearchPageComponent } from './components/pages/search-page/search-page.component';
+import { UserInterestsService } from './services/user-interests.service';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -48,11 +50,15 @@ import { environment } from '../environments/environment';
     MatLinkPreviewModule,
     NgxLinkifyjsModule,
     NgxLinkPreviewModule,
+    MatProgressSpinnerModule,
     MatCardModule,
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
-  providers: [AuthenticationService],
+  providers: [
+      AuthenticationService,
+      UserInterestsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

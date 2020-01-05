@@ -1,6 +1,15 @@
 <div class="main__container">
   <sato-main-menu-bar></sato-main-menu-bar>
-  <div class="content__container">
+  <div class="content__container full-width">
       <sato-reactive-input class="main__container-input" [inputValue]="searchInputValue"></sato-reactive-input>
+      <div *ngIf="!!authService.credentials">
+        <div *ngIf="loadingSuggestions" class="suggestions-loader">
+            <mat-spinner></mat-spinner>
+            Loading Web resources suggestions...
+        </div>
+        <div *ngIf="!loadingSuggestions">
+            <!-- TODO: display collected suggestions -->
+        </div>
+      </div>
   </div>
 </div>
