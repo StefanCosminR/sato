@@ -16,8 +16,8 @@ import { UserInterestsService } from '../../../services/user-interests.service';
 })
 export class MainPageComponent implements OnInit, OnDestroy {
     public searchInputValue: BehaviorSubject<string>;
+    public suggestions: Array<SPARQLResource>;
     public loadingSuggestions: boolean;
-    public suggestions: Array<any>;
 
     private subscriptions: Subscription[] = [];
 
@@ -70,7 +70,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
                 })
             )
             .subscribe((suggestions: Array<SPARQLResource>) => {
-                console.log(suggestions);
                 this.suggestions = suggestions;
                 this.loadingSuggestions = false;
             });
