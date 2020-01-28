@@ -14,6 +14,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -82,5 +83,11 @@ public class GithubAdapterIntegrationTests {
   void test_search_repository_by_topic() {
     SearchResult result = adapter.searchRepositoryByTopic(TOPIC, PAGE, PAGE_SIZE);
     assertNotNull(result);
+  }
+
+  @Test
+  void test_collect_user_interests() {
+    Set<String> interests = adapter.collectUserInterests();
+    assertNotNull(interests);
   }
 }

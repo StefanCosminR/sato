@@ -1,15 +1,29 @@
 <mat-toolbar>
     <span class="logo-area">
         <a [routerLink]="'/'">
-            <img class="logo" src="assets/images/logo.png" alt="SATO logo"/>
+            <img class="logo" src="assets/images/logo.png" alt="SATO logo" />
         </a>
     </span>
+
     <span class="search-area" *ngIf="showSearch">
         <sato-reactive-input [inputValue]="searchInputValue"></sato-reactive-input>
     </span>
+
     <span class="example-spacer"></span>
-    <span class="authentication-area">
-        <button mat-button routerLink="/login">Login</button>
-        <button mat-button>Register</button>
-  </span>
+
+    <span *ngIf="!authService.credentials" class="authentication-area">
+        <!-- TODO after successful authentication, suggestions collection should be performed -->
+        <button mat-stroked-button class="github-login-button" title="Login with Github" (click)="authService.githubAuth()">
+            <img src="https://icons-for-free.com/iconfiles/png/128/coding+development+github+programming+website+icon-1320168263506646852.png"
+                height="25" width="25">
+            Github
+        </button>
+    </span>
+
+    <span *ngIf="!!authService.credentials" class="authentication-area">
+        <button mat-stroked-button class="logout-button" (click)="authService.signOut()">
+            <mat-icon>logout</mat-icon>
+            Logout
+        </button>
+    </span>
 </mat-toolbar>

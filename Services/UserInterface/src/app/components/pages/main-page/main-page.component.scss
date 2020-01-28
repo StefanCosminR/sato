@@ -5,7 +5,8 @@
 
 .content__container {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .main__container-input {
@@ -17,3 +18,13 @@
   width: 100%;
 }
 
+.suggestions-loader {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.suggestions-loader > * {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}

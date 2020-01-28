@@ -1,28 +1,25 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {SPARQLResource} from '../models/SPARQLResource';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { SPARQLResource } from '../models/SPARQLResource';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SPARQLEndpointService {
+    readonly SUGGESTIONS_COUNT = 6;
+
+    private contentTypeHeader = 'application/json';
     private endpoint = 'http://localhost:8080/sparql';
     private acceptHeader = 'application/ld+json, application/sparql-results+json';
-    private contentTypeHeader = 'application/json';
 
     constructor(private http: HttpClient) {
     }
 
-    public searchByTopic(topic: string): Observable<SPARQLResource[]> {
-        const body = this.constructRequestBody(topic);
-        const httpOptions = {
-            headers: new HttpHeaders({
-                Accept: this.acceptHeader,
-                'Content-Type': this.contentTypeHeader
-            })
-        };
+    public suggestFromTopics(topics: Array<string>): Observable<SPARQLResource[]> {
+        const body = this.constructSearchByTopicsRequestBody(topics);
+        const httpOptions = this.getSparQlEndpointHttpOptions();
 
         return this.http.post(this.endpoint, body, httpOptions)
             .pipe(map((apiResponse: APIResponse) => {
@@ -30,7 +27,53 @@ export class SPARQLEndpointService {
             }));
     }
 
-    private constructRequestBody(topic: string): string {
+    public searchByTopic(topic: string): Observable<SPARQLResource[]> {
+        const body = this.constructSearchByTopicRequestBody(topic);
+        const httpOptions = this.getSparQlEndpointHttpOptions();
+
+        return this.http.post(this.endpoint, body, httpOptions)
+            .pipe(map((apiResponse: APIResponse) => {
+                return apiResponse.results.bindings.map(binding => new SPARQLResource(binding.url.value));
+            }));
+    }
+
+    private getSparQlEndpointHttpOptions(): { headers: HttpHeaders } {
+        return {
+            headers: new HttpHeaders({
+                Accept: this.acceptHeader,
+                'Content-Type': this.contentTypeHeader
+            })
+        }
+    }
+
+    private constructSearchByTopicsRequestBody(topics: Array<string>): string {
+        const query = `
+            prefix : <http://www.semanticweb.org/wade/ontologies/sato#>
+            SELECT DISTINCT ?url {
+                ?url :hasTopic ?topic .
+                FILTER ${this.constructMultiTopicFilterCondition(topics)} .
+            }
+            ORDER BY RAND()
+            LIMIT ${this.SUGGESTIONS_COUNT}`;
+
+        return JSON.stringify({
+            query: query.trim().replace('\n', '').replace(/\s+/g, ' ')
+        });
+    }
+
+    private constructMultiTopicFilterCondition(topics: Array<string>): string {
+        let filter = '(';
+        topics.forEach((topic, index) => {
+            filter += `CONTAINS(STR(?topic), '${topic}') || CONTAINS(STR(?url), '${topic}')`;
+            if (index < topics.length - 1) {
+                filter += ' || '
+            }
+        });
+        filter += ')';
+        return filter;
+    }
+
+    private constructSearchByTopicRequestBody(topic: string): string {
         const body = {
             query: this.constructQueryForTopic(topic)
         };
@@ -47,8 +90,6 @@ export class SPARQLEndpointService {
             LIMIT ${pageSize} OFFSET ${offset}
     `.trim().replace('\n', '').replace(/\s+/g, ' ');
     }
-
-
 }
 
 class APIResponse {

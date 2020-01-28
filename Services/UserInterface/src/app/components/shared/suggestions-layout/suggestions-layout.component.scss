@@ -1,0 +1,34 @@
+.suggestions-layout {
+    margin: auto;
+    width: 30rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    align-content: flex-end;
+}
+
+.suggestions-layout > * {
+    padding-bottom: 0.5em;
+}
+
+.suggestion {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.suggestion > * {
+    font-size: 12px;
+    font-family: "Comic Sans MS", serif;
+}
+
+.suggestion:hover {
+    border: 2px #de1313 solid;
+    border-radius: 0.5em;
+    filter: blur(0.7px);
+}
