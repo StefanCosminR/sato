@@ -15,7 +15,7 @@ public struct RedditAPI {
             URLQueryItem(name: "sort_type", value: "score"),
             URLQueryItem(name: "after", value: String(timeInterval.begin)),
             URLQueryItem(name: "before", value: String(timeInterval.end)),
-            URLQueryItem(name: "size", value: "100")
+            URLQueryItem(name: "size", value: "4")
         ]
         
         let redditURL = constructURL(queryParams: queryParams)
