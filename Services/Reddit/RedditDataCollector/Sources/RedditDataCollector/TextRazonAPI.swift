@@ -2,6 +2,9 @@
 // Using Swift 5.0
 
 import Foundation
+#if os(Linux)
+import FoundationNetworking
+#endif
 
 
 struct TextRazorAPI {

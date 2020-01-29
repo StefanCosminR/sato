@@ -43,7 +43,7 @@ struct CollectingRedditService {
     private func beginTransaction(for eventLoop: EventLoop, usingClient httpClient: HTTPClient) -> EventLoopFuture<String> {
         let promise = eventLoop.makePromise(of: String.self)
         
-        guard var request = try? HTTPClient.Request(url: "http://0.0.0.0:5820/test/transaction/begin?reasoning=false", method: .POST) else {
+        guard var request = try? HTTPClient.Request(url: "http://ec2-63-33-206-52.eu-west-1.compute.amazonaws.com:5820/ec2-test/transaction/begin?reasoning=false", method: .POST) else {
             promise.fail(Errors.UnknownError("Could not parse url"))
             return promise.futureResult
         }
@@ -85,7 +85,7 @@ struct CollectingRedditService {
         let promise = eventLoop.makePromise(of: String.self)
         
         do {
-            var request = try HTTPClient.Request(url: "http://0.0.0.0:5820/test/\(token)/add", method: .POST)
+            var request = try HTTPClient.Request(url: "http://ec2-63-33-206-52.eu-west-1.compute.amazonaws.com:5820/ec2-test/\(token)/add", method: .POST)
             request.body = .string(body)
             request.headers.basicAuthorization = .init(username: "admin", password: "admin")
             request.headers.contentType = .init(type: "text", subType: "turtle")
@@ -118,7 +118,7 @@ struct CollectingRedditService {
         
         do {
             
-            var request = try HTTPClient.Request(url: "http://0.0.0.0:5820/test/transaction/commit/\(token)", method: .POST)
+            var request = try HTTPClient.Request(url: "http://ec2-63-33-206-52.eu-west-1.compute.amazonaws.com:5820/ec2-test/transaction/commit/\(token)", method: .POST)
             request.headers.basicAuthorization = .init(username: "admin", password: "admin")
             
             httpClient.execute(request: request).whenComplete { result in
