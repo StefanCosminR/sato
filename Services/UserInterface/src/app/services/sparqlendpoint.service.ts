@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 import { SPARQLResource } from '../models/SPARQLResource';
 
 @Injectable({
@@ -11,7 +12,6 @@ export class SPARQLEndpointService {
     readonly SUGGESTIONS_COUNT = 6;
 
     private contentTypeHeader = 'application/json';
-    private endpoint = 'http://localhost:8080/sparql';
     private acceptHeader = 'application/ld+json, application/sparql-results+json';
 
     constructor(private http: HttpClient) {
@@ -21,7 +21,7 @@ export class SPARQLEndpointService {
         const body = this.constructSearchByTopicsRequestBody(topics);
         const httpOptions = this.getSparQlEndpointHttpOptions();
 
-        return this.http.post(this.endpoint, body, httpOptions)
+        return this.http.post(environment.apiEndpoints.sparqlQuery, body, httpOptions)
             .pipe(map((apiResponse: APIResponse) => {
                 return apiResponse.results.bindings.map(binding => new SPARQLResource(binding.url.value));
             }));
@@ -31,7 +31,7 @@ export class SPARQLEndpointService {
         const body = this.constructSearchByTopicRequestBody(topic);
         const httpOptions = this.getSparQlEndpointHttpOptions();
 
-        return this.http.post(this.endpoint, body, httpOptions)
+        return this.http.post(environment.apiEndpoints.sparqlQuery, body, httpOptions)
             .pipe(map((apiResponse: APIResponse) => {
                 return apiResponse.results.bindings.map(binding => new SPARQLResource(binding.url.value));
             }));
@@ -48,7 +48,7 @@ export class SPARQLEndpointService {
 
     private constructSearchByTopicsRequestBody(topics: Array<string>): string {
         const query = `
-            prefix : <http://www.semanticweb.org/wade/ontologies/sato#>
+            PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
             SELECT DISTINCT ?url {
                 ?url :hasTopic ?topic .
                 FILTER ${this.constructMultiTopicFilterCondition(topics)} .
@@ -83,6 +83,7 @@ export class SPARQLEndpointService {
 
     private constructQueryForTopic(topic: string, pageSize: number = 10, offset: number = 0): string {
         return `
+            PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
             SELECT DISTINCT ?url {
                 ?url :hasTopic ?topic .
                 FILTER ((CONTAINS(STR(?topic), "${topic}") || CONTAINS(STR(?url), "${topic}"))) .
