@@ -23,6 +23,6 @@ public class GithubTopicWorkflowTests {
 
   @Test
   public void test_github_topic_data_collector_workflow() throws FileNotFoundException {
-    workflow.start(TOPIC);
+    workflow.start(TOPIC, true);
   }
 }

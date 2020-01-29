@@ -37,10 +37,14 @@ public class StardogAdapter {
     );
   }
 
-  public void createDatabase() {
+  public void createDatabase(final boolean overrideExistent) {
     try (final AdminConnection connection = StardogConnectionManager.getAdminConnection(url, username, password)) {
-      dropDatabase(connection, database);
-      connection.newDatabase(database).create();
+      if (overrideExistent) {
+        dropDatabase(connection, database);
+      }
+      if (!connection.list().contains(database)) {
+        connection.newDatabase(database).create();
+      }
     }
   }
 
