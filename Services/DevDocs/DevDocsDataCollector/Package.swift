@@ -13,11 +13,14 @@ let package = Package(
         .library(
             name: "DevDocsDataCollector",
             targets: ["DevDocsDataCollector"]),
-        .executable(name: "DevDocsDataCollector-CLI", targets: ["DevDocsDataCollector-CLI"])
+        .executable(name: "DevDocsDataCollector-CLI", targets: ["DevDocsDataCollector-CLI"]),
+        .executable(name: "RunServer", targets: ["RunServer"]),
+        .library(name: "Server", targets: ["Server"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0-beta.3")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -31,5 +34,12 @@ let package = Package(
         .testTarget(
             name: "DevDocsDataCollectorTests",
             dependencies: ["DevDocsDataCollector"]),
+        .target(
+            name: "Server",
+            dependencies: ["DevDocsDataCollector", "Vapor", "DevDocsDataCollector-CLI"]),
+        .target(
+            name: "RunServer",
+            dependencies: ["Server"])
+        
     ]
 )

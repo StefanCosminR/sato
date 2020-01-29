@@ -136,16 +136,6 @@
 <https://codonyas.com/python/pattern/> rdf:type :Article .
 <https://codonyas.com/python/pattern/> rdfs:label '''Create 80+ different pattern with python code.'''^^xsd:string .
 
-<http://pos.li/2ec32m> rdfs:label '''Anti Aging Secrets'''^^xsd:string .
-<http://en.wikipedia.org/EBay> rdf:type :Topic .
-<http://en.wikipedia.org/EBay> rdfs:label '''EBay'''^^xsd:string .
-<http://pos.li/2ec32m> :hasTopic <http://en.wikipedia.org/EBay> .
-<http://en.wikipedia.org/Category:Economy> rdf:type :Topic .
-<http://en.wikipedia.org/Category:Economy> rdfs:label '''Economy'''^^xsd:string .
-<http://pos.li/2ec32m> :hasTopic <http://en.wikipedia.org/Category:Economy> .
-<http://en.wikipedia.org/Category:Business> rdf:type :Topic .
-<http://en.wikipedia.org/Category:Business> rdfs:label '''Business'''^^xsd:string .
-<http://pos.li/2ec32m> :hasTopic <http://en.wikipedia.org/Category:Business> .
 
 <https://rubikscode.net/2019/12/23/ultimate-guide-to-deep-q-learning-with-tf-agents/> rdf:type :Article .
 <https://rubikscode.net/2019/12/23/ultimate-guide-to-deep-q-learning-with-tf-agents/> rdfs:label '''Ultimate Guide to Deep Q-Learning with TF-Agents'''^^xsd:string .
@@ -339,8 +329,6 @@
 <http://en.wikipedia.org/Category:Computer_networking> rdfs:label '''Computer networking'''^^xsd:string .
 <http://mfadhel.com/rest-message-queue/> :hasTopic <http://en.wikipedia.org/Category:Computer_networking> .
 
-<http://raise.com> rdf:type :Article .
-<http://raise.com> rdfs:label '''i don\'t know what language should be used'''^^xsd:string .
 
 <https://www.dataengineeringpodcast.com/materialize-streaming-analytics-episode-112/> rdf:type :Article .
 <https://www.dataengineeringpodcast.com/materialize-streaming-analytics-episode-112/> rdfs:label '''An episode about building Materialize for interactive analytics on continuously updated streams of data'''^^xsd:string .

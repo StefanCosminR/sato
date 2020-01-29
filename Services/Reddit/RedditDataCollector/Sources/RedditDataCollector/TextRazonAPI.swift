@@ -19,7 +19,7 @@ struct TextRazorAPI {
         request.httpMethod = "POST"
         request.httpBody = requestBody.data(using: .utf8)!
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("xxxx", forHTTPHeaderField: "x-textrazor-key")
+        request.addValue("f056fd46da5e18f838ea0366e51617866429c89b9c395dcabbf0b61e", forHTTPHeaderField: "x-textrazor-key")
         
         
         URLSession.shared.dataTask(with: request) { data, _, error in
