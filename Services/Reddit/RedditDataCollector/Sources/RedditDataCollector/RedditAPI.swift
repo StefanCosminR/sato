@@ -11,7 +11,7 @@ public struct RedditAPI {
     
     static public func getPosts(for subreddit: Subreddit,
                          onCompletion:  @escaping (_ result: Result<[RedditPost], Error>) -> ()) {
-        let timeInterval = getTimeInterval(daysPrior: 7)
+        let timeInterval = getTimeInterval(daysPrior: 14)
         
         let queryParams = [
             URLQueryItem(name: "subreddit", value: subreddit.rawValue),
@@ -19,7 +19,7 @@ public struct RedditAPI {
             URLQueryItem(name: "sort_type", value: "score"),
             URLQueryItem(name: "after", value: String(timeInterval.begin)),
             URLQueryItem(name: "before", value: String(timeInterval.end)),
-            URLQueryItem(name: "size", value: "4")
+            URLQueryItem(name: "size", value: "300")
         ]
         
         let redditURL = constructURL(queryParams: queryParams)
