@@ -200,7 +200,7 @@
         </section>
 
         <section>
-            <h2>The service architecture (updates)</h2>
+            <h2>The service architecture (Updates)</h2>
             <figure typeof="sa:Image">
                 <img src="./WADE/newDiagrams/architecture.png" alt="Updated Service Architecture">
                 <figcaption>Fig. 1' - Updated Service architecture</figcaption>
@@ -324,10 +324,19 @@
                     server instances.
                 </p>
                 <p>
-                    The chosen server will dispatch a SPARQL query based on the searched topics to each of the
+                    The chosen server will dispatch a SparQL query based on the searched topics to each of the
                     Data Source SPARQL databases. Pages from the selected information will be aggregated into the
                     Client response.
                 </p>
+                <p>
+                    Update: The chosen server will dispatch the SparQL query to one of the Stardog instances from within
+                    the deployed cluster in order to perform the query. The number of entries in the response can vary
+                    according to the SparQL query that was built from users input.
+                </p>
+                <figure typeof="sa:Image">
+                    <img src="./WADE/newDiagrams/QueryForTopics.png" alt="Query">
+                    <figcaption>Fig. 3' - Search for information regarding some topics (Updates)</figcaption>
+                </figure>
             </section>
 
             <section>
