@@ -3,19 +3,20 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  firebaseConfig: {
-    apiKey: "<API_KEY>",
-    authDomain: "<AUTH_DOMAIN>",
-    databaseURL: "<DATABASE_URL>",
-    projectId: "<PROJECT_ID>",
-    storageBucket: "<STORAGE_BUCKET>",
-    messagingSenderId: "<MESSAGING_SENDER_ID>",
-    appId: "<APP_ID>"
-  },
-  apiEndpoints: {
-      userInterests: 'http://0.0.0.0:8095/user/interests'
-  }
+    production: false,
+    firebaseConfig: {
+        apiKey: "<API_KEY>",
+        authDomain: "<AUTH_DOMAIN>",
+        databaseURL: "<DATABASE_URL>",
+        projectId: "<PROJECT_ID>",
+        storageBucket: "<STORAGE_BUCKET>",
+        messagingSenderId: "<MESSAGING_SENDER_ID>",
+        appId: "<APP_ID>"
+    },
+    apiEndpoints: {
+        sparqlQuery: 'http://0.0.0.0:8080/sparql',
+        userInterests: 'http://0.0.0.0:8095/user/interests'
+    }
 };
 
 /*

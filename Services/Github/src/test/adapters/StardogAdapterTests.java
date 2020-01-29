@@ -31,26 +31,26 @@ public class StardogAdapterTests {
 
   @Test
   public void test_create_database() {
-    adapter.createDatabase();
+    adapter.createDatabase(true);
     assertTrue(adapter.listDatabases().contains(DATABASE));
   }
 
   @Test
   public void test_drop_database() {
-    adapter.createDatabase();
+    adapter.createDatabase(true);
     adapter.dropDatabase();
     assertFalse(adapter.listDatabases().contains(DATABASE));
   }
 
   @Test
   public void test_insert_data_from_file() throws FileNotFoundException {
-    adapter.createDatabase();
+    adapter.createDatabase(true);
     adapter.insertData(TEST_TTL_FILE_PATH);
   }
 
   @Test
   public void test_query() throws FileNotFoundException {
-    adapter.createDatabase();
+    adapter.createDatabase(true);
     adapter.insertData(TEST_TTL_FILE_PATH);
     SelectQueryResult result = adapter.query(SELECT_ALL_QUERY);
     assertNotNull(result);

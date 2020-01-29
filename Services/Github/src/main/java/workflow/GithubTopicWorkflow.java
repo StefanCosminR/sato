@@ -33,12 +33,12 @@ public class GithubTopicWorkflow {
                                       params.getDatabase());
   }
 
-  public void start(final String topic) throws FileNotFoundException {
+  public void start(final String topic, final boolean overrideExistent) throws FileNotFoundException {
     GithubDataCollectorOutput pageData;
     int totalResults = 0;
     int page = 1;
 
-    adapter.createDatabase();
+    adapter.createDatabase(overrideExistent);
     do {
       System.out.println(String.format("> Processing page %d", page));
       pageData = collector.collect(getGithubDataCollectorInput(topic, page));
