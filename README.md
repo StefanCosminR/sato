@@ -21,6 +21,19 @@ SATO makes a step forward in this direction and comes up with a solution to unit
 - 16 Nov 2019 - Open API specifications for SATO REST API.
 - 23 Nov 2019 - Scholarly HTML.
 - 25 Nov 2019 - Final polishing over the Design and Documentation.
+- 30 Nov 2019 - Reasearch started for ways of collecting resources from DevDocs
+- 01 Dec 2019 - Collecting topics from GitHub
+- 08 Dec 2019 - Finished SATO Ontology
+- 22 Dec 2019 - Finished DevDocsService and started work for collecting Reddit data
+- 29 Dec 2019 - Finished RedditService and TextRazor integration
+- 30 Dec 2019 - Finished GithubService collection, started export to Stardog
+- 31 Dec 2019 - Started work for UserInterface
+- 02 Ian 2020 - Finished integation of GitgubService with Stardog
+- 03 Ian 2020 - Created SparQLEndpoint service
+- 05 Ian 2020 - Integrating OAuth in UserInteface
+- 20 Ian 2020 - Added recomandation based on interests for authenticated users in UserInterface
+- 28 Ian 2020 - Finished all services, started deployment
+
 
 Below you can find a minimal project presentation. You can check the full application documentation by reading the Scholarly HTML documentation that can be found in the "scholarly/scholarly.html" file in this repository.
 
