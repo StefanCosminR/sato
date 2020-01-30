@@ -127,6 +127,19 @@
                 </p>
             </section>
             <section>
+                <h3>Authentication (Updates)</h3>
+                <p>
+                    Given the target goal of the designed system and the typology of the expected users (e.g: technical
+                    users, students, academic staff), the most suitable authentication method for all this major user
+                    categories is Github.
+                </p>
+                <p>
+                    Github would be used for OAuth authentication via Firebase Auth API and would provide (with user
+                    agreement) information about what kind of work they perform on Github. This would help SATO to
+                    propose a set of suggested resources that could be of interest for the authenticated user.
+                </p>
+            </section>
+            <section>
                 <h3>Data source services</h3>
                 <p>
                     The data available about software development is not using a RDF format in most cases.
@@ -139,18 +152,89 @@
                     on demand, convert the date to RDF and store it in their own triplestore.
                 </p>
                 <p>
-                    In order to have control over the freshness of the data, each service exposes and API endpoint
+                    In order to have control over the freshness of the data, each service exposes an API endpoint
                     that will be called by a "Data Refresh Job" when it considers it is the best time to update the
                     databases.
                 </p>
             </section>
             <section>
+                <h3>Data source services (Updates)</h3>
+                <p>
+                    The purpose of this services remains the same. The only difference is that that implies the
+                    system architecture change that will follow to be described in the following major section.
+                    All the data source services will collect data and store it in a common replicated triplestore.
+                </p>
+                <p>
+                    Taking into consideration general technical usability, documentation, performance and accessibility,
+                    the chosen triplestore is that offered by
+                    <a property="schema:url" href="https://www.stardog.com/docs">Stardog</a>.
+                </p>
+            </section>
+            <section>
                 <h3>Public facing API</h3>
                 <p>
-                    In order to access the data collected by aforementioned services, we expose a microservice that
-                    checks
-                    for user authentication, accepts SPARQL queries, offers some predefined queries based on the user
-                    preferences and aggregates the query result from all data source services.
+                    In order to access the data collected by the aforementioned services, we expose a microservice that
+                    checks for user authentication, accepts SparQL queries, offers some predefined queries based on the
+                    user preferences and aggregates the query result from all data source services.
+                </p>
+            </section>
+            <section>
+                <h3>Public facing API (Updates)</h3>
+                <p>
+                    The exposed microservice, provides the external users and systems with an embedded SparkQL endpoint.
+                    This allows SATO system to accept any correctly formatted SparQL query and to retrieve the results
+                    in many well know formats such as application/rdf+xml and application/ld+json.
+                </p>
+                <p>
+                    The user authentication is not a restriction anymore. Any user can benefit of resources from our
+                    knowledge graph. The authenticated users have the advantage of having suggested a list of possible
+                    resources of interest to them according to their profile (Content based profiling based on Github
+                    information).
+                </p>
+                <p>
+                    The data is already aggregated in the knowledge graph. The SparQL endpoint must know how to take
+                    the data from the database and how to send the data back to the user. The aggregation at SparQL
+                    endpoint level is not needed anymore.
+                </p>
+            </section>
+        </section>
+
+        <section>
+            <h2>The service architecture (Updates)</h2>
+            <figure typeof="sa:Image">
+                <img src="./WADE/newDiagrams/architecture.png" alt="Updated Service Architecture">
+                <figcaption>Fig. 1' - Updated Service architecture</figcaption>
+            </figure>
+            <section>
+                <h3>General Overview</h3>
+                <p>
+                    The initial proposed architecture was based on multiple SparQL Databases that each correspond to a
+                    single Data Source Service.
+                </p>
+                <p>
+                    Given the fact that most of the information that is aggregated within the system has some similar
+                    properties, it is only natural to consider having this common properties in the same knowledge
+                    graph. This idea leads us to the possibility of linking entities from one data source (e.g: Github)
+                    to entities from another data source (e.g: Reddit) in order to create statistics and derive new
+                    possible suggestions for our clients.
+                </p>
+                <p>
+                    More over, the new cluster of replicated knowledge graphs helps in simplifying the implementation
+                    of the exposed SparQL endpoint. By keeping all the data in the same replicated knowledge graph,
+                    no aggregation business logic is required to be implemented at SparQL endpoint level in order to
+                    handle different transformations to send the data back to the client in the expected format.
+                </p>
+                <p>
+                    One example of statistic that can be computed by harnessing the properties of the build knowledge
+                    graph would be that of analysing the collaboration to a topic from users across all the Data Sources
+                    that are integrated with the built system.
+                </p>
+                <p>
+                    The performance and scalability considerations were not neglected by the necessity of combining our
+                    data sources into the same knowledge graph. In this direction, a SparQL Databases cluster would be
+                    created. Each of the instances in the cluster would hold a replica of the knowledge graph and
+                    requests would be balanced across all of them for high availability and assuring the information
+                    safeness.
                 </p>
             </section>
         </section>
@@ -240,10 +324,19 @@
                     server instances.
                 </p>
                 <p>
-                    The chosen server will dispatch a SPARQL query based on the searched topics to each of the
+                    The chosen server will dispatch a SparQL query based on the searched topics to each of the
                     Data Source SPARQL databases. Pages from the selected information will be aggregated into the
                     Client response.
                 </p>
+                <p>
+                    Update: The chosen server will dispatch the SparQL query to one of the Stardog instances from within
+                    the deployed cluster in order to perform the query. The number of entries in the response can vary
+                    according to the SparQL query that was built from users input.
+                </p>
+                <figure typeof="sa:Image">
+                    <img src="./WADE/newDiagrams/QueryForTopics.png" alt="Query">
+                    <figcaption>Fig. 3' - Search for information regarding some topics (Updates)</figcaption>
+                </figure>
             </section>
 
             <section>
@@ -346,9 +439,9 @@
                     </li>
                 </ol>
                 <p>
-                    Another important component is the "<b>DataCollector</b>" class. This takes as input a data source and a
-                    transformer, applies the transformation on the data received by the data source and it will use
-                    a connection to a Triplestore to write the obtained RDF Data.
+                    Another important component is the "<b>DataCollector</b>" class. This takes as input a data source
+                    and a transformer, applies the transformation on the data received by the data source and it will
+                    use a connection to a Triplestore to write the obtained RDF Data.
                 </p>
             </section>
         </section>
@@ -356,6 +449,7 @@
         <section>
             <h2>Bibliografie</h2>
             <ol class="centered-list">
+                <li><a target="blank" href="https://www.stardog.com/docs">Stardog</a></li>
                 <li><a target=blank href="https://jena.apache.org/getting_started/index.html">Apache Jena</a></li>
                 <li><a target=blank href="https://docs.docker.com">Docker</a></li>
             </ol>
