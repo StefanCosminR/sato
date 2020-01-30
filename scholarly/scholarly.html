@@ -240,10 +240,42 @@
         </section>
 
         <section>
+            <h2>SATO Ontology</h2>
+            <figure typeof="sa:Image">
+                <img src="WADE/newDiagrams/OntologyDiagram.png" alt="SATO Ontology">
+                <figcaption>Fig. 2 - SATO Ontology</figcaption>
+            </figure>
+            <section>
+                <h3>General overview</h3>
+                <p>
+                    The SATO Ontology identifies common properties and features of data sources such as Github, DevDocs
+                    and Reddit.
+                </p>
+                <p>
+                    The blue rectangles represent common classes of objects that can be reused to describe information
+                    from multiple data sources. For example, DevDocs data source can be described only using this common
+                    classes.
+                </p>
+                <p>
+                    The orange rectangles describe Github classes and their relationship with each other and the common,
+                    blue classes.
+                </p>
+                <p>
+                    The red rectangles are used to define classes extensions for Reddit where the concept of Author,
+                    Article and Tutorial must be defined.
+                </p>
+                <p>
+                    This ontology is defined so that any type of Web resource can be defined, not only those related to
+                    web development.
+                </p>
+            </section>
+        </section>
+
+        <section>
             <h2>Module architecture</h2>
             <figure typeof="sa:Image">
                 <img src="./WADE/SATO-Main-Modules.png" alt="Module Architecture">
-                <figcaption>Fig. 2 - Module architecture</figcaption>
+                <figcaption>Fig. 3 - Module architecture</figcaption>
             </figure>
             <section>
                 <h3>General overview</h3>
@@ -312,7 +344,7 @@
                 <h3>Query for information</h3>
                 <figure typeof="sa:Image">
                     <img src="./WADE/QueryForTopics.png" alt="Query">
-                    <figcaption>Fig. 3 - Search for information regarding some topics</figcaption>
+                    <figcaption>Fig. 4 - Search for information regarding some topics</figcaption>
                 </figure>
                 <p>
                     From the Client application, an AJAX call will be made to collect information about some specific
@@ -335,7 +367,7 @@
                 </p>
                 <figure typeof="sa:Image">
                     <img src="./WADE/newDiagrams/QueryForTopics.png" alt="Query">
-                    <figcaption>Fig. 3' - Search for information regarding some topics (Updates)</figcaption>
+                    <figcaption>Fig. 4' - Search for information regarding some topics (Updates)</figcaption>
                 </figure>
             </section>
 
@@ -343,7 +375,7 @@
                 <h3>Refresh Data in Triplestores</h3>
                 <figure typeof="sa:Image">
                     <img src="./WADE/DataRefreshFlow.png" alt="Query">
-                    <figcaption>Fig. 4 - Refresh data stored in each triplestore</figcaption>
+                    <figcaption>Fig. 5 - Refresh data stored in each triplestore</figcaption>
                 </figure>
                 <p>
                     The Refresh Data Job is a periodic operation that assures the freshness of the information stored
@@ -373,7 +405,7 @@
             <h2>UML diagram</h2>
             <figure typeof="sa:Image">
                 <img src="./WADE/UMLDiagram.png" alt="UML diagram">
-                <figcaption>Fig. 5 - UML diagram</figcaption>
+                <figcaption>Fig. 6 - UML diagram</figcaption>
             </figure>
             <section>
                 <h3>General Overview</h3>
