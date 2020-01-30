@@ -3,7 +3,7 @@
     <div class="main__content">
         <mat-card class="smaller-padding" *ngFor="let resource of trackedResources">
 
-            <ngx-link-preview [apiRoute]="'http://ec2-34-244-236-194.eu-west-1.compute.amazonaws.com:3050'"
+            <ngx-link-preview [apiRoute]="'http://127.0.0.1:3050'"
                               [getApiEndpoint$]="apiCallbackFn"
                               [links]="[resource.url]"
                               [showLinkUrl]="true"

@@ -8,9 +8,6 @@ RUN npm install -g http-server
 
 COPY . /sato-ui
 
-RUN cd ./URLMetadata && npm install
-
 EXPOSE 4200
-EXPOSE 3050
 
-CMD node ./URLMetadata/index.js & http-server dist/UserInterface -p 4200
+CMD http-server dist/UserInterface -p 4200
