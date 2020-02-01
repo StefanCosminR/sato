@@ -2,15 +2,15 @@
     <sato-main-menu-bar></sato-main-menu-bar>
 
     <div class="catalog full-height-full-width centered">
-        <div class="catalog-item articles">
+        <div class="catalog-item articles" [routerLink]="'/catalog/articles'">
             Web Articles
         </div>
 
-        <div class="catalog-item tutorials">
+        <div class="catalog-item tutorials" [routerLink]="'/catalog/tutorials'">
             Web Tutorials
         </div>
 
-        <div class="catalog-item github-repositories">
+        <div class="catalog-item github-repositories" [routerLink]="'/catalog/repositories'">
             Github Repositories
         </div>
     </div>

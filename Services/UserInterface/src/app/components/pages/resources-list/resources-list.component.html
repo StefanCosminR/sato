@@ -1,0 +1,25 @@
+<sato-main-menu-bar></sato-main-menu-bar>
+
+<div class="main__container full-height-full-width">
+    <div class="resource-list">
+        <mat-form-field class="search-input">
+            <input matInput
+                   [(ngModel)]="pattern"
+                   (keydown.enter)="search()"
+                   placeholder="Search by pattern..."
+                   [ngModelOptions]="{standalone: true}">
+            <mat-icon matSuffix>search</mat-icon>
+
+            <!-- TODO add two multi-selects for wanted topics and not wanted topics -->
+        </mat-form-field>
+
+        <mat-card class="resource" *ngFor="let resource of resources">
+            <ngx-link-preview [apiRoute]="'http://127.0.0.1:3050'"
+                              [getApiEndpoint$]="apiCallbackFunction"
+                              [useHtmlLinkDefaultClickEvent]="true"
+                              [links]="[resource.url]"
+                              [showLinkUrl]="true"
+            ></ngx-link-preview>
+        </mat-card>
+    </div>
+</div>

@@ -31,6 +31,7 @@ import { ResourceUrlImagePipe } from './pipes/resource-url-image.pipe';
 import { AuthenticationService } from './services/authentication.service';
 import { UserInterestsService } from './services/user-interests.service';
 import { CatalogPageComponent } from './components/pages/catalog-page/catalog-page.component';
+import { ResourcesListComponent } from './components/pages/resources-list/resources-list.component';
 
 @NgModule({
     declarations: [
@@ -43,7 +44,8 @@ import { CatalogPageComponent } from './components/pages/catalog-page/catalog-pa
         ReactiveInputComponent,
         ResourceNameExtractorPipe,
         SuggestionsLayoutComponent,
-        CatalogPageComponent
+        CatalogPageComponent,
+        ResourcesListComponent
     ],
     imports: [
         BrowserModule,
