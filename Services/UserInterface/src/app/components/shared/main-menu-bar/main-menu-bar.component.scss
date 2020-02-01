@@ -1,39 +1,50 @@
 .example-spacer {
-  flex: 1 1 auto;
+    flex: 1 1 auto;
 }
 
-.authentication-area {
-  display: flex;
-  align-items: center;
-  color: #147EFB;
+.menu {
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    flex-direction: row-reverse;
 }
 
-.authentication-area > * {
-  margin: 3px;
-  font-size: 16px;
-  font-family: "Comic Sans MS", serif;
+.menu-item {
+    display: flex;
+    font-size: 14px;
+    padding-left: 8px;
+    padding-right: 8px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #c4bfaf;
+    font-family: "Comic Sans MS", serif;
+}
+
+.menu-item:hover {
+    cursor: pointer;
+    color: #ffa82c;
+}
+
+.menu-item > * {
+    margin: 3px;
 }
 
 .logo-area {
-  display: flex;
+    display: flex;
 }
 
 .logo {
-  max-width: 4rem;
+    max-width: 4rem;
 }
 
 .search-area {
-  margin-left: 1rem;
-  width: 30rem;
+    margin-left: 1rem;
+    width: 30rem;
 }
 
 .search-area > mat-form-field {
-  width: 100%;
-}
-
-.github-login-button {
-    background-color: #bfb9b9;
-    color: black;
+    width: 100%;
 }
 
 .logout-button {

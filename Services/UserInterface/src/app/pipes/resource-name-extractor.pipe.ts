@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({name: 'resourceNameExtractorPipe'})
 export class ResourceNameExtractorPipe implements PipeTransform {
-    readonly MAX_NAME_LENGTH = 14;
+    readonly MAX_NAME_LENGTH = 13;
 
     transform(url: string): string {
         const name = url.substr(url.lastIndexOf('/') + 1);

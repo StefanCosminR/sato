@@ -74,7 +74,7 @@ export class SPARQLEndpointService {
     private constructCollectPopularSuggestionsRequestBody(): string {
         const query = `
             PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
-            SELECT ?url WHERE {
+            SELECT DISTINCT ?url WHERE {
                 ?url :hasTopic ?topic .
                 {
                     SELECT ?topic (COUNT(?topic) AS ?occurrences) {
