@@ -47,9 +47,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
         this.subscriptions.push(searchSubscription);
 
-        if (!!this.authService.credentials) {
-            this.getSuggestions();
-        }
+        this.getUserSuggestions();
     }
 
     ngOnDestroy() {
@@ -57,16 +55,18 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.subscriptions = [];
     }
 
-    private getSuggestions(): void {
+    private getUserSuggestions(): void {
         let resultsObservable;
 
         this.loadingSuggestions = true;
 
-        if (this.authService.hasCollectedInterests) {
+        if (!this.authService.credentials) {
+            resultsObservable = this.sparqlService.collectPopularSuggestions();
+        } else if (this.authService.hasCollectedInterests) {
             resultsObservable = this.collectSuggestions(this.authService.userInterests);
         } else {
             const credential = this.authService.credentials.credential as unknown as GithubCredential;
-            resultsObservable = this.interestsService.collectUserInterests(credential.oauthAccessToken)
+            resultsObservable = this.interestsService.collectUserInterests(credential.oauthAccessToken || credential.accessToken)
                 .pipe(
                     flatMap((interests: Array<string>) => {
                         this.authService.userInterests = interests;

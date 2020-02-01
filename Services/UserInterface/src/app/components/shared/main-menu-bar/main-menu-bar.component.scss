@@ -3,7 +3,15 @@
 }
 
 .authentication-area {
+  display: flex;
+  align-items: center;
   color: #147EFB;
+}
+
+.authentication-area > * {
+  margin: 3px;
+  font-size: 16px;
+  font-family: "Comic Sans MS", serif;
 }
 
 .logo-area {

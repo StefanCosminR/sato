@@ -49,6 +49,10 @@ export class AuthenticationService {
     signOut(): void {
         this.credentials = undefined;
         localStorage.removeItem(this.LOGIN_CREDENTIALS);
+
+        this.hasCollectedInterests = false;
+        this.userInterests = [];
+
         this.fireAuth.auth.signOut();
     }
 
@@ -58,11 +62,12 @@ export class AuthenticationService {
                 catchError(error => {
                     return throwError(error);
                 })
-            ).subscribe(credentials => {
-            this.credentials = credentials;
-            localStorage.setItem(this.LOGIN_CREDENTIALS, JSON.stringify(credentials));
-            this.ngZone.run(() => this.router.navigate(['']));
-        });
+            )
+            .subscribe(credentials => {
+                this.credentials = credentials;
+                localStorage.setItem(this.LOGIN_CREDENTIALS, JSON.stringify(credentials));
+                this.ngZone.run(() => this.router.navigate(['']));
+            });
     }
 
     private getGithubAuthProvider(): firebase.auth.AuthProvider {

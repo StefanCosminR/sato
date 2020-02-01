@@ -12,7 +12,6 @@
     <span class="example-spacer"></span>
 
     <span *ngIf="!authService.credentials" class="authentication-area">
-        <!-- TODO after successful authentication, suggestions collection should be performed -->
         <button mat-stroked-button class="github-login-button" title="Login with Github" (click)="authService.githubAuth()">
             <img src="https://icons-for-free.com/iconfiles/png/128/coding+development+github+programming+website+icon-1320168263506646852.png"
                 height="25" width="25">
@@ -21,6 +20,7 @@
     </span>
 
     <span *ngIf="!!authService.credentials" class="authentication-area">
+        <span>{{ authService.credentials.additionalUserInfo.username }}</span>
         <button mat-stroked-button class="logout-button" (click)="authService.signOut()">
             <mat-icon>logout</mat-icon>
             Logout
