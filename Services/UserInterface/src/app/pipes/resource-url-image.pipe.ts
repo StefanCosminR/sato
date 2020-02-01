@@ -7,13 +7,13 @@ export class ResourceUrlImagePipe implements PipeTransform {
     // TODO add if condition for DevDocs domain
     transform(url: string): string {
         if (url.includes('github.com')) {
-            return `${this.IMAGES_LOCATION}/Github.jpg`;
+            return `${this.IMAGES_LOCATION}/Github.png`;
         }
 
         if (url.includes('reddit.com')) {
             return `${this.IMAGES_LOCATION}/Reddit.png`;
         }
 
-        return `${this.IMAGES_LOCATION}/Resource.png`;
+        return `${this.IMAGES_LOCATION}/Resource.jpg`;
     }
 }
