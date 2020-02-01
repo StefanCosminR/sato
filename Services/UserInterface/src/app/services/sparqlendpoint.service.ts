@@ -53,7 +53,7 @@ export class SPARQLEndpointService {
                 Accept: this.acceptHeader,
                 'Content-Type': this.contentTypeHeader
             })
-        }
+        };
     }
 
     private constructCollectPopularTopicsRequestBody(limit: number) {
@@ -113,7 +113,7 @@ export class SPARQLEndpointService {
         topics.forEach((topic, index) => {
             filter += `CONTAINS(STR(?topic), '${topic}') || CONTAINS(STR(?url), '${topic}')`;
             if (index < topics.length - 1) {
-                filter += ' || '
+                filter += ' || ';
             }
         });
         filter += ')';

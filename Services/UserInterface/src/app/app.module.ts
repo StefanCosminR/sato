@@ -30,17 +30,20 @@ import { ResourceNameExtractorPipe } from './pipes/resource-name-extractor.pipe'
 import { ResourceUrlImagePipe } from './pipes/resource-url-image.pipe';
 import { AuthenticationService } from './services/authentication.service';
 import { UserInterestsService } from './services/user-interests.service';
+import { CatalogPageComponent } from './components/pages/catalog-page/catalog-page.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         MainPageComponent,
+        CatalogPageComponent,
         MainMenuBarComponent,
         SearchPageComponent,
         ResourceUrlImagePipe,
         ReactiveInputComponent,
         ResourceNameExtractorPipe,
-        SuggestionsLayoutComponent
+        SuggestionsLayoutComponent,
+        CatalogPageComponent
     ],
     imports: [
         BrowserModule,

@@ -22,17 +22,27 @@
 
         <div *ngIf="!!authService.credentials">
             <div class="menu-item">
-                <img class="profile-picture" src="{{ authService.credentials.user.photoURL }}" alt="" height="25" width="25"/>
+                <img class="profile-picture"
+                     src="{{ authService.credentials.user.photoURL }}"
+                     alt="" height="25" width="25"/>
                 <span>{{ authService.credentials.additionalUserInfo.username }}</span>
                 <mat-icon (click)="authService.signOut()" class="logout-button" title="Logout">logout</mat-icon>
             </div>
         </div>
 
         <div>
-            <div class="menu-item">
+            <div class="menu-item" [routerLink]="'/catalog'">
                 <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/catalog-4-375731.png"
-                     height="25" width="25">
+                     alt="" height="25" width="25">
                 Catalog
+            </div>
+        </div>
+
+        <div>
+            <div class="menu-item" [routerLink]="'/'">
+                <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/home-1702-887572.png"
+                     alt="" height="25" width="25">
+                Home
             </div>
         </div>
     </div>

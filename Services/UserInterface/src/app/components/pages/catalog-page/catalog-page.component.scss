@@ -1,0 +1,40 @@
+.catalog {
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.catalog-item {
+    width: 30%;
+    height: 35%;
+    display: flex;
+    font-size: 30px;
+    font-weight: bold;
+    border-radius: 5%;
+    justify-content: center;
+    font-family: "Comic Sans MS", serif;
+}
+
+.catalog-item:hover {
+    cursor: pointer;
+    border: 3px solid darkred;
+}
+
+.articles {
+    color: #b062dd;
+    background-image: url("https://www.insopra.com/wp-content/uploads/2019/11/online-newspapers-ai_app_1-l.png");
+}
+
+.tutorials {
+    color: whitesmoke;
+    background-size: 100% 100%;
+    background-image: url("https://i.udemycdn.com/course/750x422/2107834_2c48_5.jpg");
+}
+
+.github-repositories {
+    color: #91a0f3;
+    background-size: 100% 100%;
+    background-image: url("https://miro.medium.com/max/10000/1*v6XeL5ZKVBpwwZlqHp-Isw.jpeg");
+}
