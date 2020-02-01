@@ -17,6 +17,16 @@ export class SPARQLEndpointService {
     constructor(private http: HttpClient) {
     }
 
+    public collectPopularSuggestions(): Observable<SPARQLResource[]> {
+        const body = this.constructCollectPopularSuggestionsRequestBody();
+        const httpOptions = this.getSparQlEndpointHttpOptions();
+
+        return this.http.post(environment.apiEndpoints.sparqlQuery, body, httpOptions)
+            .pipe(map((apiResponse: APIResponse) => {
+                return apiResponse.results.bindings.map(binding => new SPARQLResource(binding.url.value));
+            }));
+    }
+
     public suggestFromTopics(topics: Array<string>): Observable<SPARQLResource[]> {
         const body = this.constructSearchByTopicsRequestBody(topics);
         const httpOptions = this.getSparQlEndpointHttpOptions();
@@ -44,6 +54,43 @@ export class SPARQLEndpointService {
                 'Content-Type': this.contentTypeHeader
             })
         }
+    }
+
+    private constructCollectPopularTopicsRequestBody(limit: number) {
+        const query = `
+            PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
+            SELECT ?topic (COUNT(?topic) AS ?occurrences) {
+                ?url :hasTopic ?topic
+            }
+            GROUP BY ?topic
+            ORDER BY DESC(?occurrences)
+            LIMIT ${limit}`;
+
+        return JSON.stringify({
+            query: query.trim().replace('\n', '').replace(/\s+/g, ' ')
+        });
+    }
+
+    private constructCollectPopularSuggestionsRequestBody(): string {
+        const query = `
+            PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
+            SELECT ?url WHERE {
+                ?url :hasTopic ?topic .
+                {
+                    SELECT ?topic (COUNT(?topic) AS ?occurrences) {
+                        ?url :hasTopic ?topic
+                    }
+                    GROUP BY ?topic
+                    ORDER BY DESC(?occurrences)
+                    LIMIT 10
+                }
+            }
+            ORDER BY RAND()
+            LIMIT ${this.SUGGESTIONS_COUNT}`;
+
+        return JSON.stringify({
+            query: query.trim().replace('\n', '').replace(/\s+/g, ' ')
+        });
     }
 
     private constructSearchByTopicsRequestBody(topics: Array<string>): string {
