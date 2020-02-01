@@ -20,10 +20,10 @@
     </span>
 
     <span *ngIf="!!authService.credentials" class="authentication-area">
+        <img src="{{ authService.credentials.user.photoURL }}" alt="" height="25" width="25" />
         <span>{{ authService.credentials.additionalUserInfo.username }}</span>
-        <button mat-stroked-button class="logout-button" (click)="authService.signOut()">
+        <button mat-stroked-button class="logout-button" (click)="authService.signOut()" title="Logout">
             <mat-icon>logout</mat-icon>
-            Logout
         </button>
     </span>
 </mat-toolbar>
