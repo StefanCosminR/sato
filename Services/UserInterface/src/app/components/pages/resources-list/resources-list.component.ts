@@ -11,9 +11,9 @@ import { SPARQLResource } from '../../../models/SPARQLResource';
 })
 export class ResourcesListComponent implements OnInit {
     readonly ACCEPTED_RESOURCE_TYPES = {
-        'articles': ':Article',
+        'repositories': ':Repository',
         'tutorials': ':Tutorial',
-        'repositories': 'Repository'
+        'articles': ':Article'
     };
 
     resources: Array<SPARQLResource>;
