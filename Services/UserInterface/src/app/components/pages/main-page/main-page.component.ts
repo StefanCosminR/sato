@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { BehaviorSubject, Subscription, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, throwError } from 'rxjs';
 import { catchError, filter, flatMap } from 'rxjs/operators';
-import { GithubCredential } from 'src/app/models/github/GithubCredential';
+import { GithubCredential } from '../../../models/github/GithubCredential';
 import { SPARQLResource } from '../../../models/SPARQLResource';
-
 import { AuthenticationService } from '../../../services/authentication.service';
 import { SPARQLEndpointService } from '../../../services/sparqlendpoint.service';
 import { UserInterestsService } from '../../../services/user-interests.service';
@@ -47,9 +46,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
         this.subscriptions.push(searchSubscription);
 
-        if (!!this.authService.credentials) {
-            this.collectSuggestions();
-        }
+        this.getUserSuggestions();
     }
 
     ngOnDestroy() {
@@ -57,21 +54,40 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.subscriptions = [];
     }
 
-    private collectSuggestions(): void {
+    private getUserSuggestions(): void {
+        let resultsObservable;
+
         this.loadingSuggestions = true;
-        const credential = this.authService.credentials.credential as unknown as GithubCredential;
-        this.interestsService.collectUserInterests(credential.oauthAccessToken)
-            .pipe(
-                flatMap((interests: Array<string>) => {
-                    return this.sparqlService.suggestFromTopics(interests);
-                }),
-                catchError(error => {
-                    return throwError(error);
-                })
-            )
-            .subscribe((suggestions: Array<SPARQLResource>) => {
-                this.suggestions = suggestions;
-                this.loadingSuggestions = false;
-            });
+
+        if (!this.authService.credentials) {
+            resultsObservable = this.sparqlService.collectPopularSuggestions();
+        } else if (this.authService.hasCollectedInterests) {
+            resultsObservable = this.collectSuggestions(this.authService.userInterests);
+        } else {
+            const credential = this.authService.credentials.credential as unknown as GithubCredential;
+            resultsObservable = this.interestsService.collectUserInterests(credential.oauthAccessToken || credential.accessToken)
+                .pipe(
+                    flatMap((interests: Array<string>) => {
+                        this.authService.userInterests = interests;
+                        this.authService.hasCollectedInterests = true;
+                        return this.collectSuggestions(this.authService.userInterests);
+                    }),
+                    catchError(error => {
+                        return throwError(error);
+                    })
+                );
+        }
+
+        resultsObservable.subscribe((suggestions: Array<SPARQLResource>) => {
+            this.suggestions = suggestions;
+            this.loadingSuggestions = false;
+        });
+    }
+
+    private collectSuggestions(interests: Array<string>): Observable<Array<SPARQLResource>> {
+        if (!!interests.length) {
+            return this.sparqlService.suggestFromTopics(interests);
+        }
+        return this.sparqlService.collectPopularSuggestions();
     }
 }

@@ -1,10 +1,10 @@
 <div class="suggestions-layout">
     <div *ngFor="let suggestion of suggestions" title="{{ suggestion.url }}">
         <a href="{{ suggestion.url }}" target="_blank">
-            <fieldset class="suggestion">
+            <div class="suggestion">
                 <img src="{{ suggestion.url | resourceUrlImagePipe }}" height="100" width="100"/>
                 <span>{{ suggestion.url | resourceNameExtractorPipe }}</span>
-            </fieldset>
+            </div>
         </a>
     </div>
 </div>

@@ -1,7 +1,7 @@
 <mat-toolbar>
     <span class="logo-area">
         <a [routerLink]="'/'">
-            <img class="logo" src="assets/images/logo.png" alt="SATO logo" />
+            <img class="logo" src="assets/images/logo.png" alt="SATO logo"/>
         </a>
     </span>
 
@@ -11,19 +11,39 @@
 
     <span class="example-spacer"></span>
 
-    <span *ngIf="!authService.credentials" class="authentication-area">
-        <!-- TODO after successful authentication, suggestions collection should be performed -->
-        <button mat-stroked-button class="github-login-button" title="Login with Github" (click)="authService.githubAuth()">
-            <img src="https://icons-for-free.com/iconfiles/png/128/coding+development+github+programming+website+icon-1320168263506646852.png"
-                height="25" width="25">
-            Github
-        </button>
-    </span>
+    <div class="menu">
+        <div *ngIf="!authService.credentials" (click)="authService.githubAuth()">
+            <div class="menu-item" title="Login with Github">
+                <img src="https://icons-for-free.com/iconfiles/png/128/coding+development+github+programming+website+icon-1320168263506646852.png"
+                    height="25" width="25">
+                Github Auth
+            </div>
+        </div>
 
-    <span *ngIf="!!authService.credentials" class="authentication-area">
-        <button mat-stroked-button class="logout-button" (click)="authService.signOut()">
-            <mat-icon>logout</mat-icon>
-            Logout
-        </button>
-    </span>
+        <div *ngIf="!!authService.credentials">
+            <div class="menu-item">
+                <img class="profile-picture"
+                     src="{{ authService.credentials.user.photoURL }}"
+                     alt="" height="25" width="25"/>
+                <span>{{ authService.credentials.additionalUserInfo.username }}</span>
+                <mat-icon (click)="authService.signOut()" class="logout-button" title="Logout">logout</mat-icon>
+            </div>
+        </div>
+
+        <div>
+            <div class="menu-item" [routerLink]="'/catalog'">
+                <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/catalog-4-375731.png"
+                     alt="" height="25" width="25">
+                Catalog
+            </div>
+        </div>
+
+        <div>
+            <div class="menu-item" [routerLink]="'/'">
+                <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/home-1702-887572.png"
+                     alt="" height="25" width="25">
+                Home
+            </div>
+        </div>
+    </div>
 </mat-toolbar>

@@ -15,10 +15,14 @@
 }
 
 .suggestion {
+    margin: 3px;
     display: flex;
+    padding: 15px 15px;
     text-align: center;
     align-items: center;
-    flex-direction: row;
+    border-radius: 0.5em;
+    flex-direction: column;
+    border: 1px solid black;
     justify-content: center;
 }
 

@@ -14,7 +14,7 @@ export const environment = {
         appId: "<APP_ID>"
     },
     apiEndpoints: {
-        sparqlQuery: 'http://0.0.0.0:8080/sparql',
+        sparqlQuery: 'http://0.0.0.0:8099/sparql',
         userInterests: 'http://0.0.0.0:8095/user/interests'
     }
 };

@@ -1,0 +1,40 @@
+<sato-main-menu-bar></sato-main-menu-bar>
+
+<div class="title">
+    {{ resourceType | wordPluralizer }} ({{ totalResources }})
+</div>
+
+<div class="main__container full-height-full-width">
+    <div class="resource-list">
+        <mat-form-field class="search-input">
+            <input matInput
+                   [(ngModel)]="filterOptions.filters.pattern"
+                   (keydown.enter)="search()"
+                   placeholder="Search by pattern..."
+                   [ngModelOptions]="{standalone: true}">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <div *ngIf="!resources.length" class="no-resources-panel">
+            No {{ resourceType }} is available
+        </div>
+
+        <mat-card class="resource" *ngFor="let resource of resources">
+            <ngx-link-preview [apiRoute]="'http://127.0.0.1:3050'"
+                              [getApiEndpoint$]="apiCallbackFunction"
+                              [useHtmlLinkDefaultClickEvent]="true"
+                              [links]="[resource.url]"
+                              [showLinkUrl]="true">
+            </ngx-link-preview>
+        </mat-card>
+
+        <div *ngIf="!!resources.length">
+            <ngb-pagination (pageChange)="collectPageResources($event)"
+                            [collectionSize]="totalResources"
+                            pageSize="{{ PAGE_SIZE }}"
+                            [(page)]="page"
+                            [maxSize]="4">
+            </ngb-pagination>
+        </div>
+    </div>
+</div>

@@ -21,13 +21,16 @@ import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CatalogPageComponent } from './components/pages/catalog-page/catalog-page.component';
 import { MainPageComponent } from './components/pages/main-page/main-page.component';
+import { ResourcesListComponent } from './components/pages/resources-list/resources-list.component';
 import { SearchPageComponent } from './components/pages/search-page/search-page.component';
 import { MainMenuBarComponent } from './components/shared/main-menu-bar/main-menu-bar.component';
 import { ReactiveInputComponent } from './components/shared/reactive-input/reactive-input.component';
 import { SuggestionsLayoutComponent } from './components/shared/suggestions-layout/suggestions-layout.component';
 import { ResourceNameExtractorPipe } from './pipes/resource-name-extractor.pipe';
 import { ResourceUrlImagePipe } from './pipes/resource-url-image.pipe';
+import { WordPluralizerPipe } from './pipes/word-pluralizer.pipe';
 import { AuthenticationService } from './services/authentication.service';
 import { UserInterestsService } from './services/user-interests.service';
 
@@ -35,12 +38,16 @@ import { UserInterestsService } from './services/user-interests.service';
     declarations: [
         AppComponent,
         MainPageComponent,
+        CatalogPageComponent,
         MainMenuBarComponent,
         SearchPageComponent,
         ResourceUrlImagePipe,
+        WordPluralizerPipe,
         ReactiveInputComponent,
         ResourceNameExtractorPipe,
-        SuggestionsLayoutComponent
+        SuggestionsLayoutComponent,
+        CatalogPageComponent,
+        ResourcesListComponent
     ],
     imports: [
         BrowserModule,
