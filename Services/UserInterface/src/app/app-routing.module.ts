@@ -6,12 +6,14 @@ import { CatalogPageComponent } from './components/pages/catalog-page/catalog-pa
 import { MainPageComponent } from './components/pages/main-page/main-page.component';
 import { ResourcesListComponent } from './components/pages/resources-list/resources-list.component';
 import { SearchPageComponent } from './components/pages/search-page/search-page.component';
+import {AdvancedSearchComponent} from './components/pages/advanced-search/advanced-search.component';
 
 const routes: Routes = [
     {path: '', component: MainPageComponent},
     {path: 'search', component: SearchPageComponent},
     {path: 'catalog', component: CatalogPageComponent},
-    {path: 'catalog/:resourceType', component: ResourcesListComponent}
+    {path: 'catalog/:resourceType', component: ResourcesListComponent},
+    {path: 'advanced-search', component: AdvancedSearchComponent}
 ];
 
 @NgModule({

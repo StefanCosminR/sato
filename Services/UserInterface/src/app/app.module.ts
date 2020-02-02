@@ -33,6 +33,10 @@ import { ResourceUrlImagePipe } from './pipes/resource-url-image.pipe';
 import { WordPluralizerPipe } from './pipes/word-pluralizer.pipe';
 import { AuthenticationService } from './services/authentication.service';
 import { UserInterestsService } from './services/user-interests.service';
+import { AdvancedSearchComponent } from './components/pages/advanced-search/advanced-search.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
     declarations: [
@@ -47,7 +51,8 @@ import { UserInterestsService } from './services/user-interests.service';
         ResourceNameExtractorPipe,
         SuggestionsLayoutComponent,
         CatalogPageComponent,
-        ResourcesListComponent
+        ResourcesListComponent,
+        AdvancedSearchComponent
     ],
     imports: [
         BrowserModule,
@@ -66,7 +71,10 @@ import { UserInterestsService } from './services/user-interests.service';
         MatProgressSpinnerModule,
         MatCardModule,
         AngularFireAuthModule,
-        AngularFireModule.initializeApp(environment.firebaseConfig)
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        MatDatepickerModule,
+        MatMomentDateModule,
+        MatNativeDateModule
     ],
     providers: [
         AuthenticationService,
