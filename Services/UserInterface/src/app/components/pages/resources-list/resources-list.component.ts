@@ -72,7 +72,7 @@ export class ResourcesListComponent implements OnInit {
             });
     }
 
-    public apiCallbackFunction(route: string): Observable<any> {
+    public apiCallbackFunction = (route: string): Observable<any> => {
         try {
             return this.http.get(route);
         } catch (error) {
