@@ -68,7 +68,6 @@ export class ResourcesListComponent implements OnInit {
         this.filterOptions.offset = (page - 1) * this.PAGE_SIZE;
         this.sparqlEndpoint.collectClassInstances(this.sparqlClassUrl, this.filterOptions)
             .subscribe(resources => {
-                console.log(resources);
                 this.resources = resources;
             });
     }

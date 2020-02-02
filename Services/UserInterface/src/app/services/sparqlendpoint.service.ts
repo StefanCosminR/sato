@@ -115,7 +115,7 @@ export class SPARQLEndpointService {
         const filters = filterOptions.filters;
 
         if (filters.pattern) {
-            constraints = `${constraints}CONTAINS(STR(?s), "${filters.pattern}") `
+            constraints = `${constraints}CONTAINS(STR(?s), "${filters.pattern}") `;
         }
         constraints += ')';
         return constraints;

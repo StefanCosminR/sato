@@ -3,5 +3,5 @@ export class ResourceSearchInput {
     size: number;
     filters?: {
         pattern?: string;
-    }
+    };
 }
