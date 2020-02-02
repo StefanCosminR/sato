@@ -2,9 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subscription, throwError } from 'rxjs';
 import { catchError, filter, flatMap } from 'rxjs/operators';
-import { GithubCredential } from 'src/app/models/github/GithubCredential';
+import { GithubCredential } from '../../../models/github/GithubCredential';
 import { SPARQLResource } from '../../../models/SPARQLResource';
-
 import { AuthenticationService } from '../../../services/authentication.service';
 import { SPARQLEndpointService } from '../../../services/sparqlendpoint.service';
 import { UserInterestsService } from '../../../services/user-interests.service';

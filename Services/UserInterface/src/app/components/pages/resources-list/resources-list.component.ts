@@ -2,7 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { ResourceSearchInput } from '../../../models/ResourceSearchInput';
 import { SPARQLResource } from '../../../models/SPARQLResource';
+import { SPARQLEndpointService } from '../../../services/sparqlendpoint.service';
 
 @Component({
     selector: 'sato-resources-list',
@@ -10,33 +12,45 @@ import { SPARQLResource } from '../../../models/SPARQLResource';
     styleUrls: ['./resources-list.component.scss']
 })
 export class ResourcesListComponent implements OnInit {
+    readonly SATO_RESOURCE_URL = 'http://www.semanticweb.org/wade/ontologies/sato#';
     readonly ACCEPTED_RESOURCE_TYPES = {
-        'repositories': ':Repository',
-        'tutorials': ':Tutorial',
-        'articles': ':Article'
+        repositories: 'Repository',
+        tutorials: 'Tutorial',
+        articles: 'Article'
     };
+    readonly PAGE_SIZE = 10;
 
+    filterOptions: ResourceSearchInput;
     resources: Array<SPARQLResource>;
-    sparqlClass: string;
+    sparqlClassUrl: string;
+    totalResources: number;
+    resourceType: string;
     pattern: string;
+    page: number;
 
-    constructor(private route: ActivatedRoute,
+    constructor(private sparqlEndpoint: SPARQLEndpointService,
+                private route: ActivatedRoute,
                 private http: HttpClient,
                 private router: Router) {
-        this.sparqlClass = '';
+        this.filterOptions = {offset: 0, size: this.PAGE_SIZE};
+        this.sparqlClassUrl = '';
+        this.totalResources = 0;
+        this.resourceType = '';
         this.resources = [];
         this.pattern = '';
+        this.page = 1;
     }
 
     ngOnInit() {
-        // TODO get first page of resources
         // TODO [NiceToHave] persist filter options between refreshes
         this.route.paramMap.subscribe(params => {
             const resourceType = params.get('resourceType');
             if (!Object.keys(this.ACCEPTED_RESOURCE_TYPES).find(type => type === resourceType)) {
                 this.router.navigate(['catalog']).then();
             }
-            this.sparqlClass = this.ACCEPTED_RESOURCE_TYPES[resourceType];
+            this.resourceType = this.ACCEPTED_RESOURCE_TYPES[resourceType];
+            this.sparqlClassUrl = `${this.SATO_RESOURCE_URL}${this.ACCEPTED_RESOURCE_TYPES[resourceType]}`;
+            this.initPageResources();
         });
     }
 
@@ -44,7 +58,28 @@ export class ResourcesListComponent implements OnInit {
 
     }
 
+    public collectPageResources(page: number): void {
+        this.filterOptions.offset = (page - 1) * this.PAGE_SIZE;
+        this.sparqlEndpoint.collectClassInstances(this.sparqlClassUrl, this.filterOptions)
+            .subscribe(resources => {
+                console.log(resources);
+                this.resources = resources;
+            });
+    }
+
     public apiCallbackFunction(route: string): Observable<any> {
-        return this.http.get(route);
+        try {
+            return this.http.get(route);
+        } catch (error) {
+            console.error('Error on route: ', route);
+        }
+    }
+
+    private initPageResources(): void {
+        this.sparqlEndpoint.countClassInstances(this.sparqlClassUrl, this.filterOptions)
+            .subscribe(count => {
+                this.totalResources = count;
+                this.collectPageResources(this.page);
+            });
     }
 }
