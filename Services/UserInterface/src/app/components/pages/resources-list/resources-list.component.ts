@@ -25,24 +25,27 @@ export class ResourcesListComponent implements OnInit {
     sparqlClassUrl: string;
     totalResources: number;
     resourceType: string;
-    pattern: string;
     page: number;
 
     constructor(private sparqlEndpoint: SPARQLEndpointService,
                 private route: ActivatedRoute,
                 private http: HttpClient,
                 private router: Router) {
-        this.filterOptions = {offset: 0, size: this.PAGE_SIZE};
+        this.filterOptions = {
+            offset: 0,
+            size: this.PAGE_SIZE,
+            filters: {
+                pattern: ''
+            }
+        };
         this.sparqlClassUrl = '';
         this.totalResources = 0;
         this.resourceType = '';
         this.resources = [];
-        this.pattern = '';
         this.page = 1;
     }
 
     ngOnInit() {
-        // TODO [NiceToHave] persist filter options between refreshes
         this.route.paramMap.subscribe(params => {
             const resourceType = params.get('resourceType');
             if (!Object.keys(this.ACCEPTED_RESOURCE_TYPES).find(type => type === resourceType)) {
@@ -55,7 +58,10 @@ export class ResourcesListComponent implements OnInit {
     }
 
     public search(): void {
-
+        this.page = 1;
+        this.resources = [];
+        this.totalResources = 0;
+        this.initPageResources();
     }
 
     public collectPageResources(page: number): void {

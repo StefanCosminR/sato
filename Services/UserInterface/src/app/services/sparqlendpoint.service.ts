@@ -95,8 +95,8 @@ export class SPARQLEndpointService {
         const query = `
             PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-            SELECT ?url WHERE {
-                ?url rdf:type <${sparqlClassUrl}> .
+            SELECT (?s AS ?url) WHERE {
+                ?s rdf:type <${sparqlClassUrl}> .
                 ${this.buildSparQlSearchFilter(filterOptions)}
             }
             ${this.applyResultRestrictions(filterOptions)}`;
@@ -106,8 +106,19 @@ export class SPARQLEndpointService {
         });
     }
 
-    private buildSparQlSearchFilter(filterOptions?: ResourceSearchInput): string {
-        return '';
+    private buildSparQlSearchFilter(filterOptions: ResourceSearchInput): string {
+        if (!filterOptions.filters || !Object.values(filterOptions.filters).find(value => !!value)) {
+            return '';
+        }
+
+        let constraints = 'FILTER (';
+        const filters = filterOptions.filters;
+
+        if (filters.pattern) {
+            constraints = `${constraints}CONTAINS(STR(?s), "${filters.pattern}") `
+        }
+        constraints += ')';
+        return constraints;
     }
 
     private applyResultRestrictions(filterOptions: ResourceSearchInput): string {

@@ -6,15 +6,13 @@
 
 <div class="main__container full-height-full-width">
     <div class="resource-list">
-        <mat-form-field *ngIf="!!resources.length" class="search-input">
+        <mat-form-field class="search-input">
             <input matInput
-                   [(ngModel)]="pattern"
+                   [(ngModel)]="filterOptions.filters.pattern"
                    (keydown.enter)="search()"
                    placeholder="Search by pattern..."
                    [ngModelOptions]="{standalone: true}">
             <mat-icon matSuffix>search</mat-icon>
-
-            <!-- TODO add two multi-selects for wanted topics and not wanted topics -->
         </mat-form-field>
 
         <div *ngIf="!resources.length" class="no-resources-panel">
@@ -34,7 +32,8 @@
             <ngb-pagination (pageChange)="collectPageResources($event)"
                             [collectionSize]="totalResources"
                             pageSize="{{ PAGE_SIZE }}"
-                            [(page)]="page">
+                            [(page)]="page"
+                            [maxSize]="4">
             </ngb-pagination>
         </div>
     </div>
