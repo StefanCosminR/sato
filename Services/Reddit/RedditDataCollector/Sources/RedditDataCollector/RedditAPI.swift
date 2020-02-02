@@ -11,7 +11,7 @@ public struct RedditAPI {
     
     static public func getPosts(for subreddit: Subreddit,
                          onCompletion:  @escaping (_ result: Result<[RedditPost], Error>) -> ()) {
-        let timeInterval = getTimeInterval(daysPrior: 14)
+        let timeInterval = getTimeInterval(daysPrior: 7)
         
         let queryParams = [
             URLQueryItem(name: "subreddit", value: subreddit.rawValue),
@@ -19,10 +19,12 @@ public struct RedditAPI {
             URLQueryItem(name: "sort_type", value: "score"),
             URLQueryItem(name: "after", value: String(timeInterval.begin)),
             URLQueryItem(name: "before", value: String(timeInterval.end)),
-            URLQueryItem(name: "size", value: "300")
+            URLQueryItem(name: "size", value: "10")
         ]
         
         let redditURL = constructURL(queryParams: queryParams)
+        
+        print("Started getting posts")
         
         let task = URLSession.shared.dataTask(with: redditURL) { data, urlResponse, error in
             if let error = error {
@@ -52,12 +54,14 @@ public struct RedditAPI {
     static func populateTags(for posts: [RedditPost],
                              onCompletion: @escaping (_ result: Result<[RedditPost], Error>) -> ()) {
         
-        
+        print("Started populating tags for all \(posts.count) posts")
         func populate(_ index: Int = 0) {
             if index == posts.count {
                 onCompletion(.success(posts))
                 return
             }
+            
+            print("Getting tag for post at index \(index)")
             
             TextRazorAPI.analyze(post: posts[index]) { err in
                 if err != nil {

@@ -16,9 +16,9 @@ struct TextRazorAPI {
         var request = URLRequest(url: url)
         
         
-        let requestBodyRaw: [String: Any] = ["url": post.url, "extractors": "topics"]
+        let requestBodyRaw: [String: String] = ["url": post.url.absoluteString, "extractors": "topics"]
         let requestBody = encodeForURL(requestBodyRaw)
-        
+                
         request.httpMethod = "POST"
         request.httpBody = requestBody.data(using: .utf8)!
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -51,7 +51,7 @@ struct TextRazorAPI {
                         return false
                     }
                     
-                    if chosenTopics < 10 {
+                    if chosenTopics < 15 {
                         return true
                     }
                     
@@ -65,23 +65,31 @@ struct TextRazorAPI {
                     
                     chosenTopics += 1
                     let wikiLink = topic.wikiLink != "None" ? topic.wikiLink : nil
-                    
-                    post.tags.append(RedditPost.Tag(name: topic.label, extraLink: wikiLink))
+                    let wikidataId = topic.wikidataId != "None" ? topic.wikidataId : nil
+                    post.tags.append(.init(name: topic.label, extraLink: wikiLink, wikidataId: wikidataId))
                 }
                 
                 onCompletion(nil)
             } catch {
+                print(String(data: data, encoding: .utf8) as Any)
                 onCompletion(error)
             }
             
         }.resume()
     }
     
-    private static func encodeForURL(_ body: [String: Any]) -> String {
-        var stringified = body.reduce("") { (carry, keyValue) in "\(carry)\(keyValue.0)=\(keyValue.1)&" }
+    private static func encodeForURL(_ body: [String: String]) -> String {
+        var stringified = ""
+        
+        for (key, value) in body {
+            let escapedBody = value.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)!
+                .replacingOccurrences(of: "=", with: "%3D")
+            stringified += "\(key)=\(escapedBody)&"
+        }
+        
         stringified.removeLast()
         
-        return stringified.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        return stringified
     }
     
     
@@ -103,5 +111,6 @@ fileprivate struct TextRazorAPIResponse: Decodable {
         let label: String
         let score: Double
         let wikiLink: String
+        let wikidataId: String?
     }
 }

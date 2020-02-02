@@ -5,7 +5,7 @@ import Foundation
 import RedditDataCollector
 
 func transformRedditPostsToTurtle(_ posts: [RedditPost]) -> String {
-    var turtle = ""
+    var turtle = "@prefix wd: <http://www.wikidata.org/entity/> .\n\n"
     
     var alreadyProcessedTags: Set<String> = Set()
     
@@ -17,10 +17,23 @@ func transformRedditPostsToTurtle(_ posts: [RedditPost]) -> String {
         
         var localTurtleEntry = ""
         
-        localTurtleEntry += "<\(subject)> rdf:type :Article .\n"
+        let resourceType = getResourceType(basedOn: post.url.absoluteString)
+        
+        localTurtleEntry += "<\(subject)> rdf:type \(resourceType) .\n"
         localTurtleEntry += "<\(subject)> rdfs:label '''\(label)'''^^xsd:string .\n"
         
+        // retrieved on conversion and saving
+        let date = Date(timeIntervalSince1970: TimeInterval(post.retrievedOn))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let retrievedOn = dateFormatter.string(from: date)
+        localTurtleEntry += "<\(subject)> :createdAt '''\(retrievedOn)'''^^xsd:date .\n"
+        
         for tag in post.tags {
+            
+            if let wikidataId = tag.wikidataId {
+                localTurtleEntry += "<\(subject)> :hasTopic wd:\(wikidataId) .\n"
+            }
             
             if let extraLink = tag.extraLink {
                 defer {
@@ -33,7 +46,7 @@ func transformRedditPostsToTurtle(_ posts: [RedditPost]) -> String {
                 localTurtleEntry += "<\(extraLink)> rdf:type :Topic .\n"
                 localTurtleEntry += "<\(extraLink)> rdfs:label '''\(tag.name)'''^^xsd:string .\n"
             } else {
-                let tagName = tag.name.replacingOccurrences(of: " ", with: "")
+                let tagName = tag.name.replacingOccurrences(of: " ", with: "-")
                 defer {
                     localTurtleEntry += "<\(subject)> :hasTopic :\(tagName) .\n"
                 }
@@ -49,4 +62,14 @@ func transformRedditPostsToTurtle(_ posts: [RedditPost]) -> String {
     }
     
     return turtle
+}
+
+private func getResourceType(basedOn url: String) -> String {
+    if url.contains("youtu") {
+        return ":Tutorial"
+    } else if url.contains("github") {
+        return ":Repository"
+    } else {
+        return ":Article"
+    }
 }

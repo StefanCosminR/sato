@@ -1,4 +1,5 @@
 @prefix : <http://www.semanticweb.org/wade/ontologies/sato#> .
+@prefix wd: <http://www.wikidata.org/entity/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
@@ -16,6 +17,16 @@
 ###  http://www.semanticweb.org/wade/ontologies/sato#contributesTo
 :contributesTo rdf:type owl:ObjectProperty ;
                owl:inverseOf :hasContributor .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#createdAt
+:createdAt rdf:type owl:ObjectProperty ;
+           rdfs:domain :Resource ;
+           rdfs:range [ rdf:type owl:Restriction ;
+                        owl:onProperty owl:topDataProperty ;
+                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onDataRange xsd:date
+                      ] .
 
 
 ###  http://www.semanticweb.org/wade/ontologies/sato#follows

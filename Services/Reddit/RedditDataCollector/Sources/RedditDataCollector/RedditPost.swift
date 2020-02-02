@@ -11,6 +11,7 @@ public final class RedditPost: Codable {
     public private(set) var title: String
     public private(set) var totalAwardsReceived: Int
     public private(set) var url: URL
+    public private(set) var retrievedOn: Int
     public var tags: [Tag] = []
     
     private enum CodingKeys: String, CodingKey{
@@ -21,6 +22,7 @@ public final class RedditPost: Codable {
         case title
         case totalAwardsReceived = "total_awards_received"
         case url
+        case retrievedOn = "retrieved_on"
     }
     
     public required init(from decoder: Decoder) throws {
@@ -36,10 +38,12 @@ public final class RedditPost: Codable {
         title = try container.decode(String.self, forKey: .title)
         totalAwardsReceived = try container.decode(Int.self, forKey: .totalAwardsReceived)
         url = URL(string: try container.decode(String.self, forKey: .url))!
+        retrievedOn = try container.decode(Int.self, forKey: .retrievedOn)
     }
     
     public struct Tag {
         public let name: String
         public let extraLink: String?
+        public let wikidataId: String?
     }
 }
