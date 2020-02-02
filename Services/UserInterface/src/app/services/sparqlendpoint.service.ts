@@ -69,6 +69,27 @@ export class SPARQLEndpointService {
             }));
     }
 
+    public getAllTopics(): Observable<string[]> {
+        const query = `
+            PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
+            SELECT DISTINCT ?topic WHERE {
+                ?s :hasTopic ?topic
+            }
+            ORDER BY ?topic
+        `;
+        const options = this.getSparQlEndpointHttpOptions();
+        const body = JSON.stringify({
+            query: query.trim().replace('\n', '').replace(/\s+/g, ' ')
+        });
+
+        return this.http.post(environment.apiEndpoints.sparqlQuery, body, options)
+            .pipe(map(result => {
+                // transform result to string[]
+                console.log('result', result);
+                return ['da'];
+            }));
+    }
+
     private getSparQlEndpointHttpOptions(): { headers: HttpHeaders } {
         return {
             headers: new HttpHeaders({
