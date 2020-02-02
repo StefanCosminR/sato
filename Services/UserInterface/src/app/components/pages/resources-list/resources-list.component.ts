@@ -18,7 +18,7 @@ export class ResourcesListComponent implements OnInit {
         tutorials: 'Tutorial',
         articles: 'Article'
     };
-    readonly PAGE_SIZE = 10;
+    readonly PAGE_SIZE = 5;
 
     filterOptions: ResourceSearchInput;
     resources: Array<SPARQLResource>;
