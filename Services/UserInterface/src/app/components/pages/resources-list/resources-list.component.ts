@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { TurtleNamespace } from '../../../constants/TurtleNamespace';
 import { ResourceSearchInput } from '../../../models/ResourceSearchInput';
 import { SPARQLResource } from '../../../models/SPARQLResource';
 import { SPARQLEndpointService } from '../../../services/sparqlendpoint.service';
@@ -12,7 +13,6 @@ import { SPARQLEndpointService } from '../../../services/sparqlendpoint.service'
     styleUrls: ['./resources-list.component.scss']
 })
 export class ResourcesListComponent implements OnInit {
-    readonly SATO_RESOURCE_URL = 'http://www.semanticweb.org/wade/ontologies/sato#';
     readonly ACCEPTED_RESOURCE_TYPES = {
         repositories: 'Repository',
         tutorials: 'Tutorial',
@@ -52,7 +52,7 @@ export class ResourcesListComponent implements OnInit {
                 this.router.navigate(['catalog']).then();
             }
             this.resourceType = this.ACCEPTED_RESOURCE_TYPES[resourceType];
-            this.sparqlClassUrl = `${this.SATO_RESOURCE_URL}${this.ACCEPTED_RESOURCE_TYPES[resourceType]}`;
+            this.sparqlClassUrl = `${TurtleNamespace.SATO}${this.resourceType}`;
             this.initPageResources();
         });
     }

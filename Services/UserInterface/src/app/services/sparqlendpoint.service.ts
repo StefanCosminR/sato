@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { ResourceSearchInput } from '../models/ResourceSearchInput';
+import { APICountResponse, APISearchResponse } from '../models/SearchResponses';
 import { SPARQLResource } from '../models/SPARQLResource';
 
 @Injectable({
@@ -69,27 +70,6 @@ export class SPARQLEndpointService {
             }));
     }
 
-    public getAllTopics(): Observable<string[]> {
-        const query = `
-            PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
-            SELECT DISTINCT ?topic WHERE {
-                ?s :hasTopic ?topic
-            }
-            ORDER BY ?topic
-        `;
-        const options = this.getSparQlEndpointHttpOptions();
-        const body = JSON.stringify({
-            query: query.trim().replace('\n', '').replace(/\s+/g, ' ')
-        });
-
-        return this.http.post(environment.apiEndpoints.sparqlQuery, body, options)
-            .pipe(map(result => {
-                // transform result to string[]
-                console.log('result', result);
-                return ['da'];
-            }));
-    }
-
     private getSparQlEndpointHttpOptions(): { headers: HttpHeaders } {
         return {
             headers: new HttpHeaders({
@@ -127,8 +107,9 @@ export class SPARQLEndpointService {
         });
     }
 
-    private buildSparQlSearchFilter(filterOptions: ResourceSearchInput): string {
-        if (!filterOptions.filters || !Object.values(filterOptions.filters).find(value => !!value)) {
+    private buildSparQlSearchFilter(filterOptions?: ResourceSearchInput): string {
+        if (!filterOptions || !filterOptions.filters ||
+            !Object.values(filterOptions.filters).find(value => !!value)) {
             return '';
         }
 
@@ -142,8 +123,22 @@ export class SPARQLEndpointService {
         return constraints;
     }
 
-    private applyResultRestrictions(filterOptions: ResourceSearchInput): string {
-        return `OFFSET ${filterOptions.offset} LIMIT ${filterOptions.size}`;
+    private applyResultRestrictions(filterOptions?: ResourceSearchInput): string {
+        if (!filterOptions) {
+            return '';
+        }
+
+        let restrictions = '';
+
+        if (!!filterOptions.offset) {
+            restrictions = `${restrictions} OFFSET ${filterOptions.offset} `;
+        }
+
+        if (!!filterOptions.size) {
+            restrictions = `${restrictions} LIMIT ${filterOptions.size} `;
+        }
+
+        return restrictions;
     }
 
     private constructCollectPopularTopicsRequestBody(limit: number): string {
@@ -228,18 +223,4 @@ export class SPARQLEndpointService {
             LIMIT ${pageSize} OFFSET ${offset}
     `.trim().replace('\n', '').replace(/\s+/g, ' ');
     }
-}
-
-class APISearchResponse {
-    head: object;
-    results: {
-        bindings: Array<{ url: { type: string, value: string } }>
-    };
-}
-
-class APICountResponse {
-    head: object;
-    results: {
-        bindings: Array<{ instances: { type: string, value: string } }>
-    };
 }

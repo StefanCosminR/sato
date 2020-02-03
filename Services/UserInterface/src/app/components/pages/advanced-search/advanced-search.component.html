@@ -4,32 +4,62 @@
         <form>
             <div class="form-group">
                 <label for="pattern">Pattern</label>
-                <input type="text" class="form-control" id="pattern">
+                <input type="text" class="form-control" id="pattern" name="pattern" [(ngModel)]="searchedPattern">
             </div>
 
             <div class="form-group">
                 <label for="includedTopics">Included topics</label>
-                <input type="text" class="form-control" id="includedTopics">
+                <ng-multiselect-dropdown [data]="topics"
+                                         id="includedTopics"
+                                         name="topicsSelect"
+                                         [(ngModel)]="selectedTopics"
+                                         [settings]="multiSelectSettings"
+                                         [placeholder]="'Choose topics of interest...'">
+                </ng-multiselect-dropdown>
             </div>
 
             <div class="form-group">
                 <label for="excludedTopics">Excluded topics</label>
-                <input type="text" class="form-control" id="excludedTopics">
+                <ng-multiselect-dropdown [data]="topics"
+                                         id="excludedTopics"
+                                         name="topicsExclusionSelect"
+                                         [(ngModel)]="excludedTopics"
+                                         [settings]="multiSelectSettings"
+                                         [placeholder]="'Choose topics to exclude...'">
+                </ng-multiselect-dropdown>
             </div>
 
             <div class="form-group">
                 <label for="programmingLanguage">Programming language</label>
-                <input type="text" class="form-control" id="programmingLanguage">
+                <ng-multiselect-dropdown id="programmingLanguage"
+                                         [data]="programmingLanguages"
+                                         name="programmingLanguageSelect"
+                                         [settings]="multiSelectSettings"
+                                         [(ngModel)]="selectedProgrammingLanguages"
+                                         [placeholder]="'Choose programming languages of interest...'">
+                </ng-multiselect-dropdown>
             </div>
 
             <div class="form-group">
                 <label for="language">Language</label>
-                <input type="text" class="form-control" id="language">
+                <ng-multiselect-dropdown id="language"
+                                         [data]="languages"
+                                         name="languageSelect"
+                                         [(ngModel)]="selectedLanguages"
+                                         [settings]="multiSelectSettings"
+                                         [placeholder]="'Choose results language...'">
+                </ng-multiselect-dropdown>
             </div>
 
             <div class="form-group">
                 <label for="platform">Platform</label>
-                <input type="text" class="form-control" id="platform">
+                <ng-multiselect-dropdown id="platform"
+                                         [data]="platforms"
+                                         name="platformSelect"
+                                         [(ngModel)]="selectedPlatforms"
+                                         [settings]="multiSelectSettings"
+                                         [placeholder]="'Choose platforms of interest...'">
+                </ng-multiselect-dropdown>
             </div>
 
             <div>
@@ -48,6 +78,7 @@
 
             <button type="submit" class="btn btn-primary">Submit</button>
 
+            <button class="btn btn-outline-danger" (click)="resetFilters()">Reset Filters</button>
         </form>
     </div>
 </div>

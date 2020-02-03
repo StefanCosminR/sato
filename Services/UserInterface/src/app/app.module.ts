@@ -10,17 +10,22 @@ import {
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatNativeDateModule,
     MatToolbarModule
 } from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgxLinkPreviewModule } from 'ngx-link-preview';
 import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AdvancedSearchComponent } from './components/pages/advanced-search/advanced-search.component';
 import { CatalogPageComponent } from './components/pages/catalog-page/catalog-page.component';
 import { MainPageComponent } from './components/pages/main-page/main-page.component';
 import { ResourcesListComponent } from './components/pages/resources-list/resources-list.component';
@@ -33,48 +38,44 @@ import { ResourceUrlImagePipe } from './pipes/resource-url-image.pipe';
 import { WordPluralizerPipe } from './pipes/word-pluralizer.pipe';
 import { AuthenticationService } from './services/authentication.service';
 import { UserInterestsService } from './services/user-interests.service';
-import { AdvancedSearchComponent } from './components/pages/advanced-search/advanced-search.component';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
     declarations: [
         AppComponent,
         MainPageComponent,
-        CatalogPageComponent,
-        MainMenuBarComponent,
+        WordPluralizerPipe,
         SearchPageComponent,
         ResourceUrlImagePipe,
-        WordPluralizerPipe,
-        ReactiveInputComponent,
-        ResourceNameExtractorPipe,
-        SuggestionsLayoutComponent,
         CatalogPageComponent,
+        MainMenuBarComponent,
+        ReactiveInputComponent,
         ResourcesListComponent,
-        AdvancedSearchComponent
+        AdvancedSearchComponent,
+        ResourceNameExtractorPipe,
+        SuggestionsLayoutComponent
     ],
     imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
         NgbModule,
         FormsModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatIconModule,
-        MatLinkPreviewModule,
-        NgxLinkifyjsModule,
-        NgxLinkPreviewModule,
-        MatProgressSpinnerModule,
+        BrowserModule,
         MatCardModule,
-        AngularFireAuthModule,
-        AngularFireModule.initializeApp(environment.firebaseConfig),
+        MatIconModule,
+        MatInputModule,
+        MatButtonModule,
+        AppRoutingModule,
+        MatToolbarModule,
+        MatFormFieldModule,
+        NgxLinkifyjsModule,
         MatDatepickerModule,
         MatMomentDateModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        MatLinkPreviewModule,
+        NgxLinkPreviewModule,
+        AngularFireAuthModule,
+        BrowserAnimationsModule,
+        MatProgressSpinnerModule,
+        NgMultiSelectDropDownModule.forRoot(),
+        AngularFireModule.initializeApp(environment.firebaseConfig)
     ],
     providers: [
         AuthenticationService,
