@@ -11,6 +11,14 @@
                                                    owl:versionIRI <http://www.semanticweb.org/wade/ontologies/sato/1.0.0> .
 
 #################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/2001/XMLSchema#date
+xsd:date rdf:type rdfs:Datatype .
+
+
+#################################################################
 #    Object Properties
 #################################################################
 
@@ -157,6 +165,11 @@
                               owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
                               owl:onClass :GitHubUser
                             ] .
+
+
+###  http://www.semanticweb.org/wade/ontologies/sato#News
+:News rdf:type owl:Class ;
+      rdfs:subClassOf :Resource .
 
 
 ###  http://www.semanticweb.org/wade/ontologies/sato#Preference

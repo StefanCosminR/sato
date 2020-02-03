@@ -4,8 +4,8 @@
 import Foundation
 import RedditDataCollector
 
-func transformRedditPostsToTurtle(_ posts: [RedditPost]) -> String {
-    var turtle = "@prefix wd: <http://www.wikidata.org/entity/> .\n\n"
+public func transformRedditPostsToTurtle(_ posts: [RedditPost]) -> String {
+    var turtle = ""
     
     var alreadyProcessedTags: Set<String> = Set()
     
@@ -17,7 +17,7 @@ func transformRedditPostsToTurtle(_ posts: [RedditPost]) -> String {
         
         var localTurtleEntry = ""
         
-        let resourceType = getResourceType(basedOn: post.url.absoluteString)
+        let resourceType = getResourceType(for: post)
         
         localTurtleEntry += "<\(subject)> rdf:type \(resourceType) .\n"
         localTurtleEntry += "<\(subject)> rdfs:label '''\(label)'''^^xsd:string .\n"
@@ -64,11 +64,13 @@ func transformRedditPostsToTurtle(_ posts: [RedditPost]) -> String {
     return turtle
 }
 
-private func getResourceType(basedOn url: String) -> String {
-    if url.contains("youtu") {
+private func getResourceType(for post: RedditPost) -> String {
+    if post.url.absoluteString.contains("youtu") {
         return ":Tutorial"
-    } else if url.contains("github") {
+    } else if post.url.absoluteString.contains("github") {
         return ":Repository"
+    } else if post.subreddit == Subreddit.technology.rawValue {
+        return ":News"
     } else {
         return ":Article"
     }

@@ -11,6 +11,7 @@ let package = Package(
     products: [
         .library(name: "RedditDataCollector", targets: ["RedditDataCollector"]),
         .executable(name: "RedditDataCollector-CLI", targets: ["RedditDataCollector-CLI"]),
+        .executable(name: "RedditDataCollector-CLI-FileInput", targets: ["RedditDataCollector-CLI-FileInput"]),
         .executable(name: "RunServer", targets: ["RunServer"]),
         .library(name: "Server", targets: ["Server"])
     ],
@@ -26,6 +27,9 @@ let package = Package(
         .target(
             name: "RedditDataCollector-CLI",
             dependencies: ["RedditDataCollector"]),
+        .target(
+            name: "RedditDataCollector-CLI-FileInput",
+            dependencies: ["RedditDataCollector", "RedditDataCollector-CLI"]),
         .testTarget(
             name: "RedditDataCollectorTests",
             dependencies: ["RedditDataCollector"]),
