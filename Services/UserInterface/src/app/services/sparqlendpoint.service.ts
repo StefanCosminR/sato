@@ -92,12 +92,14 @@ export class SPARQLEndpointService {
         });
     }
 
+    // TODO Turn on reasoning so that ?s rdf:type :Resource works
     private constructCollectClassInstancesRequestBody(sparqlClassUrl: string, filterOptions?: ResourceSearchInput) {
         const query = `
             PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-            SELECT (?s AS ?url) WHERE {
+            SELECT DISTINCT ?url WHERE {
                 ?s rdf:type <${sparqlClassUrl}> .
+                BIND(?s as ?url) .
                 ${this.buildSparQlSearchFilter(filterOptions)}
             }
             ${this.applyResultRestrictions(filterOptions)}`;

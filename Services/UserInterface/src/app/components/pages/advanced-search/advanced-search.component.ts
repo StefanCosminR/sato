@@ -3,6 +3,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TurtleNamespace } from '../../../constants/TurtleNamespace';
+import { ResourceSearchInput } from '../../../models/ResourceSearchInput';
 import { SPARQLResource } from '../../../models/SPARQLResource';
 import { SPARQLEndpointService } from '../../../services/sparqlendpoint.service';
 
@@ -18,7 +19,9 @@ interface SelectItem {
 })
 export class AdvancedSearchComponent implements OnInit {
     readonly PROGRAMMING_LANGUAGE_CLASS = `${TurtleNamespace.SATO}ProgrammingLanguage`;
+    readonly RESOURCE_CLASS = `${TurtleNamespace.SATO}Resource`;
     readonly TOPIC_CLASS = `${TurtleNamespace.SATO}Topic`;
+    readonly PAGE_SIZE = 5;
 
     public programmingLanguages: Array<SelectItem>;
     public languages: Array<SelectItem>;
@@ -64,6 +67,14 @@ export class AdvancedSearchComponent implements OnInit {
         });
     }
 
+    public search(): void {
+        // TODO include dateRange filtering
+        const filterOptions = this.buildResourceFilterOptions(1);
+        this.sparqlEndpointService
+            .collectClassInstances(this.RESOURCE_CLASS, filterOptions)
+            .subscribe(console.log);
+    }
+
     public resetFilters(): void {
         this.selectedProgrammingLanguages = [];
         this.selectedLanguages = [];
@@ -103,5 +114,20 @@ export class AdvancedSearchComponent implements OnInit {
             {id: 'Linux', text: 'Linux'},
             {id: 'Windows', text: 'Windows'}
         ];
+    }
+
+    private buildResourceFilterOptions(page: number): ResourceSearchInput {
+        return {
+            offset: (page - 1) * this.PAGE_SIZE,
+            size: this.PAGE_SIZE,
+            filters: {
+                programmingLanguages: this.selectedProgrammingLanguages.map(language => language.text),
+                languages: this.selectedLanguages.map(language => language.text),
+                platforms: this.selectedPlatforms.map(platform => platform.text),
+                includedTopics: this.selectedTopics.map(topic => topic.text),
+                excludedTopics: this.excludedTopics.map(topic => topic.text),
+                pattern: this.searchedPattern
+            }
+        };
     }
 }
