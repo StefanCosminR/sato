@@ -3,4 +3,5 @@
 
 public enum Subreddit: String {
     case programming = "programming"
+    case technology = "technology"
 }
