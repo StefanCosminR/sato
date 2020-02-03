@@ -16,7 +16,8 @@ export class ResourcesListComponent implements OnInit {
     readonly ACCEPTED_RESOURCE_TYPES = {
         repositories: 'Repository',
         tutorials: 'Tutorial',
-        articles: 'Article'
+        articles: 'Article',
+        news: 'News'
     };
     readonly PAGE_SIZE = 5;
 

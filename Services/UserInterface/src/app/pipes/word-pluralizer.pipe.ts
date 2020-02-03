@@ -10,6 +10,8 @@ export class WordPluralizerPipe implements PipeTransform {
                 return 'Tutorials';
             case 'Repository':
                 return 'Repositories';
+            case 'News':
+                return 'News';
             default:
                 return '';
         }

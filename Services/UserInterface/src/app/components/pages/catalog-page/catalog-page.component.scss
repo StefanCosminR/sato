@@ -7,8 +7,8 @@
 }
 
 .catalog-item {
-    width: 30%;
-    height: 35%;
+    width: 35%;
+    height: 45%;
     display: flex;
     font-size: 30px;
     font-weight: bold;
@@ -31,6 +31,12 @@
     color: whitesmoke;
     background-size: 100% 100%;
     background-image: url("https://i.udemycdn.com/course/750x422/2107834_2c48_5.jpg");
+}
+
+.news {
+    color: #343a40;
+    background-size: 100% 100%;
+    background-image: url("https://www.lifewire.com/thmb/R1xlk14ESo0FNAfix5YFzIN2ihA=/768x0/filters:no_upscale():max_bytes(150000):strip_icc()/web-design-2a3c69e8011a4bf29bbbb975596017c3.png");
 }
 
 .github-repositories {
