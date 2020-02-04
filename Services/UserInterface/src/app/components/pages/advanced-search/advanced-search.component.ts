@@ -78,10 +78,11 @@ export class AdvancedSearchComponent implements OnInit {
     }
 
     public submitSearch = (): void => {
-        const filterOptions = this.buildResourceFilterOptions(1);
+        this.page = 1;
+        const filterOptions = this.buildResourceFilterOptions(this.page);
         this.sparqlEndpoint.countClassInstances(this.RESOURCE_CLASS, filterOptions).subscribe(count => {
             this.totalResults = count;
-            this.collectResourcePage(1);
+            this.collectResourcePage(this.page);
         });
     }
 
@@ -91,6 +92,7 @@ export class AdvancedSearchComponent implements OnInit {
         this.sparqlEndpoint.collectClassInstances(this.RESOURCE_CLASS, filterOptions).subscribe(results => {
             this.searchResults = results;
             this.toggledSearch = true;
+            this.page = page;
         });
     }
 

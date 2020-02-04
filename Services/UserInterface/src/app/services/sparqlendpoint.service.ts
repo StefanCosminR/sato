@@ -81,9 +81,10 @@ export class SPARQLEndpointService {
 
     private constructCountClassInstancesRequestBody(sparqlClassUrl: string, filterOptions?: ResourceSearchInput) {
         const query = `
+            PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
             SELECT (COUNT(?s) AS ?instances) WHERE {
-                ?s rdf:type <${sparqlClassUrl}>
+                ?s rdf:type <${sparqlClassUrl}> .
                 ${this.buildSparQlSearchFilter(filterOptions)}
             }`;
 
@@ -92,6 +93,7 @@ export class SPARQLEndpointService {
         });
     }
 
+    // TODO sanitize input in a similar way as in GithubService.GithubDataTransformer (e.g: "C++" search crashes)
     private constructCollectClassInstancesRequestBody(sparqlClassUrl: string, filterOptions?: ResourceSearchInput) {
         const query = `
             PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
@@ -114,13 +116,36 @@ export class SPARQLEndpointService {
             return '';
         }
 
-        let constraints = 'FILTER (';
+        let constraints = '';
         const filters = filterOptions.filters;
 
         if (filters.pattern) {
-            constraints = `${constraints}CONTAINS(STR(?s), "${filters.pattern}") `;
+            constraints = `${constraints}\nFILTER (CONTAINS(STR(?s), "${filters.pattern}")) .`;
         }
-        constraints += ')';
+
+        if (filters.includedTopics && filters.includedTopics.length) {
+            const topics = filters.includedTopics.map(topic => `:${topic}`).join(', ');
+            constraints = `${constraints}
+            ?s :hasTopic ?topic .
+            FILTER (?topic IN (${topics})) .
+            `;
+        }
+
+        if (filters.excludedTopics && filters.excludedTopics.length) {
+            const filterExpression = filters.excludedTopics
+                .map(topic => `FILTER NOT EXISTS { ?s :hasTopic :${topic} }`)
+                .join(' .\n');
+            constraints = `${constraints} ${filterExpression} .`;
+        }
+
+        if (filters.programmingLanguages && !!filters.programmingLanguages.length) {
+            const programmingLanguages = filters.programmingLanguages.map(language => `:${language}`).join(', ');
+            constraints = `${constraints}
+            ?s :hasProgrammingLanguage ?programmingLanguage .
+            FILTER (?programmingLanguage IN (${programmingLanguages})) .
+            `;
+        }
+
         return constraints;
     }
 

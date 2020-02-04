@@ -11,9 +11,9 @@ import { SPARQLResource } from '../../../models/SPARQLResource';
 export class PaginatedResultsListComponent {
     readonly PAGE_SIZE = 5;
 
+    @Input() onPageChange: (page: number) => void;
     @Input() resources: Array<SPARQLResource>;
     @Input() totalResources: number;
-    @Input() onPageChange: Function;
     @Input() resourceType?: string;
     @Input() page: number;
 
