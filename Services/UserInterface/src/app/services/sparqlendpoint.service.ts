@@ -92,7 +92,6 @@ export class SPARQLEndpointService {
         });
     }
 
-    // TODO Turn on reasoning so that ?s rdf:type :Resource works
     private constructCollectClassInstancesRequestBody(sparqlClassUrl: string, filterOptions?: ResourceSearchInput) {
         const query = `
             PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>

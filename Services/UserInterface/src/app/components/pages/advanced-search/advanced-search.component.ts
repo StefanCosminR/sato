@@ -35,6 +35,11 @@ export class AdvancedSearchComponent implements OnInit {
     public selectedTopics: Array<SelectItem>;
     public excludedTopics: Array<SelectItem>;
 
+    public searchResults: Array<SPARQLResource>;
+    public toggledSearch: boolean;
+    public totalResults: number;
+    public page: number;
+
     public multiSelectSettings: IDropdownSettings = {
         unSelectAllText: 'UnSelect All',
         selectAllText: 'Select All',
@@ -43,7 +48,7 @@ export class AdvancedSearchComponent implements OnInit {
         itemsShowLimit: 5
     };
 
-    constructor(private sparqlEndpointService: SPARQLEndpointService) {
+    constructor(private sparqlEndpoint: SPARQLEndpointService) {
         this.programmingLanguages = [];
         this.selectedPlatforms = [];
         this.selectedLanguages = [];
@@ -55,6 +60,11 @@ export class AdvancedSearchComponent implements OnInit {
         this.selectedProgrammingLanguages = [];
         this.selectedTopics = [];
         this.excludedTopics = [];
+
+        this.toggledSearch = false;
+        this.searchResults = [];
+        this.totalResults = 0;
+        this.page = 1;
     }
 
     ngOnInit() {
@@ -67,12 +77,21 @@ export class AdvancedSearchComponent implements OnInit {
         });
     }
 
-    public search(): void {
-        // TODO include dateRange filtering
+    public submitSearch = (): void => {
         const filterOptions = this.buildResourceFilterOptions(1);
-        this.sparqlEndpointService
-            .collectClassInstances(this.RESOURCE_CLASS, filterOptions)
-            .subscribe(console.log);
+        this.sparqlEndpoint.countClassInstances(this.RESOURCE_CLASS, filterOptions).subscribe(count => {
+            this.totalResults = count;
+            this.collectResourcePage(1);
+        });
+    }
+
+    public collectResourcePage = (page): void => {
+        // TODO include dateRange filtering
+        const filterOptions = this.buildResourceFilterOptions(page);
+        this.sparqlEndpoint.collectClassInstances(this.RESOURCE_CLASS, filterOptions).subscribe(results => {
+            this.searchResults = results;
+            this.toggledSearch = true;
+        });
     }
 
     public resetFilters(): void {
@@ -85,7 +104,7 @@ export class AdvancedSearchComponent implements OnInit {
     }
 
     private collectClassInstanceNames(sparqlClassUrl: string): Observable<Array<SelectItem>> {
-        return this.sparqlEndpointService.collectClassInstances(sparqlClassUrl)
+        return this.sparqlEndpoint.collectClassInstances(sparqlClassUrl)
             .pipe(
                 map((instances: Array<SPARQLResource>) => {
                     return instances

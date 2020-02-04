@@ -15,26 +15,11 @@
             <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
 
-        <div *ngIf="!resources.length" class="no-resources-panel">
-            No {{ resourceType }} is available
-        </div>
-
-        <mat-card class="resource" *ngFor="let resource of resources">
-            <ngx-link-preview [apiRoute]="'http://127.0.0.1:3050'"
-                              [getApiEndpoint$]="apiCallbackFunction"
-                              [useHtmlLinkDefaultClickEvent]="true"
-                              [links]="[resource.url]"
-                              [showLinkUrl]="true">
-            </ngx-link-preview>
-        </mat-card>
-
-        <div *ngIf="!!resources.length">
-            <ngb-pagination (pageChange)="collectPageResources($event)"
-                            [collectionSize]="totalResources"
-                            pageSize="{{ PAGE_SIZE }}"
-                            [(page)]="page"
-                            [maxSize]="4">
-            </ngb-pagination>
-        </div>
+        <sato-paginated-results-list [onPageChange]="collectPageResources"
+                                     [totalResources]="totalResources"
+                                     [resourceType]="resourceType"
+                                     [resources]="resources"
+                                     [page]="page">
+        </sato-paginated-results-list>
     </div>
 </div>

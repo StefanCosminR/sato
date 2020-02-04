@@ -1,12 +1,26 @@
-.content__container {
+.advanced-search {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.advanced-search > form {
     width: 45vw;
+}
+
+.advanced-search > .results-list {
+    width: 85%;
+}
+
+.advanced-search > * {
+    margin-top: 3vw;
 }
 
 .right-date-picker {
     margin-left: 15px;
 }
 
-.content__container > form > button {
+.advanced-search > form > button {
     margin-right: 3px;
     margin-left: 3px;
 }

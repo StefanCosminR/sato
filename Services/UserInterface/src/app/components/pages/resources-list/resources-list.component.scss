@@ -27,20 +27,6 @@
     font-family: "Comic Sans MS", serif;
 }
 
-.resource-list > .resource {
+.resource-list > sato-paginated-results-list {
     width: 90%;
-    margin-bottom: 32px;
-    border-radius: 15px;
-    box-shadow: #a9a9a9 4px 4px 13px;
-}
-
-.no-resources-panel {
-    width: 50%;
-    font-size: 25px;
-    font-weight: bold;
-    border-radius: 15px;
-    text-align: center;
-    padding: 15px 15px;
-    border: 1px solid black;
-    background-color: #ffc107bf;
 }

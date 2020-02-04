@@ -38,6 +38,7 @@ import { ResourceUrlImagePipe } from './pipes/resource-url-image.pipe';
 import { WordPluralizerPipe } from './pipes/word-pluralizer.pipe';
 import { AuthenticationService } from './services/authentication.service';
 import { UserInterestsService } from './services/user-interests.service';
+import { PaginatedResultsListComponent } from './components/shared/paginated-results-list/paginated-results-list.component';
 
 @NgModule({
     declarations: [
@@ -52,7 +53,8 @@ import { UserInterestsService } from './services/user-interests.service';
         ResourcesListComponent,
         AdvancedSearchComponent,
         ResourceNameExtractorPipe,
-        SuggestionsLayoutComponent
+        SuggestionsLayoutComponent,
+        PaginatedResultsListComponent
     ],
     imports: [
         NgbModule,

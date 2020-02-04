@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { TurtleNamespace } from '../../../constants/TurtleNamespace';
 import { ResourceSearchInput } from '../../../models/ResourceSearchInput';
 import { SPARQLResource } from '../../../models/SPARQLResource';
@@ -65,20 +64,12 @@ export class ResourcesListComponent implements OnInit {
         this.initPageResources();
     }
 
-    public collectPageResources(page: number): void {
+    public collectPageResources = (page: number): void => {
         this.filterOptions.offset = (page - 1) * this.PAGE_SIZE;
         this.sparqlEndpoint.collectClassInstances(this.sparqlClassUrl, this.filterOptions)
             .subscribe(resources => {
                 this.resources = resources;
             });
-    }
-
-    public apiCallbackFunction = (route: string): Observable<any> => {
-        try {
-            return this.http.get(route);
-        } catch (error) {
-            console.error('Error on route: ', route);
-        }
     }
 
     private initPageResources(): void {

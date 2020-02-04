@@ -1,0 +1,23 @@
+<div class="result-list">
+    <div *ngIf="!resources.length" class="no-resources-panel">
+        No {{ resourceType || 'data' }} is available
+    </div>
+
+    <mat-card class="resource" *ngFor="let resource of resources">
+        <ngx-link-preview [apiRoute]="'http://127.0.0.1:3050'"
+                          [getApiEndpoint$]="apiCallbackFunction"
+                          [useHtmlLinkDefaultClickEvent]="true"
+                          [links]="[resource.url]"
+                          [showLinkUrl]="true">
+        </ngx-link-preview>
+    </mat-card>
+
+    <div *ngIf="!!resources.length">
+        <ngb-pagination (pageChange)="onPageChange($event)"
+                        [collectionSize]="totalResources"
+                        pageSize="{{ PAGE_SIZE }}"
+                        [(page)]="page"
+                        [maxSize]="4">
+        </ngb-pagination>
+    </div>
+</div>

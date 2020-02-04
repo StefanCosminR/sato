@@ -44,7 +44,8 @@ public class SparQLController {
   @CrossOrigin
   public ResponseEntity<String> query(final HttpServletRequest request, final @RequestBody SparQLQuery query) {
     Client client = ClientBuilder.newClient();
-    Entity<Form> payload = Entity.form(new Form().param("query", query.getQuery()));
+    Form form = new Form().param("query", query.getQuery()).param("reasoning", "true");
+    Entity<Form> payload = Entity.form(form);
 
     Response response = client.target(queryLocation)
         .request(MediaType.TEXT_PLAIN_TYPE)
