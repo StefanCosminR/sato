@@ -12,10 +12,10 @@
             </mat-list>
             <div>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Add interest" value="">
+                    <input matInput placeholder="Add interest" [ngModel]="newInterests" [ngModelOptions]="{standalone: true}" (keyup.enter)="addInterest()">
                 </mat-form-field>
             </div>
-            <button mat-raised-button color="primary">Save</button>
+            <button mat-raised-button color="primary" (click)="setUserInterests()">Save</button>
         </mat-card-content>
     </mat-card>
 

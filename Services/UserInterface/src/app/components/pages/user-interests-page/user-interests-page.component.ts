@@ -13,6 +13,7 @@ import {UserInterestsService} from '../../../services/user-interests.service';
 export class UserInterestsPageComponent implements OnInit {
 
     public interests: string[] = [];
+    public newInterests = '';
 
     constructor(private authService: AuthenticationService,
                 private interestsService: UserInterestsService) {
@@ -20,36 +21,28 @@ export class UserInterestsPageComponent implements OnInit {
 
     ngOnInit() {
         this.getUserInterests();
-        // this.setUserInterests();
+    }
+
+    public addInterest() {
+        this.interests.push(this.newInterests);
+        this.newInterests = '';
     }
 
     private getUserInterests() {
-        console.log('searching');
         const credential = this.authService.credentials.credential as unknown as GithubCredential;
         const resultsObservable = this.interestsService.collectUserInterests(credential.oauthAccessToken || credential.accessToken);
-        // .pipe(
-        //     map((interests: string[]) => {
-        //         console.log('some interests', interests);
-        //     }),
-        //     catchError(error => {
-        //         console.log('haaa');
-        //         return throwError(error);
-        //     })
-        // );
 
         resultsObservable.subscribe((interests) => {
             this.interests = interests;
         }, error => {
-            console.error('e', error);
+            console.error('err', error);
         });
     }
 
     private setUserInterests() {
-        const interests = ['nimic', 'mai mult nimic', 'ASM'];
         const credential = this.authService.credentials.credential as unknown as GithubCredential;
-        const resultsObservable = this.interestsService.setUserInterests(interests, credential.oauthAccessToken || credential.accessToken)
+        const resultsObservable = this.interestsService.setUserInterests(this.interests, credential.oauthAccessToken || credential.accessToken)
             .subscribe(console.log, console.error);
-
     }
 
 }
