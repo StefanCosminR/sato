@@ -9,7 +9,7 @@ import {
     MatCardModule,
     MatFormFieldModule,
     MatIconModule,
-    MatInputModule,
+    MatInputModule, MatListModule,
     MatNativeDateModule,
     MatToolbarModule
 } from '@angular/material';
@@ -39,6 +39,7 @@ import { WordPluralizerPipe } from './pipes/word-pluralizer.pipe';
 import { AuthenticationService } from './services/authentication.service';
 import { UserInterestsService } from './services/user-interests.service';
 import { PaginatedResultsListComponent } from './components/shared/paginated-results-list/paginated-results-list.component';
+import { UserInterestsPageComponent } from './components/pages/user-interests-page/user-interests-page.component';
 
 @NgModule({
     declarations: [
@@ -54,7 +55,8 @@ import { PaginatedResultsListComponent } from './components/shared/paginated-res
         AdvancedSearchComponent,
         ResourceNameExtractorPipe,
         SuggestionsLayoutComponent,
-        PaginatedResultsListComponent
+        PaginatedResultsListComponent,
+        UserInterestsPageComponent
     ],
     imports: [
         NgbModule,
@@ -77,7 +79,8 @@ import { PaginatedResultsListComponent } from './components/shared/paginated-res
         BrowserAnimationsModule,
         MatProgressSpinnerModule,
         NgMultiSelectDropDownModule.forRoot(),
-        AngularFireModule.initializeApp(environment.firebaseConfig)
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        MatListModule
     ],
     providers: [
         AuthenticationService,

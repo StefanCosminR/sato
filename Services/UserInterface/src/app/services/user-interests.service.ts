@@ -15,4 +15,12 @@ export class UserInterestsService {
     };
     return this.http.get(environment.apiEndpoints.userInterests, httpOptions);
   }
+
+  setUserInterests(interests: string[], oAuthToken?: string): Observable<any> {
+      const httpOptions = {
+          headers: new HttpHeaders({ Authorization: `token ${oAuthToken}` }),
+      };
+
+      return this.http.post(environment.apiEndpoints.userInterests, interests, httpOptions);
+  }
 }

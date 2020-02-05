@@ -1,0 +1,23 @@
+<sato-main-menu-bar></sato-main-menu-bar>
+<div class="container">
+    <mat-card>
+        <mat-card-content>
+            <mat-list>
+                <mat-list-item *ngFor="let interest of interests">
+                    <div  class="interests-item">
+                        <span>{{interest}}</span>
+                        <button mat-raised-button color="accent">Delete</button>
+                    </div>
+                </mat-list-item>
+            </mat-list>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Add interest" value="">
+                </mat-form-field>
+            </div>
+            <button mat-raised-button color="primary">Save</button>
+        </mat-card-content>
+    </mat-card>
+
+</div>
+

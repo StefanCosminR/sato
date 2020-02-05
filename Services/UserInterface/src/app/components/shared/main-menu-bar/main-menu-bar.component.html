@@ -14,7 +14,8 @@
     <div class="menu">
         <div *ngIf="!authService.credentials" (click)="authService.githubAuth()">
             <div class="menu-item" title="Login with Github">
-                <img src="https://icons-for-free.com/iconfiles/png/128/coding+development+github+programming+website+icon-1320168263506646852.png"
+                <img
+                    src="https://icons-for-free.com/iconfiles/png/128/coding+development+github+programming+website+icon-1320168263506646852.png"
                     height="25" width="25">
                 Github Auth
             </div>
@@ -27,6 +28,15 @@
                      alt="" height="25" width="25"/>
                 <span>{{ authService.credentials.additionalUserInfo.username }}</span>
                 <mat-icon (click)="authService.signOut()" class="logout-button" title="Logout">logout</mat-icon>
+            </div>
+
+        </div>
+
+        <div *ngIf="!!authService.credentials">
+            <div class="menu-item" [routerLink]="'/interests'">
+                <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/preference-8-914717.png"
+                     alt="" height="25" width="25">
+                Interests
             </div>
         </div>
 
