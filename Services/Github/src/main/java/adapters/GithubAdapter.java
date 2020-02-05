@@ -20,13 +20,7 @@ import javax.ws.rs.core.HttpHeaders;
 import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
@@ -184,7 +178,13 @@ public class GithubAdapter {
     return collectUserInterests(authToken);
   }
 
+  private Map<String, Set<String>> userInterestsCache = new HashMap<>();
+
   public Set<String> collectUserInterests(final String authToken) {
+    if(userInterestsCache.containsKey(authToken)) {
+      return userInterestsCache.get(authToken);
+    }
+
     TaskExecutioner<Set<String>> executioner = new TaskExecutioner<>();
     List<Future<Set<String>>> collectTasks = new ArrayList<>();
     List<Repository> repositoryPage;
@@ -207,7 +207,14 @@ public class GithubAdapter {
 
     executioner.shutdown();
 
+    userInterestsCache.put(authToken, interests);
+
     return interests;
+  }
+
+  public void setUserInterests(final String authToken, String[] interests) {
+    Set<String> interestsSet = new HashSet<>(Arrays.asList(interests));
+    userInterestsCache.put(authToken, interestsSet);
   }
 
   public Set<String> getRepositoryInterests(final Repository repository, final String authToken) {
