@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDatepicker } from '@angular/material/datepicker';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -30,6 +31,8 @@ export class AdvancedSearchComponent implements OnInit {
     public topics: Array<SelectItem>;
     public searchedPattern: string;
 
+    @ViewChild('startDatePicker', {static: false}) startDate: MatDatepicker<any>;
+    @ViewChild('endDatePicker', {static: false}) endDate: MatDatepicker<any>;
     public selectedProgrammingLanguages: Array<SelectItem>;
     public selectedResourceTypes: Array<SelectItem>;
     public selectedLanguages: Array<SelectItem>;
@@ -155,7 +158,11 @@ export class AdvancedSearchComponent implements OnInit {
                 resourceTypes: this.selectedResourceTypes.map(type => type.text),
                 includedTopics: this.selectedTopics.map(topic => topic.text),
                 excludedTopics: this.excludedTopics.map(topic => topic.text),
-                pattern: this.searchedPattern
+                pattern: this.searchedPattern,
+                dateRange: {
+                    startDate: this.startDate.startAt,
+                    endDate: this.endDate.startAt
+                }
             }
         };
     }

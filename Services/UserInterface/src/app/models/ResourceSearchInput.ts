@@ -10,8 +10,8 @@ export class ResourceSearchInput {
         platforms?: Array<string>;
         pattern?: string;
         dateRange?: {
-            startDate: string;
-            endDate: string;
+            startDate?: Date;
+            endDate?: Date;
         }
     };
 }
