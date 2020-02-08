@@ -15,3 +15,17 @@
     max-height: 60vh;
     overflow: scroll;
 }
+
+.interests-add-group {
+    display: flex;
+}
+
+.add-interests-action {
+    margin-left: 10px;
+    max-height: 36px;
+    align-self: flex-end;
+}
+
+.interests-add-input {
+    flex-grow: 2;
+}

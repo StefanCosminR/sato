@@ -7,6 +7,7 @@ import {map} from 'rxjs/operators';
 import {SPARQLResource} from '../../../models/SPARQLResource';
 import {SPARQLEndpointService} from '../../../services/sparqlendpoint.service';
 import {TurtleNamespace} from '../../../constants/TurtleNamespace';
+import {IDropdownSettings} from 'ng-multiselect-dropdown';
 
 @Component({
     selector: 'sato-user-interests-page',
@@ -16,10 +17,16 @@ import {TurtleNamespace} from '../../../constants/TurtleNamespace';
 export class UserInterestsPageComponent implements OnInit {
 
     public interests: string[] = [];
-    public newInterests = '';
-    public topics: BehaviorSubject<SelectItem[]> = new BehaviorSubject<SelectItem[]>([]);
+    public newInterests: string[] = [];
+    public topics: string[] = [];
     readonly TOPIC_CLASS = `${TurtleNamespace.SATO}Topic`;
-    public topics2 = ["test"];
+    public multiSelectSettings: IDropdownSettings = {
+        unSelectAllText: 'Deselect All',
+        selectAllText: 'Select All',
+        allowSearchFilter: true,
+        singleSelection: true,
+        itemsShowLimit: 5
+    };
 
     constructor(private authService: AuthenticationService,
                 private interestsService: UserInterestsService,
@@ -28,19 +35,27 @@ export class UserInterestsPageComponent implements OnInit {
 
     ngOnInit() {
         this.collectClassInstanceNames(this.TOPIC_CLASS).subscribe(topics => {
-            this.topics.next(topics);
+            this.topics = topics;
         });
 
         this.getUserInterests();
     }
 
     public addInterest() {
-        this.interests.unshift(this.newInterests);
-        this.newInterests = '';
+        if(this.newInterests.length > 0) {
+            this.interests.unshift(this.newInterests[0]);
+            this.newInterests = [];
+        }
     }
 
     public deleteInterestsAt(index: number) {
         this.interests.splice(index, 1);
+    }
+
+    private pushInterestsToBackend() {
+        this.authService.userInterests = this.interests;
+        const credential = this.authService.credentials.credential as unknown as GithubCredential;
+        this.interestsService.setUserInterests(this.interests, credential.oauthAccessToken || credential.accessToken);
     }
 
     private getUserInterests() {
@@ -56,14 +71,14 @@ export class UserInterestsPageComponent implements OnInit {
 
     private setUserInterests() {
         const credential = this.authService.credentials.credential as unknown as GithubCredential;
-        const resultsObservable = this.interestsService.setUserInterests(this.interests, credential.oauthAccessToken || credential.accessToken)
+        this.interestsService.setUserInterests(this.interests, credential.oauthAccessToken || credential.accessToken)
             .subscribe(() => {
                 this.authService.userInterests = this.interests;
                 this.authService.hasCollectedInterests = true;
             }, console.error);
     }
 
-    private collectClassInstanceNames(sparqlClassUrl: string): Observable<Array<SelectItem>> {
+    private collectClassInstanceNames(sparqlClassUrl: string): Observable<Array<string>> {
         return this.sparqlEndpoint.collectClassInstances(sparqlClassUrl)
             .pipe(
                 map((instances: Array<SPARQLResource>) => {
@@ -72,26 +87,12 @@ export class UserInterestsPageComponent implements OnInit {
             );
     }
 
-    private preprocessSelectItems(selectItems: Array<SPARQLResource>): Array<SelectItem> {
+    private preprocessSelectItems(selectItems: Array<SPARQLResource>): string[] {
         return selectItems
             .map(instance => {
-                return {
-                    text: instance.url,
-                    id: instance.url
-                };
+                return instance.url;
             })
-            .sort((item1: SelectItem, item2: SelectItem) => item1.text.localeCompare(item2.text))
-            .filter(item => {
-                if (!!item.id === false) {
-                    console.log('why?', item);
-                }
-                return !!item.id;
-            });
+            .sort((item1: string, item2: string) => item1.localeCompare(item2));
     }
 
-}
-
-interface SelectItem {
-    id: string;
-    text: string;
 }

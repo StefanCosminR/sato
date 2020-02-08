@@ -3,6 +3,17 @@
     <mat-card>
         <mat-card-title>Your interests</mat-card-title>
         <mat-card-content>
+            <div class="form-group interests-add-group">
+                <div class="interests-add-input">
+                    <ng-multiselect-dropdown [data]="topics"
+                                             name="topicsSelect"
+                                             [(ngModel)]="newInterests"
+                                             [settings]="multiSelectSettings"
+                                             [placeholder]="'Add topics of interest...'">
+                    </ng-multiselect-dropdown>
+                </div>
+                <button mat-raised-button color="primary" class="add-interests-action" (click)="addInterest()">Add selected interests</button>
+            </div>
             <mat-list class="classy">
                 <mat-list-item *ngFor="let interest of interests; let i = index;">
                     <div class="interests-item">
@@ -11,21 +22,10 @@
                     </div>
                 </mat-list-item>
             </mat-list>
-                        <div>
-                            <mat-form-field class="example-full-width">
-                                <input matInput placeholder="Add interest" [(ngModel)]="newInterests" [ngModelOptions]="{standalone: true}" (keyup.enter)="addInterest()">
-                            </mat-form-field>
-                        </div>
-<!--            <div>-->
-<!--                <ng-select [items]="topics2"-->
-<!--                           bindLabel="name"-->
-<!--                           autofocus-->
-<!--                           bindValue="id"-->
-<!--                           [(ngModel)]="newInterests">-->
-<!--                </ng-select>-->
-<!--            </div>-->
-            <button mat-raised-button color="primary" (click)="setUserInterests()">Save</button>
         </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="setUserInterests()">Save</button>
+        </mat-card-actions>
     </mat-card>
 
 </div>
