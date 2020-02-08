@@ -93,7 +93,11 @@
             <button class="btn btn-outline-danger" (click)="resetFilters()">Reset Filters</button>
         </form>
 
-        <sato-paginated-results-list *ngIf="toggledSearch"
+        <sato-infinite-load [loadingMessage]="'Loading results...'"
+                            [loading]="loadingResults">
+        </sato-infinite-load>
+
+        <sato-paginated-results-list *ngIf="toggledSearch && !loadingResults"
                                      [onPageChange]="collectResourcePage"
                                      [totalResources]="totalResults"
                                      [resourceType]="'Resource'"

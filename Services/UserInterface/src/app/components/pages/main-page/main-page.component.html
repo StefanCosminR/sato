@@ -2,10 +2,10 @@
     <sato-main-menu-bar></sato-main-menu-bar>
     <div class="content__container full-width">
         <sato-reactive-input class="main__container-input" [inputValue]="searchInputValue"></sato-reactive-input>
-        <div *ngIf="loadingSuggestions" class="suggestions-loader">
-            <mat-spinner></mat-spinner>
-            Loading Web resources suggestions...
-        </div>
+
+        <sato-infinite-load [loadingMessage]="'Loading Web resources suggestions...'"
+                            [loading]="loadingSuggestions">
+        </sato-infinite-load>
 
         <div *ngIf="!loadingSuggestions">
             <sato-suggestions-layout [suggestions]="suggestions"></sato-suggestions-layout>

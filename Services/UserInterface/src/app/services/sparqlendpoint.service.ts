@@ -11,7 +11,7 @@ import { SPARQLResource } from '../models/SPARQLResource';
     providedIn: 'root'
 })
 export class SPARQLEndpointService {
-    readonly SUGGESTIONS_COUNT = 6;
+    readonly SUGGESTIONS_COUNT = 8;
 
     private contentTypeHeader = 'application/json';
     private acceptHeader = 'application/ld+json, application/sparql-results+json';
@@ -58,7 +58,7 @@ export class SPARQLEndpointService {
             .pipe(map((apiResponse: APISearchResponse) => {
                 return apiResponse.results.bindings
                     .filter(subclass => {
-                        return subclass.url.value != 'http://www.w3.org/2002/07/owl#Nothing'
+                        return subclass.url.value !== 'http://www.w3.org/2002/07/owl#Nothing'
                             && subclass.url.value !== sparqlClassUrl;
                     })
                     .map(subclass => new SPARQLResource(subclass.url.value));

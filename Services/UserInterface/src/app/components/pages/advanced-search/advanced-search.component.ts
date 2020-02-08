@@ -38,6 +38,7 @@ export class AdvancedSearchComponent implements OnInit {
     public excludedTopics: Array<SelectItem>;
 
     public searchResults: Array<SPARQLResource>;
+    public loadingResults: boolean;
     public toggledSearch: boolean;
     public totalResults: number;
     public page: number;
@@ -65,6 +66,7 @@ export class AdvancedSearchComponent implements OnInit {
         this.selectedTopics = [];
         this.excludedTopics = [];
 
+        this.loadingResults = false;
         this.toggledSearch = false;
         this.searchResults = [];
         this.totalResults = 0;
@@ -87,6 +89,7 @@ export class AdvancedSearchComponent implements OnInit {
 
     public submitSearch = (): void => {
         this.page = 1;
+        this.loadingResults = true;
         const filterOptions = this.buildResourceFilterOptions(this.page);
         this.sparqlEndpoint.countClassInstances(this.RESOURCE_CLASS, filterOptions).subscribe(count => {
             this.totalResults = count;
@@ -96,9 +99,11 @@ export class AdvancedSearchComponent implements OnInit {
 
     public collectResourcePage = (page): void => {
         // TODO include dateRange filtering
+        this.loadingResults = true;
         const filterOptions = this.buildResourceFilterOptions(page);
         this.sparqlEndpoint.collectClassInstances(this.RESOURCE_CLASS, filterOptions).subscribe(results => {
             this.searchResults = results;
+            this.loadingResults = false;
             this.toggledSearch = true;
             this.page = page;
         });
