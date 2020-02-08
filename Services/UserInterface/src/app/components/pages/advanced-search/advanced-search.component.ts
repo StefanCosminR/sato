@@ -140,10 +140,10 @@ export class AdvancedSearchComponent implements OnInit {
 
     private initPlatformOptions(): Array<SelectItem> {
         return [
-            {id: 'android', text: 'android'},
-            {id: 'ios', text: 'ios'},
-            {id: 'linux', text: 'linux'},
-            {id: 'windows', text: 'windows'}
+            {id: `${TurtleNamespace.SATO}android`, text: `${TurtleNamespace.SATO}android`},
+            {id: `${TurtleNamespace.SATO}ios`, text: `${TurtleNamespace.SATO}ios`},
+            {id: `${TurtleNamespace.SATO}linux`, text: `${TurtleNamespace.SATO}linux`},
+            {id: `${TurtleNamespace.SATO}windows`, text: `${TurtleNamespace.SATO}windows`}
         ];
     }
 
@@ -170,9 +170,10 @@ export class AdvancedSearchComponent implements OnInit {
     private preprocessSelectItems(selectItems: Array<SPARQLResource>): Array<SelectItem> {
         return selectItems
             .map(instance => {
-                const hashTagIndex = instance.url.lastIndexOf('#');
-                const instanceName = instance.url.substr(hashTagIndex + 1);
-                return {id: instanceName, text: instanceName};
+                return {
+                    text: instance.url,
+                    id: instance.url
+                };
             })
             .sort((item1: SelectItem, item2: SelectItem) => item1.text.localeCompare(item2.text))
             .filter(item => !!item.id);

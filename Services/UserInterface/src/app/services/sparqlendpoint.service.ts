@@ -148,32 +148,38 @@ export class SPARQLEndpointService {
         const filters = filterOptions.filters;
 
         if (filters.pattern) {
-            constraints = `${constraints}\nFILTER (CONTAINS(STR(?s), "${filters.pattern}")) .`;
+            constraints = `${constraints}\nFILTER (CONTAINS(STR(?s), '${filters.pattern}')) .`;
         }
 
         if (filters.resourceTypes && filters.resourceTypes.length) {
-            const resourceTypes = filters.resourceTypes.map(type => `:${type}`).join(', ');
+            const resourceTypes = filters.resourceTypes.map(typeUrl => `<${typeUrl}>`).join(', ');
             constraints = `${constraints}
             ?s rdf:type ?type .
             FILTER (?type IN (${resourceTypes})) .`;
         }
 
         if (filters.includedTopics && filters.includedTopics.length) {
-            const topics = filters.includedTopics.map(topic => `:${topic}`).join(', ');
+            const topics = filters.includedTopics.map(topicUrl => `<${topicUrl}>`).join(', ');
+            const urlFilters = filters.includedTopics
+                .map(topicUrl => {
+                    const topicName = topicUrl.substr(topicUrl.lastIndexOf('#') + 1);
+                    return `CONTAINS(STR(?s), '${topicName}')`
+                })
+                .join('|| ');
             constraints = `${constraints}
             ?s :hasTopic ?topic .
-            FILTER (?topic IN (${topics})) .`;
+            FILTER (?topic IN (${topics}) || ${urlFilters}) .`;
         }
 
         if (filters.excludedTopics && filters.excludedTopics.length) {
             const filterExpression = filters.excludedTopics
-                .map(topic => `FILTER NOT EXISTS { ?s :hasTopic :${topic} }`)
+                .map(topicUrl => `FILTER NOT EXISTS { ?s :hasTopic <${topicUrl}> }`)
                 .join(' .\n');
             constraints = `${constraints} ${filterExpression} .`;
         }
 
         if (filters.programmingLanguages && !!filters.programmingLanguages.length) {
-            const programmingLanguages = filters.programmingLanguages.map(language => `:${language}`).join(', ');
+            const programmingLanguages = filters.programmingLanguages.map(languageUrl => `<${languageUrl}>`).join(', ');
             constraints = `${constraints}
             ?s :hasProgrammingLanguage ?programmingLanguage .
             FILTER (?programmingLanguage IN (${programmingLanguages})) .
@@ -181,9 +187,16 @@ export class SPARQLEndpointService {
         }
 
         if (filters.platforms && !!filters.platforms.length) {
+            const platforms = filters.platforms.map(platformUrl => `<${platformUrl}>`).join(', ');
+            const urlFilters = filters.platforms
+                .map(platformsUrl => {
+                    const platformName = platformsUrl.substr(platformsUrl.lastIndexOf('#') + 1);
+                    return `CONTAINS(STR(?s), '${platformName}')`
+                })
+                .join('|| ');
             constraints = `${constraints}
-            ?s :hasTopic ?topic .
-            FILTER ${this.constructMultiTopicFilterCondition(filters.platforms)} .`;
+            ?s :hasTopic ?platform .
+            FILTER (?platform IN (${platforms}) || ${urlFilters}) .`;
         }
 
         return constraints;
