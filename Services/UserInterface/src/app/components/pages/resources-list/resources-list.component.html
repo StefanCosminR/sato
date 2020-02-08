@@ -6,7 +6,7 @@
 
 <div class="main__container full-height-full-width">
     <div class="resource-list">
-        <mat-form-field class="search-input">
+        <mat-form-field *ngIf="!loading" class="search-input">
             <input matInput
                    [(ngModel)]="filterOptions.filters.pattern"
                    (keydown.enter)="search()"
@@ -15,7 +15,12 @@
             <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
 
-        <sato-paginated-results-list [onPageChange]="collectPageResources"
+        <sato-infinite-load [loadingMessage]="'Loading...'"
+                            [loading]="loading">
+        </sato-infinite-load>
+
+        <sato-paginated-results-list *ngIf="!loading"
+                                     [onPageChange]="collectPageResources"
                                      [totalResources]="totalResources"
                                      [resourceType]="resourceType"
                                      [resources]="resources"

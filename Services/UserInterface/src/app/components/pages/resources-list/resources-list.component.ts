@@ -25,6 +25,7 @@ export class ResourcesListComponent implements OnInit {
     sparqlClassUrl: string;
     totalResources: number;
     resourceType: string;
+    loading: boolean;
     page: number;
 
     constructor(private sparqlEndpoint: SPARQLEndpointService,
@@ -42,6 +43,7 @@ export class ResourcesListComponent implements OnInit {
         this.totalResources = 0;
         this.resourceType = '';
         this.resources = [];
+        this.loading = true;
         this.page = 1;
     }
 
@@ -65,14 +67,18 @@ export class ResourcesListComponent implements OnInit {
     }
 
     public collectPageResources = (page: number): void => {
+        this.page = page;
+        this.loading = true;
         this.filterOptions.offset = (page - 1) * this.PAGE_SIZE;
         this.sparqlEndpoint.collectClassInstances(this.sparqlClassUrl, this.filterOptions)
             .subscribe(resources => {
                 this.resources = resources;
+                this.loading = false;
             });
     }
 
     private initPageResources(): void {
+        this.loading = true;
         this.sparqlEndpoint.countClassInstances(this.sparqlClassUrl, this.filterOptions)
             .subscribe(count => {
                 this.totalResources = count;
