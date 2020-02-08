@@ -130,10 +130,10 @@ export class AdvancedSearchComponent implements OnInit {
 
     private initPlatformOptions(): Array<SelectItem> {
         return [
-            {id: 'Android', text: 'Android'},
-            {id: 'iOS', text: 'iOS'},
-            {id: 'Linux', text: 'Linux'},
-            {id: 'Windows', text: 'Windows'}
+            {id: 'android', text: 'android'},
+            {id: 'ios', text: 'ios'},
+            {id: 'linux', text: 'linux'},
+            {id: 'windows', text: 'windows'}
         ];
     }
 

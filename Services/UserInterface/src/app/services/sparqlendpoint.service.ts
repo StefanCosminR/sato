@@ -85,6 +85,7 @@ export class SPARQLEndpointService {
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
             SELECT (COUNT(?s) AS ?instances) WHERE {
                 ?s rdf:type <${sparqlClassUrl}> .
+                BIND(?s AS ?url) .
                 ${this.buildSparQlSearchFilter(filterOptions)}
             }`;
 
@@ -100,7 +101,7 @@ export class SPARQLEndpointService {
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
             SELECT DISTINCT ?url WHERE {
                 ?s rdf:type <${sparqlClassUrl}> .
-                BIND(?s as ?url) .
+                BIND(?s AS ?url) .
                 ${this.buildSparQlSearchFilter(filterOptions)}
             }
             ${this.applyResultRestrictions(filterOptions)}`;
@@ -144,6 +145,12 @@ export class SPARQLEndpointService {
             ?s :hasProgrammingLanguage ?programmingLanguage .
             FILTER (?programmingLanguage IN (${programmingLanguages})) .
             `;
+        }
+
+        if (filters.platforms && !!filters.platforms.length) {
+            constraints = `${constraints}
+            ?s :hasTopic ?topic .
+            FILTER ${this.constructMultiTopicFilterCondition(filters.platforms)} .`;
         }
 
         return constraints;
