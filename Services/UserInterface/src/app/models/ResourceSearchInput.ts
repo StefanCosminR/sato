@@ -5,6 +5,7 @@ export class ResourceSearchInput {
         programmingLanguages?: Array<string>;
         includedTopics?: Array<string>;
         excludedTopics?: Array<string>;
+        resourceTypes?: Array<string>;
         languages?: Array<string>;
         platforms?: Array<string>;
         pattern?: string;

@@ -24,12 +24,14 @@ export class AdvancedSearchComponent implements OnInit {
     readonly PAGE_SIZE = 5;
 
     public programmingLanguages: Array<SelectItem>;
+    public resourceTypes: Array<SelectItem>;
     public languages: Array<SelectItem>;
     public platforms: Array<SelectItem>;
     public topics: Array<SelectItem>;
     public searchedPattern: string;
 
     public selectedProgrammingLanguages: Array<SelectItem>;
+    public selectedResourceTypes: Array<SelectItem>;
     public selectedLanguages: Array<SelectItem>;
     public selectedPlatforms: Array<SelectItem>;
     public selectedTopics: Array<SelectItem>;
@@ -53,11 +55,13 @@ export class AdvancedSearchComponent implements OnInit {
         this.selectedPlatforms = [];
         this.selectedLanguages = [];
         this.searchedPattern = '';
+        this.resourceTypes = [];
         this.topics = [];
 
         this.languages = this.initLanguageOptions();
         this.platforms = this.initPlatformOptions();
         this.selectedProgrammingLanguages = [];
+        this.selectedResourceTypes = [];
         this.selectedTopics = [];
         this.excludedTopics = [];
 
@@ -74,6 +78,10 @@ export class AdvancedSearchComponent implements OnInit {
 
         this.collectClassInstanceNames(this.PROGRAMMING_LANGUAGE_CLASS).subscribe(programmingLanguages => {
             this.programmingLanguages = programmingLanguages;
+        });
+
+        this.sparqlEndpoint.collectSubClassesOf(this.RESOURCE_CLASS).subscribe(resourceTypes => {
+            this.resourceTypes = this.preprocessSelectItems(resourceTypes);
         });
     }
 
@@ -98,6 +106,7 @@ export class AdvancedSearchComponent implements OnInit {
 
     public resetFilters(): void {
         this.selectedProgrammingLanguages = [];
+        this.selectedResourceTypes = [];
         this.selectedLanguages = [];
         this.selectedPlatforms = [];
         this.searchedPattern = '';
@@ -109,14 +118,7 @@ export class AdvancedSearchComponent implements OnInit {
         return this.sparqlEndpoint.collectClassInstances(sparqlClassUrl)
             .pipe(
                 map((instances: Array<SPARQLResource>) => {
-                    return instances
-                        .map(instance => {
-                            const hashTagIndex = instance.url.lastIndexOf('#');
-                            const instanceName = instance.url.substr(hashTagIndex + 1);
-                            return {id: instanceName, text: instanceName};
-                        })
-                        .sort((item1: SelectItem, item2: SelectItem) => item1.text.localeCompare(item2.text))
-                        .filter(item => !!item.id);
+                    return this.preprocessSelectItems(instances);
                 })
             );
     }
@@ -145,10 +147,22 @@ export class AdvancedSearchComponent implements OnInit {
                 programmingLanguages: this.selectedProgrammingLanguages.map(language => language.text),
                 languages: this.selectedLanguages.map(language => language.text),
                 platforms: this.selectedPlatforms.map(platform => platform.text),
+                resourceTypes: this.selectedResourceTypes.map(type => type.text),
                 includedTopics: this.selectedTopics.map(topic => topic.text),
                 excludedTopics: this.excludedTopics.map(topic => topic.text),
                 pattern: this.searchedPattern
             }
         };
+    }
+
+    private preprocessSelectItems(selectItems: Array<SPARQLResource>): Array<SelectItem> {
+        return selectItems
+            .map(instance => {
+                const hashTagIndex = instance.url.lastIndexOf('#');
+                const instanceName = instance.url.substr(hashTagIndex + 1);
+                return {id: instanceName, text: instanceName};
+            })
+            .sort((item1: SelectItem, item2: SelectItem) => item1.text.localeCompare(item2.text))
+            .filter(item => !!item.id);
     }
 }

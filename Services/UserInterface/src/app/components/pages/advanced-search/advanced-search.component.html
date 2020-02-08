@@ -8,7 +8,16 @@
                 <input type="text" class="form-control" id="pattern" name="pattern" [(ngModel)]="searchedPattern">
             </div>
 
-            <!-- TODO: add resource type multiselect -->
+            <div class="form-group">
+                <label for="resourceTypes">Resource Types</label>
+                <ng-multiselect-dropdown id="resourceTypes"
+                                         name="resourceTypes"
+                                         [data]="resourceTypes"
+                                         [settings]="multiSelectSettings"
+                                         [(ngModel)]="selectedResourceTypes"
+                                         [placeholder]="'Choose resource types of interest...'">
+                </ng-multiselect-dropdown>
+            </div>
 
             <div class="form-group">
                 <label for="includedTopics">Included topics</label>

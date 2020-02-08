@@ -40,6 +40,31 @@ export class SPARQLEndpointService {
             }));
     }
 
+    public collectSubClassesOf(sparqlClassUrl: string): Observable<Array<SPARQLResource>> {
+        const query = `
+            PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT DISTINCT ?url WHERE {
+                ?url rdfs:subClassOf <${sparqlClassUrl}> .
+            }
+            ORDER BY ASC(?url)`;
+        const body = {
+            query: query.trim().replace('\n', '').replace(/\s+/g, ' ')
+        };
+
+        const httpOptions = this.getSparQlEndpointHttpOptions();
+
+        return this.http.post(environment.apiEndpoints.sparqlQuery, body, httpOptions)
+            .pipe(map((apiResponse: APISearchResponse) => {
+                return apiResponse.results.bindings
+                    .filter(subclass => {
+                        return subclass.url.value != 'http://www.w3.org/2002/07/owl#Nothing'
+                            && subclass.url.value !== sparqlClassUrl;
+                    })
+                    .map(subclass => new SPARQLResource(subclass.url.value));
+            }));
+    }
+
     public collectPopularSuggestions(): Observable<SPARQLResource[]> {
         const body = this.constructCollectPopularSuggestionsRequestBody();
         const httpOptions = this.getSparQlEndpointHttpOptions();
@@ -83,7 +108,8 @@ export class SPARQLEndpointService {
         const query = `
             PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-            SELECT (COUNT(?s) AS ?instances) WHERE {
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT (COUNT(DISTINCT ?s) AS ?instances) WHERE {
                 ?s rdf:type <${sparqlClassUrl}> .
                 BIND(?s AS ?url) .
                 ${this.buildSparQlSearchFilter(filterOptions)}
@@ -99,6 +125,7 @@ export class SPARQLEndpointService {
         const query = `
             PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             SELECT DISTINCT ?url WHERE {
                 ?s rdf:type <${sparqlClassUrl}> .
                 BIND(?s AS ?url) .
@@ -124,12 +151,18 @@ export class SPARQLEndpointService {
             constraints = `${constraints}\nFILTER (CONTAINS(STR(?s), "${filters.pattern}")) .`;
         }
 
+        if (filters.resourceTypes && filters.resourceTypes.length) {
+            const resourceTypes = filters.resourceTypes.map(type => `:${type}`).join(', ');
+            constraints = `${constraints}
+            ?s rdf:type ?type .
+            FILTER (?type IN (${resourceTypes})) .`;
+        }
+
         if (filters.includedTopics && filters.includedTopics.length) {
             const topics = filters.includedTopics.map(topic => `:${topic}`).join(', ');
             constraints = `${constraints}
             ?s :hasTopic ?topic .
-            FILTER (?topic IN (${topics})) .
-            `;
+            FILTER (?topic IN (${topics})) .`;
         }
 
         if (filters.excludedTopics && filters.excludedTopics.length) {
