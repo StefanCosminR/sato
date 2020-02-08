@@ -41,6 +41,7 @@ import { UserInterestsService } from './services/user-interests.service';
 import { PaginatedResultsListComponent } from './components/shared/paginated-results-list/paginated-results-list.component';
 import { UserInterestsPageComponent } from './components/pages/user-interests-page/user-interests-page.component';
 import { InfiniteLoadComponent } from './components/shared/infinite-load/infinite-load.component';
+import {NgSelectModule} from '@ng-select/ng-select';
 
 @NgModule({
     declarations: [
@@ -67,6 +68,7 @@ import { InfiniteLoadComponent } from './components/shared/infinite-load/infinit
         MatCardModule,
         MatIconModule,
         MatListModule,
+        NgSelectModule,
         MatInputModule,
         MatButtonModule,
         AppRoutingModule,

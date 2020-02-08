@@ -1,5 +1,7 @@
+
 .container {
     margin-top: 25px;
+    margin-bottom: 45px;
 }
 
 .interests-item {
@@ -7,4 +9,9 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+}
+
+.classy {
+    max-height: 60vh;
+    overflow: scroll;
 }

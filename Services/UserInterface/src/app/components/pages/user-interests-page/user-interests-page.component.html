@@ -1,20 +1,29 @@
 <sato-main-menu-bar></sato-main-menu-bar>
 <div class="container">
     <mat-card>
+        <mat-card-title>Your interests</mat-card-title>
         <mat-card-content>
-            <mat-list>
-                <mat-list-item *ngFor="let interest of interests">
-                    <div  class="interests-item">
+            <mat-list class="classy">
+                <mat-list-item *ngFor="let interest of interests; let i = index;">
+                    <div class="interests-item">
                         <span>{{interest}}</span>
-                        <button mat-raised-button color="accent">Delete</button>
+                        <button mat-raised-button color="accent" (click)="deleteInterestsAt(i)">Delete</button>
                     </div>
                 </mat-list-item>
             </mat-list>
-            <div>
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Add interest" [ngModel]="newInterests" [ngModelOptions]="{standalone: true}" (keyup.enter)="addInterest()">
-                </mat-form-field>
-            </div>
+                        <div>
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Add interest" [(ngModel)]="newInterests" [ngModelOptions]="{standalone: true}" (keyup.enter)="addInterest()">
+                            </mat-form-field>
+                        </div>
+<!--            <div>-->
+<!--                <ng-select [items]="topics2"-->
+<!--                           bindLabel="name"-->
+<!--                           autofocus-->
+<!--                           bindValue="id"-->
+<!--                           [(ngModel)]="newInterests">-->
+<!--                </ng-select>-->
+<!--            </div>-->
             <button mat-raised-button color="primary" (click)="setUserInterests()">Save</button>
         </mat-card-content>
     </mat-card>
