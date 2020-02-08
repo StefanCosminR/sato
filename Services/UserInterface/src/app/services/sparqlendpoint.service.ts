@@ -1,11 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
-import { ResourceSearchInput } from '../models/ResourceSearchInput';
-import { APICountResponse, APISearchResponse } from '../models/SearchResponses';
-import { SPARQLResource } from '../models/SPARQLResource';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
+import {ResourceSearchInput} from '../models/ResourceSearchInput';
+import {APICountResponse, APISearchResponse} from '../models/SearchResponses';
+import {SPARQLResource} from '../models/SPARQLResource';
+import {start} from 'repl';
 
 @Injectable({
     providedIn: 'root'
@@ -115,6 +116,8 @@ export class SPARQLEndpointService {
                 ${this.buildSparQlSearchFilter(filterOptions)}
             }`;
 
+        console.log('querty', query);
+
         return JSON.stringify({
             query: query.trim().replace('\n', '').replace(/\s+/g, ' ')
         });
@@ -132,6 +135,8 @@ export class SPARQLEndpointService {
                 ${this.buildSparQlSearchFilter(filterOptions)}
             }
             ${this.applyResultRestrictions(filterOptions)}`;
+
+        console.log('querty', query);
 
         return JSON.stringify({
             query: query.trim().replace('\n', '').replace(/\s+/g, ' ')
@@ -163,7 +168,7 @@ export class SPARQLEndpointService {
             const urlFilters = filters.includedTopics
                 .map(topicUrl => {
                     const topicName = topicUrl.substr(topicUrl.lastIndexOf('#') + 1);
-                    return `CONTAINS(STR(?s), '${topicName}')`
+                    return `CONTAINS(STR(?s), '${topicName}')`;
                 })
                 .join('|| ');
             constraints = `${constraints}
@@ -191,12 +196,42 @@ export class SPARQLEndpointService {
             const urlFilters = filters.platforms
                 .map(platformsUrl => {
                     const platformName = platformsUrl.substr(platformsUrl.lastIndexOf('#') + 1);
-                    return `CONTAINS(STR(?s), '${platformName}')`
+                    return `CONTAINS(STR(?s), '${platformName}')`;
                 })
                 .join('|| ');
             constraints = `${constraints}
             ?s :hasTopic ?platform .
             FILTER (?platform IN (${platforms}) || ${urlFilters}) .`;
+        }
+
+        if (filters.dateRange.startDate && !filters.dateRange.endDate) {
+            const startDate = filters.dateRange.startDate;
+            // tslint:disable-next-line:max-line-length
+            const dateString = `${startDate.getFullYear()}-${this.appendLeadingZeroes(startDate.getMonth() + 1)}-${this.appendLeadingZeroes(startDate.getDate())}`;
+            constraints = `${constraints}
+            ?s :createdAt ?date .
+            FILTER(?date >= '${dateString}'^^xsd:date)`;
+        }
+
+        if (filters.dateRange.endDate && !filters.dateRange.startDate) {
+            const startDate = filters.dateRange.startDate;
+            // tslint:disable-next-line:max-line-length
+            const dateString = `${startDate.getFullYear()}-${this.appendLeadingZeroes(startDate.getMonth() + 1)}-${this.appendLeadingZeroes(startDate.getDate())}`;
+            constraints = `${constraints}
+            ?s :createdAt ?date .
+            FILTER(?date <= '${dateString}'^^xsd:date)`;
+        }
+
+        if (filters.dateRange.endDate && filters.dateRange.startDate) {
+            const startDate = filters.dateRange.startDate;
+            const endDate = filters.dateRange.endDate;
+            // tslint:disable-next-line:max-line-length
+            const startDateString = `${startDate.getFullYear()}-${this.appendLeadingZeroes(startDate.getMonth() + 1)}-${this.appendLeadingZeroes(startDate.getDate())}`;
+            // tslint:disable-next-line:max-line-length
+            const endDateString = `${endDate.getFullYear()}-${this.appendLeadingZeroes(endDate.getMonth() + 1)}-${this.appendLeadingZeroes(endDate.getDate())}`;
+            constraints = `${constraints}
+            ?s :createdAt ?date .
+            FILTER(?date <= '${startDateString}'^^xsd:date && ?date <= '${endDateString}'^^xsd:date)`;
         }
 
         return constraints;
@@ -301,5 +336,12 @@ export class SPARQLEndpointService {
                 }
             LIMIT ${pageSize} OFFSET ${offset}
     `.trim().replace('\n', '').replace(/\s+/g, ' ');
+    }
+
+    private appendLeadingZeroes(n) {
+        if (n <= 9) {
+            return '0' + n;
+        }
+        return n;
     }
 }
