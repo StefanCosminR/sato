@@ -6,7 +6,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {SPARQLResource} from '../../../models/SPARQLResource';
 import {SPARQLEndpointService} from '../../../services/sparqlendpoint.service';
-import {TurtleNamespace} from '../../../constants/TurtleNamespace';
+import {RdfNamespace} from '../../../constants/RdfNamespace';
 import {IDropdownSettings} from 'ng-multiselect-dropdown';
 
 @Component({
@@ -19,7 +19,7 @@ export class UserInterestsPageComponent implements OnInit {
     public interests: string[] = [];
     public newInterests: string[] = [];
     public topics: string[] = [];
-    readonly TOPIC_CLASS = `${TurtleNamespace.SATO}Topic`;
+    readonly TOPIC_CLASS = `${RdfNamespace.SATO}Topic`;
     public multiSelectSettings: IDropdownSettings = {
         unSelectAllText: 'Deselect All',
         selectAllText: 'Select All',

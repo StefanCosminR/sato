@@ -1,12 +1,12 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {environment} from '../../environments/environment';
-import {ResourceSearchInput} from '../models/ResourceSearchInput';
-import {APICountResponse, APISearchResponse} from '../models/SearchResponses';
-import {SPARQLResource} from '../models/SPARQLResource';
-import {start} from 'repl';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+import { RdfNamespace } from '../constants/RdfNamespace';
+import { ResourceSearchInput } from '../models/ResourceSearchInput';
+import { APICountResponse, APISearchResponse } from '../models/SearchResponses';
+import { SPARQLResource } from '../models/SPARQLResource';
 
 @Injectable({
     providedIn: 'root'
@@ -123,7 +123,6 @@ export class SPARQLEndpointService {
         });
     }
 
-    // TODO sanitize input in a similar way as in GithubService.GithubDataTransformer (e.g: "C++" search crashes)
     private constructCollectClassInstancesRequestBody(sparqlClassUrl: string, filterOptions?: ResourceSearchInput) {
         const query = `
             PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
@@ -187,8 +186,7 @@ export class SPARQLEndpointService {
             const programmingLanguages = filters.programmingLanguages.map(languageUrl => `<${languageUrl}>`).join(', ');
             constraints = `${constraints}
             ?s :hasProgrammingLanguage ?programmingLanguage .
-            FILTER (?programmingLanguage IN (${programmingLanguages})) .
-            `;
+            FILTER (?programmingLanguage IN (${programmingLanguages})) .`;
         }
 
         if (filters.platforms && !!filters.platforms.length) {
@@ -271,9 +269,13 @@ export class SPARQLEndpointService {
     }
 
     private constructCollectPopularSuggestionsRequestBody(): string {
+        const types = ['Article', 'News', 'Repository'].map(type => `<${RdfNamespace.SATO}${type}>`);
         const query = `
             PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
             SELECT DISTINCT ?url WHERE {
+                ?url rdf:type ?type .
+                FILTER (?type IN (${types})) .
                 ?url :hasTopic ?topic .
                 {
                     SELECT ?topic (COUNT(?topic) AS ?occurrences) {
@@ -281,7 +283,7 @@ export class SPARQLEndpointService {
                     }
                     GROUP BY ?topic
                     ORDER BY DESC(?occurrences)
-                    LIMIT 10
+                    LIMIT 100
                 }
             }
             ORDER BY RAND()

@@ -3,7 +3,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TurtleNamespace } from '../../../constants/TurtleNamespace';
+import { RdfNamespace } from '../../../constants/RdfNamespace';
 import { ResourceSearchInput } from '../../../models/ResourceSearchInput';
 import { SPARQLResource } from '../../../models/SPARQLResource';
 import { SPARQLEndpointService } from '../../../services/sparqlendpoint.service';
@@ -19,9 +19,9 @@ interface SelectItem {
     styleUrls: ['./advanced-search.component.scss']
 })
 export class AdvancedSearchComponent implements OnInit {
-    readonly PROGRAMMING_LANGUAGE_CLASS = `${TurtleNamespace.SATO}ProgrammingLanguage`;
-    readonly RESOURCE_CLASS = `${TurtleNamespace.SATO}Resource`;
-    readonly TOPIC_CLASS = `${TurtleNamespace.SATO}Topic`;
+    readonly PROGRAMMING_LANGUAGE_CLASS = `${RdfNamespace.SATO}ProgrammingLanguage`;
+    readonly RESOURCE_CLASS = `${RdfNamespace.SATO}Resource`;
+    readonly TOPIC_CLASS = `${RdfNamespace.SATO}Topic`;
     readonly PAGE_SIZE = 5;
 
     public programmingLanguages: Array<SelectItem>;
@@ -140,10 +140,10 @@ export class AdvancedSearchComponent implements OnInit {
 
     private initPlatformOptions(): Array<SelectItem> {
         return [
-            {id: `${TurtleNamespace.SATO}android`, text: `${TurtleNamespace.SATO}android`},
-            {id: `${TurtleNamespace.SATO}ios`, text: `${TurtleNamespace.SATO}ios`},
-            {id: `${TurtleNamespace.SATO}linux`, text: `${TurtleNamespace.SATO}linux`},
-            {id: `${TurtleNamespace.SATO}windows`, text: `${TurtleNamespace.SATO}windows`}
+            {id: `${RdfNamespace.SATO}android`, text: `${RdfNamespace.SATO}android`},
+            {id: `${RdfNamespace.SATO}ios`, text: `${RdfNamespace.SATO}ios`},
+            {id: `${RdfNamespace.SATO}linux`, text: `${RdfNamespace.SATO}linux`},
+            {id: `${RdfNamespace.SATO}windows`, text: `${RdfNamespace.SATO}windows`}
         ];
     }
 

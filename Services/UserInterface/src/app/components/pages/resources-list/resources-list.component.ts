@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TurtleNamespace } from '../../../constants/TurtleNamespace';
+import { RdfNamespace } from '../../../constants/RdfNamespace';
 import { ResourceSearchInput } from '../../../models/ResourceSearchInput';
 import { SPARQLResource } from '../../../models/SPARQLResource';
 import { SPARQLEndpointService } from '../../../services/sparqlendpoint.service';
@@ -54,7 +54,7 @@ export class ResourcesListComponent implements OnInit {
                 this.router.navigate(['catalog']).then();
             }
             this.resourceType = this.ACCEPTED_RESOURCE_TYPES[resourceType];
-            this.sparqlClassUrl = `${TurtleNamespace.SATO}${this.resourceType}`;
+            this.sparqlClassUrl = `${RdfNamespace.SATO}${this.resourceType}`;
             this.initPageResources();
         });
     }
