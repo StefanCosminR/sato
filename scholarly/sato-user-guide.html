@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet' type="text/css">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width">
+
+    <title>SATO User Guide</title>
+</head>
+
+<body prefix="schema: http://schema.org/ xsd: http://www.w3.org/2001/XMLSchema# sa: https://ns.science.ai/">
+<header>
+    <p class="title">Webdev Smart Aid Tool (SATO) - User Guide</p>
+</header>
+
+<fieldset>
+    <article typeof="schema:ScholarlyArticle" resource="#">
+        <h1>SATO User Guide</h1>
+        <section>
+            <ol class="inline-list">
+                <li class="inline-list-item" property="schema:author" typeof="sa:ContributorRole">
+                    <a property="schema:author" href="https://github.com/StefanCosminR" typeof="schema:Person">
+                        <span property="schema:givenName">Stefan-Cosmin</span>
+                        <span property="schema:familyName">Romanescu</span>
+                    </a>
+                </li>
+                <li class="inline-list-item" property="schema:author" typeof="sa:ContributorRole">
+                    <a property="schema:author" href="https://github.com/DragosDorneanu" typeof="schema:Person">
+                        <span property="schema:givenName">Dragos-Andrei</span>
+                        <span property="schema:familyName">Dorneanu</span>
+                    </a>
+                </li>
+            </ol>
+        </section>
+
+        <section typeof="sa:Abstract">
+            <h2>Abstract</h2>
+            <p>
+                This is a guide ment to help Users that want to use the SATO tool in order to start enriching their
+                knowledge about IT, Technology and especially Web. Other target users of the application are technical
+                or academic ones that want to be up to date with the Technology evolution.
+            </p>
+            <p>
+                This guide will present the application screens that can be accessed by users and the activities that
+                the users can do while in the application.
+            </p>
+        </section>
+
+        <section typeof="sa:MaterialsAndMethods">
+            <h2>Motivation</h2>
+            <p>
+                Information about software development is readily available on the web today, unfortunately it is mostly
+                simply data, understandable by humans in the right context but very hard to aggregate and search by
+                computers. SATO makes a step forward in this direction and comes up with a solution to unite big
+                software development resources (such as GitHub, DevDocs, Reddit etc.) under one mashup API adding
+                semantics to data by making it available in the RDF format.
+            </p>
+        </section>
+
+        <section>
+            <h2>Application Screens</h2>
+            <section>
+                <h3>General Overview</h3>
+                <p>
+                    The SATO service offers to its customers six screens that each has a different scope in the
+                    application context.
+                </p>
+                <p>
+                    Each of the screens can be accessed from anywhere in the application via the application menu bar
+                    which is perfect for switching from a context or activity to another.
+                </p>
+                <p>
+                    Below can be seen an image of the complete menu bar that can be used by a logged in user.
+                    Take note of the username and the profile picture of the logged in user in the right side of the
+                    menu bar.
+                </p>
+                <figure typeof="sa:Image">
+                    <img src="./WADE/application-screens/menu-bar.png" alt="Application Menu Bar">
+                    <figcaption>Fig. 1 - Application Menu Bar</figcaption>
+                </figure>
+            </section>
+
+            <section>
+                <h3>Main Application Screen</h3>
+                <figure typeof="sa:Image">
+                    <img src="./WADE/application-screens/main-page.png" alt="Main Application Screen">
+                    <figcaption>Fig. 2 - Main Application Screen</figcaption>
+                </figure>
+                <p>
+                    In the above image, the SATO Main Application Page can be seen. This page is the default page that
+                    is displayed when first accessing the application but can also be accessed by
+                    clicking the "Home" button in the Menu Bar.
+                </p>
+                <p>
+                    In this page, SATO offers the users
+                    the possibility of searching for resources in the SATO Knowledge Graph via the provided
+                    Search Input.
+                </p>
+                <p>
+                    Under the Search Input, SATO offers by default to all users (logged in or not) some resource
+                    suggestions that could be of interest to the customer.
+                </p>
+                <p>
+                    In the above image, some notable suggested resources are related to Unison Web, an article related
+                    to Google Chromebook, an articled about Probabilistic Programming & Bayesian Methods for Hackers,
+                    an article related to CacheOut attacks, a blog related to building a BitTorrent client using Go
+                    programming language and 3 other Github Repositories.
+                </p>
+                <p>
+                    On click over any of the suggestions, a new browser tab will be opened and the corresponding Web
+                    resource will be opened.
+                </p>
+                <p>
+                    The suggestions are based in this case on the logged in user interests (editable from a screen that
+                    will follow to be presented).
+                </p>
+            </section>
+            <section>
+                <!-- TODO: update search-page image with one containing polished result item images -->
+                <h3>Basic Search Page</h3>
+                <figure typeof="sa:Image">
+                    <img src="./WADE/application-screens/search-page.png" alt="Resource Search Screen">
+                    <figcaption>Fig. 2 - Resource Search Screen</figcaption>
+                </figure>
+                <p>
+                    A user can reach this page after first filling in the Search Input provided in the Main
+                    Application Screen and pressing ENTER or clicking on the search button.
+                </p>
+                <p>
+                    On this page, all search results that match the searched topic are available in a paginated
+                    list.
+                </p>
+                <p>
+                    In the above image, the first results for searching information about "Python" have title such as
+                    "Python Vs Javascript Which Is Better For Your Future?", "C++ Vs Python: The Best Ever Comparison
+                    Between OOPs" and "Bayesian Methods for Hackers".
+                </p>
+                <p>
+                    On click over any of the result items, a new browser tab will be opened and the corresponding Web
+                    resource will be opened.
+                </p>
+                <p>
+                    SATO offers to its users the possibility of making more advanced search from the "Advanced Search"
+                    Screen.
+                </p>
+            </section>
+        </section>
+    </article>
+</fieldset>
+</body>
+</html>
