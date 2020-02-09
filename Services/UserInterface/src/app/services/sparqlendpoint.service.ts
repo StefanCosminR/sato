@@ -295,9 +295,13 @@ export class SPARQLEndpointService {
     }
 
     private constructSearchByTopicsRequestBody(topics: Array<string>): string {
+        const types = ['Article', 'News', 'Repository'].map(type => `<${RdfNamespace.SATO}${type}>`);
         const query = `
             PREFIX : <http://www.semanticweb.org/wade/ontologies/sato#>
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
             SELECT DISTINCT ?url {
+                ?url rdf:type ?type .
+                FILTER (?type IN (${types})) .
                 ?url :hasTopic ?topic .
                 FILTER ${this.constructMultiTopicFilterCondition(topics)} .
             }
