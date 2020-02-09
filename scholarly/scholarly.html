@@ -339,7 +339,7 @@
         </section>
 
         <section>
-            <h2>Main Application Workflow</h2>
+            <h2>Main Application Features</h2>
             <section>
                 <h3>Query for information</h3>
                 <figure typeof="sa:Image">
@@ -399,6 +399,66 @@
                     and the Data Source Services will perform the update in parallel.
                 </p>
             </section>
+
+            <section>
+                <h3>Web Resources Suggestions</h3>
+                <p>
+                    In the context of the client application that SATO offers, for helping users find resources of
+                    interest, on the Main Page of the application, there is under the search input a suggestions section
+                    where resources that exist in the SATO Knowledge Graph are displayed to users according to different
+                    strategies.
+                </p>
+                <p>
+                    At each main page reload, a new set of suggestions is recommended to any user. There are two
+                    suggestion strategies: for unauthenticated users and for authenticated users.
+                </p>
+                <p>
+                    For unauthenticated users, a query is made for suggesting random Articles, News and Repositories
+                    from the top 100 topics that exist in SATO Knowledge Graph. The query looks like this:
+                </p>
+                <pre>
+            PREFIX : &lthttp://www.semanticweb.org/wade/ontologies/sato#&gt
+            PREFIX rdf: &lthttp://www.w3.org/1999/02/22-rdf-syntax-ns#&gt
+            SELECT DISTINCT ?url WHERE {
+                ?url rdf:type ?type .
+                FILTER (?type IN (:Article, :News, :Repository)) .
+                ?url :hasTopic ?topic .
+                {
+                    SELECT ?topic (COUNT(?topic) AS ?occurrences) {
+                        ?url :hasTopic ?topic
+                    }
+                    GROUP BY ?topic
+                    ORDER BY DESC(?occurrences)
+                    LIMIT 100
+                }
+            }
+            ORDER BY RAND()
+            LIMIT 8
+                </pre>
+                <p>
+                    For authenticated users, the suggestions query is influenced by the user interests that were
+                    extracted from the Github profile that was used for sign in. The suggestion query looks like this:
+                </p>
+                <pre>
+            PREFIX : &lthttp://www.semanticweb.org/wade/ontologies/sato#&gt
+            PREFIX rdf: &lthttp://www.w3.org/1999/02/22-rdf-syntax-ns#&gt
+            SELECT DISTINCT ?url {
+                ?url rdf:type ?type .
+                FILTER (?type IN (:Article, :News, :Repository)) .
+                ?url :hasTopic ?topic .
+                FILTER (CONTAINS(STR(?topic), 'topic1') ||
+                        CONTAINS(STR(?url), 'topic1') ||
+                        CONTAINS(STR(?topic), 'topic2') ||
+                        CONTAINS(STR(?url), 'topic2')) .
+            }
+            ORDER BY RAND()
+            LIMIT 8
+                </pre>
+            </section>
+
+<!--            <section>-->
+<!--                <h3>Advanced Search</h3>-->
+<!--            </section>-->
         </section>
 
         <section>
