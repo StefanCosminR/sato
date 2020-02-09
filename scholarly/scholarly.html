@@ -437,7 +437,8 @@
                 </pre>
                 <p>
                     For authenticated users, the suggestions query is influenced by the user interests that were
-                    extracted from the Github profile that was used for sign in. The suggestion query looks like this:
+                    extracted from the Github profile that was used for sign in. The suggestion query for two
+                    interests/topics looks like this:
                 </p>
                 <pre>
             PREFIX : &lthttp://www.semanticweb.org/wade/ontologies/sato#&gt
@@ -456,9 +457,85 @@
                 </pre>
             </section>
 
-<!--            <section>-->
-<!--                <h3>Advanced Search</h3>-->
-<!--            </section>-->
+            <section>
+                <h3>Advanced Search</h3>
+                <p>
+                    SATO offers support for advanced search over the SATO Knowledge Graph within the implemented
+                    client application.
+                </p>
+                <p>
+                    The supported filtering options are:
+                </p>
+                <ul>
+                    <li>Search by pattern</li>
+                    <li>Resource type (Article, News, Repository, Tutorial)</li>
+                    <li>Topics of interest</li>
+                    <li>Exclude not interesting topics</li>
+                    <li>Programming Language</li>
+                    <li>Platform (Android, iOS, Linux, Windows)</li>
+                    <li>Date Range</li>
+                </ul>
+                <p>
+                    SATO client application automatically builds SparQL queries that apply each of the filters
+                    enumerated above. Bellow can be found multiple advanced search query that can be built using
+                    the advanced search functionality:
+                </p>
+                <pre>
+# collect first 5 articles or news that are related to android but do not
+# refer to C++ or React Native (Java and Kotlin remain alternatives)
+PREFIX : &lthttp://www.semanticweb.org/wade/ontologies/sato#&gt
+PREFIX rdf: &lthttp://www.w3.org/1999/02/22-rdf-syntax-ns#&gt
+PREFIX rdfs: &lthttp://www.w3.org/2000/01/rdf-schema#&gt
+SELECT DISTINCT ?url WHERE {
+    ?s rdf:type &lthttp://www.semanticweb.org/wade/ontologies/sato#Resource&gt .
+    BIND(?s AS ?url) .
+    ?s rdf:type ?type .
+    FILTER (?type IN (&lthttp://www.semanticweb.org/wade/ontologies/sato#Article&gt,
+                      &lthttp://www.semanticweb.org/wade/ontologies/sato#News&gt)) .
+    ?s :hasTopic ?topic .
+    FILTER (?topic IN (&lthttp://www.semanticweb.org/wade/ontologies/sato#android>,
+                       &lthttp://en.wikipedia.org/Android_(operating_system)>) ||
+            CONTAINS(STR(?s), 'android') ||
+            CONTAINS(STR(?s), 'http://en.wikipedia.org/Android_(operating_system)')) .
+    FILTER NOT EXISTS {
+        ?s :hasTopic &lthttp://en.wikipedia.org/C++>
+    } .
+    FILTER NOT EXISTS {
+        ?s :hasTopic &lthttp://www.semanticweb.org/wade/ontologies/sato#C++>
+    } .
+    FILTER NOT EXISTS {
+        ?s :hasTopic &lthttp://en.wikipedia.org/React_(web_framework)>
+    } .
+    FILTER NOT EXISTS {
+        ?s :hasTopic &lthttp://www.semanticweb.org/wade/ontologies/sato#react>
+    } .
+    FILTER NOT EXISTS {
+        ?s :hasTopic &lthttp://www.semanticweb.org/wade/ontologies/sato#react-native>
+    } .
+}
+LIMIT 5
+                </pre>
+                <pre>
+# collect all articles that are about linux and windows platform
+# that were written after 2019-01-01
+PREFIX : &lthttp://www.semanticweb.org/wade/ontologies/sato#>
+PREFIX rdf: &lthttp://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX rdfs: &lthttp://www.w3.org/2000/01/rdf-schema#> 
+SELECT DISTINCT ?url WHERE { 
+    ?s rdf:type &lthttp://www.semanticweb.org/wade/ontologies/sato#Resource> . 
+    BIND(?s AS ?url) . 
+    ?s rdf:type ?type . 
+    FILTER (?type IN (&lthttp://www.semanticweb.org/wade/ontologies/sato#Article>)) . 
+    ?s :hasTopic ?platform . 
+    FILTER (?platform IN (&lthttp://www.semanticweb.org/wade/ontologies/sato#linux>, 
+                          &lthttp://www.semanticweb.org/wade/ontologies/sato#windows>) 
+            || CONTAINS(STR(?s), 'linux') || CONTAINS(STR(?s), 'windows')) . 
+    ?s :createdAt ?date . 
+    FILTER(?date >= '2019-01-01'^^xsd:date) 
+} 
+LIMIT 5
+                </pre>
+            </section>
         </section>
 
         <section>
