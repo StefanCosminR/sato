@@ -117,6 +117,7 @@
                     will follow to be presented).
                 </p>
             </section>
+
             <section>
                 <!-- TODO: update search-page image with one containing polished result item images -->
                 <h3>Basic Search Page</h3>
@@ -145,6 +146,77 @@
                     SATO offers to its users the possibility of making more advanced search from the "Advanced Search"
                     Screen.
                 </p>
+            </section>
+
+            <section>
+                <!-- TODO: update advanced-search-page images with ones containing polished result item images -->
+                <h3>Advanced Search Page</h3>
+                <figure typeof="sa:Image">
+                    <img src="./WADE/application-screens/advanced-search-page.png"
+                         alt="Resource Advanced Search Screen">
+                    <figcaption>Fig. 3 - Resource Advanced Search Screen</figcaption>
+                </figure>
+                <p>
+                    Other than Basic Search, SATO offers a page that can be used for more advanced search.
+                    A user can reach this page by clicking the "Advanced Search" button in the Menu Bar and its initial
+                    appearance looks like in the above image.
+                </p>
+                <p>
+                    This page provides additional filtering options such as:
+                </p>
+                <ul>
+                    <li>Search by pattern</li>
+                    <li>Resource type (Article, News, Repository, Tutorial)</li>
+                    <li>Topics of interest</li>
+                    <li>Exclude not interesting topics</li>
+                    <li>Programming Language</li>
+                    <li>Platform (Android, iOS, Linux, Windows)</li>
+                    <li>Date Range</li>
+                </ul>
+                <p>
+                    For resource types, topics, programming languages and platforms, the advanced search offers multiple
+                    searchable multi-select components.
+                </p>
+                <p>
+                    Those components are dropdown menus from which the user can search by pattern and choose multiple
+                    options of interest.
+                </p>
+                <p>
+                    Given the fact that some concepts are represented in SATO ontology and in Wikipedia or Wikidata
+                    as well, the multi-selects provide the full concept IRI to keep the clarity of the search.
+                </p>
+                <p>
+                    An example of how the multi-select components are behaving can be found in the image below.
+                </p>
+                <figure typeof="sa:Image">
+                    <img src="./WADE/application-screens/advanced-search-page-multiselect-search.png"
+                         alt="Advanced Search Options Multi-Select">
+                    <figcaption>Fig. 4 - Advanced Search Options Multi-Select</figcaption>
+                </figure>
+                <p>
+                    For a search that would be targeting all articles and news about android topic, that exclude any
+                    android resource that would refer to C++ and React Native (remaining Java and Kotlin as
+                    alternatives) the advanced search screen would look like in the image below:
+                </p>
+                <figure typeof="sa:Image">
+                    <img src="./WADE/application-screens/advanced-search-page-android-example.png"
+                         alt="Advanced Search Example">
+                    <figcaption>Fig. 5 - Advanced Search Example</figcaption>
+                </figure>
+                <p>
+                    After submitting the search and the results are collected, below the advanced search form a
+                    paginated result list will be available for the users to interact with.
+                </p>
+                <p>
+                    On click over any of the result items, a new browser tab will be opened and the corresponding Web
+                    resource will be opened.
+                </p>
+                <p>An example of such a search result can be seen in the image below:</p>
+                <figure typeof="sa:Image">
+                    <img src="./WADE/application-screens/advanced-search-android-result.png"
+                         alt="Advanced Search Result">
+                    <figcaption>Fig. 6 - Advanced Search Result</figcaption>
+                </figure>
             </section>
         </section>
     </article>
