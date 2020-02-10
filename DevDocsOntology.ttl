@@ -8,405 +8,539 @@
 @base <http://www.semanticweb.org/wade/ontologies/sato> .
 
 
-:saltstack rdf:type :Topic .
-<https://devdocs.io/saltstack> :hasTopic :saltstack .
-
-:scikit_image rdf:type :Topic .
-<https://devdocs.io/scikit_image> :hasTopic :scikit_image .
-
-:codeception rdf:type :Topic .
-<https://devdocs.io/codeception> :hasTopic :codeception .
-
-:chai rdf:type :Topic .
-<https://devdocs.io/chai> :hasTopic :chai .
-
-:drupal rdf:type :Topic .
-<https://devdocs.io/drupal> :hasTopic :drupal .
-
-:redis rdf:type :Topic .
-<https://devdocs.io/redis> :hasTopic :redis .
-
-:falcon rdf:type :Topic .
-<https://devdocs.io/falcon> :hasTopic :falcon .
-
-:crystal rdf:type :Topic .
-<https://devdocs.io/crystal> :hasTopic :crystal .
-
-:pony rdf:type :Topic .
-<https://devdocs.io/pony> :hasTopic :pony .
-
-:underscore rdf:type :Topic .
-<https://devdocs.io/underscore> :hasTopic :underscore .
-
-:codeceptjs rdf:type :Topic .
-<https://devdocs.io/codeceptjs> :hasTopic :codeceptjs .
-
-:react rdf:type :Topic .
-<https://devdocs.io/react> :hasTopic :react .
-
-:pandas rdf:type :Topic .
-<https://devdocs.io/pandas> :hasTopic :pandas .
-
-:octave rdf:type :Topic .
-<https://devdocs.io/octave> :hasTopic :octave .
-
-:love rdf:type :Topic .
-<https://devdocs.io/love> :hasTopic :love .
-
-:phaser rdf:type :Topic .
-<https://devdocs.io/phaser> :hasTopic :phaser .
-
-:elixir rdf:type :Topic .
-<https://devdocs.io/elixir> :hasTopic :elixir .
-
-:apache_pig rdf:type :Topic .
-<https://devdocs.io/apache_pig> :hasTopic :apache_pig .
-
-:laravel rdf:type :Topic .
-<https://devdocs.io/laravel> :hasTopic :laravel .
-
-:influxdata rdf:type :Topic .
-<https://devdocs.io/influxdata> :hasTopic :influxdata .
-
-:composer rdf:type :Topic .
-<https://devdocs.io/composer> :hasTopic :composer .
-
-:docker rdf:type :Topic .
-<https://devdocs.io/docker> :hasTopic :docker .
-
-:sinon rdf:type :Topic .
-<https://devdocs.io/sinon> :hasTopic :sinon .
-
-:meteor rdf:type :Topic .
-<https://devdocs.io/meteor> :hasTopic :meteor .
-
-:padrino rdf:type :Topic .
-<https://devdocs.io/padrino> :hasTopic :padrino .
-
-:less rdf:type :Topic .
-<https://devdocs.io/less> :hasTopic :less .
-
-:ansible rdf:type :Topic .
-<https://devdocs.io/ansible> :hasTopic :ansible .
-
-:postgresql rdf:type :Topic .
-<https://devdocs.io/postgresql> :hasTopic :postgresql .
-
-:julia rdf:type :Topic .
-<https://devdocs.io/julia> :hasTopic :julia .
-
-:electron rdf:type :Topic .
-<https://devdocs.io/electron> :hasTopic :electron .
-
-:redux rdf:type :Topic .
-<https://devdocs.io/redux> :hasTopic :redux .
-
-:liquid rdf:type :Topic .
-<https://devdocs.io/liquid> :hasTopic :liquid .
-
-:phalcon rdf:type :Topic .
-<https://devdocs.io/phalcon> :hasTopic :phalcon .
-
-:node rdf:type :Topic .
-<https://devdocs.io/node> :hasTopic :node .
-
-:gcc rdf:type :Topic .
-<https://devdocs.io/gcc> :hasTopic :gcc .
-
-:backbone rdf:type :Topic .
-<https://devdocs.io/backbone> :hasTopic :backbone .
-
-:phoenix rdf:type :Topic .
-<https://devdocs.io/phoenix> :hasTopic :phoenix .
-
-:vagrant rdf:type :Topic .
-<https://devdocs.io/vagrant> :hasTopic :vagrant .
-
-:numpy rdf:type :Topic .
-<https://devdocs.io/numpy> :hasTopic :numpy .
-
-:mocha rdf:type :Topic .
-<https://devdocs.io/mocha> :hasTopic :mocha .
-
-:d3 rdf:type :Topic .
-<https://devdocs.io/d3> :hasTopic :d3 .
-
-:babel rdf:type :Topic .
-<https://devdocs.io/babel> :hasTopic :babel .
-
-:bootstrap rdf:type :Topic .
-<https://devdocs.io/bootstrap> :hasTopic :bootstrap .
-
-:django rdf:type :Topic .
-<https://devdocs.io/django> :hasTopic :django .
-
-:bash rdf:type :Topic .
-<https://devdocs.io/bash> :hasTopic :bash .
-
-:go rdf:type :Topic .
-<https://devdocs.io/go> :hasTopic :go .
-
-:git rdf:type :Topic .
-<https://devdocs.io/git> :hasTopic :git .
-
-:handlebars rdf:type :Topic .
-<https://devdocs.io/handlebars> :hasTopic :handlebars .
-
-:gnu_cobol rdf:type :Topic .
-<https://devdocs.io/gnu_cobol> :hasTopic :gnu_cobol .
-
-:jest rdf:type :Topic .
-<https://devdocs.io/jest> :hasTopic :jest .
-
-:npm rdf:type :Topic .
-<https://devdocs.io/npm> :hasTopic :npm .
-
-:chef rdf:type :Topic .
-<https://devdocs.io/chef> :hasTopic :chef .
-
-:lodash rdf:type :Topic .
-<https://devdocs.io/lodash> :hasTopic :lodash .
-
-:mariadb rdf:type :Topic .
-<https://devdocs.io/mariadb> :hasTopic :mariadb .
-
-:rxjs rdf:type :Topic .
-<https://devdocs.io/rxjs> :hasTopic :rxjs .
-
-:vulkan rdf:type :Topic .
-<https://devdocs.io/vulkan> :hasTopic :vulkan .
-
-:requirejs rdf:type :Topic .
-<https://devdocs.io/requirejs> :hasTopic :requirejs .
-
-:rails rdf:type :Topic .
-<https://devdocs.io/rails> :hasTopic :rails .
-
-:cmake rdf:type :Topic .
-<https://devdocs.io/cmake> :hasTopic :cmake .
-
-:vue rdf:type :Topic .
-<https://devdocs.io/vue> :hasTopic :vue .
-
-:gnu_fortran rdf:type :Topic .
-<https://devdocs.io/gnu_fortran> :hasTopic :gnu_fortran .
-
-:typescript rdf:type :Topic .
-<https://devdocs.io/typescript> :hasTopic :typescript .
-
-:immutable rdf:type :Topic .
-<https://devdocs.io/immutable> :hasTopic :immutable .
-
-:php rdf:type :Topic .
-<https://devdocs.io/php> :hasTopic :php .
-
-:socketio rdf:type :Topic .
-<https://devdocs.io/socketio> :hasTopic :socketio .
-
-:haxe rdf:type :Topic .
-<https://devdocs.io/haxe> :hasTopic :haxe .
-
-:cypress rdf:type :Topic .
-<https://devdocs.io/cypress> :hasTopic :cypress .
-
-:qt rdf:type :Topic .
-<https://devdocs.io/qt> :hasTopic :qt .
-
-:yii rdf:type :Topic .
-<https://devdocs.io/yii> :hasTopic :yii .
-
-:codeigniter rdf:type :Topic .
-<https://devdocs.io/codeigniter> :hasTopic :codeigniter .
-
-:perl rdf:type :Topic .
-<https://devdocs.io/perl> :hasTopic :perl .
-
 :haskell rdf:type :Topic .
+<https://devdocs.io/haskell> rdf:type :Tutorial .
 <https://devdocs.io/haskell> :hasTopic :haskell .
 
-:matplotlib rdf:type :Topic .
-<https://devdocs.io/matplotlib> :hasTopic :matplotlib .
+:mocha rdf:type :Topic .
+<https://devdocs.io/mocha> rdf:type :Tutorial .
+<https://devdocs.io/mocha> :hasTopic :mocha .
 
-:leaflet rdf:type :Topic .
-<https://devdocs.io/leaflet> :hasTopic :leaflet .
+:sequelize rdf:type :Topic .
+<https://devdocs.io/sequelize> rdf:type :Tutorial .
+<https://devdocs.io/sequelize> :hasTopic :sequelize .
 
-:nim rdf:type :Topic .
-<https://devdocs.io/nim> :hasTopic :nim .
+:backbone rdf:type :Topic .
+<https://devdocs.io/backbone> rdf:type :Tutorial .
+<https://devdocs.io/backbone> :hasTopic :backbone .
+
+:phalcon rdf:type :Topic .
+<https://devdocs.io/phalcon> rdf:type :Tutorial .
+<https://devdocs.io/phalcon> :hasTopic :phalcon .
+
+:sass rdf:type :Topic .
+<https://devdocs.io/sass> rdf:type :Tutorial .
+<https://devdocs.io/sass> :hasTopic :sass .
+
+:python rdf:type :Topic .
+<https://devdocs.io/python> rdf:type :Tutorial .
+<https://devdocs.io/python> :hasTopic :python .
+
+:fish rdf:type :Topic .
+<https://devdocs.io/fish> rdf:type :Tutorial .
+<https://devdocs.io/fish> :hasTopic :fish .
+
+:scikit_image rdf:type :Topic .
+<https://devdocs.io/scikit_image> rdf:type :Tutorial .
+<https://devdocs.io/scikit_image> :hasTopic :scikit_image .
+
+:bootstrap rdf:type :Topic .
+<https://devdocs.io/bootstrap> rdf:type :Tutorial .
+<https://devdocs.io/bootstrap> :hasTopic :bootstrap .
+
+:nginx rdf:type :Topic .
+<https://devdocs.io/nginx> rdf:type :Tutorial .
+<https://devdocs.io/nginx> :hasTopic :nginx .
+
+:cakephp rdf:type :Topic .
+<https://devdocs.io/cakephp> rdf:type :Tutorial .
+<https://devdocs.io/cakephp> :hasTopic :cakephp .
+
+:koa rdf:type :Topic .
+<https://devdocs.io/koa> rdf:type :Tutorial .
+<https://devdocs.io/koa> :hasTopic :koa .
+
+:underscore rdf:type :Topic .
+<https://devdocs.io/underscore> rdf:type :Tutorial .
+<https://devdocs.io/underscore> :hasTopic :underscore .
+
+:chai rdf:type :Topic .
+<https://devdocs.io/chai> rdf:type :Tutorial .
+<https://devdocs.io/chai> :hasTopic :chai .
+
+:ember rdf:type :Topic .
+<https://devdocs.io/ember> rdf:type :Tutorial .
+<https://devdocs.io/ember> :hasTopic :ember .
+
+:jquery rdf:type :Topic .
+<https://devdocs.io/jquery> rdf:type :Tutorial .
+<https://devdocs.io/jquery> :hasTopic :jquery .
+
+:scikit_learn rdf:type :Topic .
+<https://devdocs.io/scikit_learn> rdf:type :Tutorial .
+<https://devdocs.io/scikit_learn> :hasTopic :scikit_learn .
+
+:react rdf:type :Topic .
+<https://devdocs.io/react> rdf:type :Tutorial .
+<https://devdocs.io/react> :hasTopic :react .
 
 :pug rdf:type :Topic .
+<https://devdocs.io/pug> rdf:type :Tutorial .
 <https://devdocs.io/pug> :hasTopic :pug .
 
 :jsdoc rdf:type :Topic .
+<https://devdocs.io/jsdoc> rdf:type :Tutorial .
 <https://devdocs.io/jsdoc> :hasTopic :jsdoc .
 
-:cordova rdf:type :Topic .
-<https://devdocs.io/cordova> :hasTopic :cordova .
+:requirejs rdf:type :Topic .
+<https://devdocs.io/requirejs> rdf:type :Tutorial .
+<https://devdocs.io/requirejs> :hasTopic :requirejs .
 
-:nginx rdf:type :Topic .
-<https://devdocs.io/nginx> :hasTopic :nginx .
+:docker rdf:type :Topic .
+<https://devdocs.io/docker> rdf:type :Tutorial .
+<https://devdocs.io/docker> :hasTopic :docker .
 
-:python rdf:type :Topic .
-<https://devdocs.io/python> :hasTopic :python .
+:node rdf:type :Topic .
+<https://devdocs.io/node> rdf:type :Tutorial .
+<https://devdocs.io/node> :hasTopic :node .
 
-:symfony rdf:type :Topic .
-<https://devdocs.io/symfony> :hasTopic :symfony .
+:jest rdf:type :Topic .
+<https://devdocs.io/jest> rdf:type :Tutorial .
+<https://devdocs.io/jest> :hasTopic :jest .
 
-:twig rdf:type :Topic .
-<https://devdocs.io/twig> :hasTopic :twig .
+:nim rdf:type :Topic .
+<https://devdocs.io/nim> rdf:type :Tutorial .
+<https://devdocs.io/nim> :hasTopic :nim .
 
-:koa rdf:type :Topic .
-<https://devdocs.io/koa> :hasTopic :koa .
+:postgresql rdf:type :Topic .
+<https://devdocs.io/postgresql> rdf:type :Tutorial .
+<https://devdocs.io/postgresql> :hasTopic :postgresql .
 
-:scala rdf:type :Topic .
-<https://devdocs.io/scala> :hasTopic :scala .
+:matplotlib rdf:type :Topic .
+<https://devdocs.io/matplotlib> rdf:type :Tutorial .
+<https://devdocs.io/matplotlib> :hasTopic :matplotlib .
 
-:dart rdf:type :Topic .
-<https://devdocs.io/dart> :hasTopic :dart .
+:julia rdf:type :Topic .
+<https://devdocs.io/julia> rdf:type :Tutorial .
+<https://devdocs.io/julia> :hasTopic :julia .
 
-:opentsdb rdf:type :Topic .
-<https://devdocs.io/opentsdb> :hasTopic :opentsdb .
-
-:webpack rdf:type :Topic .
-<https://devdocs.io/webpack> :hasTopic :webpack .
-
-:erlang rdf:type :Topic .
-<https://devdocs.io/erlang> :hasTopic :erlang .
-
-:express rdf:type :Topic .
-<https://devdocs.io/express> :hasTopic :express .
-
-:flow rdf:type :Topic .
-<https://devdocs.io/flow> :hasTopic :flow .
-
-:apache_http_server rdf:type :Topic .
-<https://devdocs.io/apache_http_server> :hasTopic :apache_http_server .
-
-:scikit_learn rdf:type :Topic .
-<https://devdocs.io/scikit_learn> :hasTopic :scikit_learn .
-
-:vuex rdf:type :Topic .
-<https://devdocs.io/vuex> :hasTopic :vuex .
-
-:jekyll rdf:type :Topic .
-<https://devdocs.io/jekyll> :hasTopic :jekyll .
-
-:django_rest_framework rdf:type :Topic .
-<https://devdocs.io/django_rest_framework> :hasTopic :django_rest_framework .
-
-:coffeescript rdf:type :Topic .
-<https://devdocs.io/coffeescript> :hasTopic :coffeescript .
-
-:cakephp rdf:type :Topic .
-<https://devdocs.io/cakephp> :hasTopic :cakephp .
-
-:d rdf:type :Topic .
-<https://devdocs.io/d> :hasTopic :d .
-
-:kotlin rdf:type :Topic .
-<https://devdocs.io/kotlin> :hasTopic :kotlin .
-
-:relay rdf:type :Topic .
-<https://devdocs.io/relay> :hasTopic :relay .
-
-:jasmine rdf:type :Topic .
-<https://devdocs.io/jasmine> :hasTopic :jasmine .
-
-:q rdf:type :Topic .
-<https://devdocs.io/q> :hasTopic :q .
-
-:moment rdf:type :Topic .
-<https://devdocs.io/moment> :hasTopic :moment .
-
-:yarn rdf:type :Topic .
-<https://devdocs.io/yarn> :hasTopic :yarn .
+:elixir rdf:type :Topic .
+<https://devdocs.io/elixir> rdf:type :Tutorial .
+<https://devdocs.io/elixir> :hasTopic :elixir .
 
 :sqlite rdf:type :Topic .
+<https://devdocs.io/sqlite> rdf:type :Tutorial .
 <https://devdocs.io/sqlite> :hasTopic :sqlite .
 
-:pygame rdf:type :Topic .
-<https://devdocs.io/pygame> :hasTopic :pygame .
+:angular rdf:type :Topic .
+<https://devdocs.io/angular> rdf:type :Tutorial .
+<https://devdocs.io/angular> :hasTopic :angular .
 
-:eslint rdf:type :Topic .
-<https://devdocs.io/eslint> :hasTopic :eslint .
+:cmake rdf:type :Topic .
+<https://devdocs.io/cmake> rdf:type :Tutorial .
+<https://devdocs.io/cmake> :hasTopic :cmake .
 
-:homebrew rdf:type :Topic .
-<https://devdocs.io/homebrew> :hasTopic :homebrew .
+:bottle rdf:type :Topic .
+<https://devdocs.io/bottle> rdf:type :Tutorial .
+<https://devdocs.io/bottle> :hasTopic :bottle .
 
-:ruby rdf:type :Topic .
-<https://devdocs.io/ruby> :hasTopic :ruby .
-
-:godot rdf:type :Topic .
-<https://devdocs.io/godot> :hasTopic :godot .
-
-:vue_router rdf:type :Topic .
-<https://devdocs.io/vue_router> :hasTopic :vue_router .
-
-:phpunit rdf:type :Topic .
-<https://devdocs.io/phpunit> :hasTopic :phpunit .
+:influxdata rdf:type :Topic .
+<https://devdocs.io/influxdata> rdf:type :Tutorial .
+<https://devdocs.io/influxdata> :hasTopic :influxdata .
 
 :mongoose rdf:type :Topic .
+<https://devdocs.io/mongoose> rdf:type :Tutorial .
 <https://devdocs.io/mongoose> :hasTopic :mongoose .
 
-:trio rdf:type :Topic .
-<https://devdocs.io/trio> :hasTopic :trio .
+:falcon rdf:type :Topic .
+<https://devdocs.io/falcon> rdf:type :Tutorial .
+<https://devdocs.io/falcon> :hasTopic :falcon .
+
+:gcc rdf:type :Topic .
+<https://devdocs.io/gcc> rdf:type :Tutorial .
+<https://devdocs.io/gcc> :hasTopic :gcc .
+
+:opentsdb rdf:type :Topic .
+<https://devdocs.io/opentsdb> rdf:type :Tutorial .
+<https://devdocs.io/opentsdb> :hasTopic :opentsdb .
+
+:lodash rdf:type :Topic .
+<https://devdocs.io/lodash> rdf:type :Tutorial .
+<https://devdocs.io/lodash> :hasTopic :lodash .
+
+:octave rdf:type :Topic .
+<https://devdocs.io/octave> rdf:type :Tutorial .
+<https://devdocs.io/octave> :hasTopic :octave .
+
+:tensorflow rdf:type :Topic .
+<https://devdocs.io/tensorflow> rdf:type :Tutorial .
+<https://devdocs.io/tensorflow> :hasTopic :tensorflow .
+
+:jasmine rdf:type :Topic .
+<https://devdocs.io/jasmine> rdf:type :Tutorial .
+<https://devdocs.io/jasmine> :hasTopic :jasmine .
+
+:meteor rdf:type :Topic .
+<https://devdocs.io/meteor> rdf:type :Tutorial .
+<https://devdocs.io/meteor> :hasTopic :meteor .
+
+:mariadb rdf:type :Topic .
+<https://devdocs.io/mariadb> rdf:type :Tutorial .
+<https://devdocs.io/mariadb> :hasTopic :mariadb .
+
+:handlebars rdf:type :Topic .
+<https://devdocs.io/handlebars> rdf:type :Tutorial .
+<https://devdocs.io/handlebars> :hasTopic :handlebars .
+
+:redux rdf:type :Topic .
+<https://devdocs.io/redux> rdf:type :Tutorial .
+<https://devdocs.io/redux> :hasTopic :redux .
+
+:vuex rdf:type :Topic .
+<https://devdocs.io/vuex> rdf:type :Tutorial .
+<https://devdocs.io/vuex> :hasTopic :vuex .
+
+:bower rdf:type :Topic .
+<https://devdocs.io/bower> rdf:type :Tutorial .
+<https://devdocs.io/bower> :hasTopic :bower .
 
 :marionette rdf:type :Topic .
+<https://devdocs.io/marionette> rdf:type :Tutorial .
 <https://devdocs.io/marionette> :hasTopic :marionette .
 
-:wordpress rdf:type :Topic .
-<https://devdocs.io/wordpress> :hasTopic :wordpress .
+:drupal rdf:type :Topic .
+<https://devdocs.io/drupal> rdf:type :Tutorial .
+<https://devdocs.io/drupal> :hasTopic :drupal .
 
-:rust rdf:type :Topic .
-<https://devdocs.io/rust> :hasTopic :rust .
+:erlang rdf:type :Topic .
+<https://devdocs.io/erlang> rdf:type :Tutorial .
+<https://devdocs.io/erlang> :hasTopic :erlang .
 
-:react_native rdf:type :Topic .
-<https://devdocs.io/react_native> :hasTopic :react_native .
+:yii rdf:type :Topic .
+<https://devdocs.io/yii> rdf:type :Tutorial .
+<https://devdocs.io/yii> :hasTopic :yii .
 
-:ember rdf:type :Topic .
-<https://devdocs.io/ember> :hasTopic :ember .
+:npm rdf:type :Topic .
+<https://devdocs.io/npm> rdf:type :Tutorial .
+<https://devdocs.io/npm> :hasTopic :npm .
 
-:ramda rdf:type :Topic .
-<https://devdocs.io/ramda> :hasTopic :ramda .
+:liquid rdf:type :Topic .
+<https://devdocs.io/liquid> rdf:type :Tutorial .
+<https://devdocs.io/liquid> :hasTopic :liquid .
 
-:sass rdf:type :Topic .
-<https://devdocs.io/sass> :hasTopic :sass .
+:codeception rdf:type :Topic .
+<https://devdocs.io/codeception> rdf:type :Tutorial .
+<https://devdocs.io/codeception> :hasTopic :codeception .
 
-:reactivex rdf:type :Topic .
-<https://devdocs.io/reactivex> :hasTopic :reactivex .
+:chef rdf:type :Topic .
+<https://devdocs.io/chef> rdf:type :Tutorial .
+<https://devdocs.io/chef> :hasTopic :chef .
+
+:dart rdf:type :Topic .
+<https://devdocs.io/dart> rdf:type :Tutorial .
+<https://devdocs.io/dart> :hasTopic :dart .
+
+:perl rdf:type :Topic .
+<https://devdocs.io/perl> rdf:type :Tutorial .
+<https://devdocs.io/perl> :hasTopic :perl .
+
+:d rdf:type :Topic .
+<https://devdocs.io/d> rdf:type :Tutorial .
+<https://devdocs.io/d> :hasTopic :d .
+
+:socketio rdf:type :Topic .
+<https://devdocs.io/socketio> rdf:type :Tutorial .
+<https://devdocs.io/socketio> :hasTopic :socketio .
+
+:sinon rdf:type :Topic .
+<https://devdocs.io/sinon> rdf:type :Tutorial .
+<https://devdocs.io/sinon> :hasTopic :sinon .
 
 :statsmodels rdf:type :Topic .
+<https://devdocs.io/statsmodels> rdf:type :Tutorial .
 <https://devdocs.io/statsmodels> :hasTopic :statsmodels .
 
+:numpy rdf:type :Topic .
+<https://devdocs.io/numpy> rdf:type :Tutorial .
+<https://devdocs.io/numpy> :hasTopic :numpy .
+
+:ansible rdf:type :Topic .
+<https://devdocs.io/ansible> rdf:type :Tutorial .
+<https://devdocs.io/ansible> :hasTopic :ansible .
+
+:relay rdf:type :Topic .
+<https://devdocs.io/relay> rdf:type :Tutorial .
+<https://devdocs.io/relay> :hasTopic :relay .
+
+:trio rdf:type :Topic .
+<https://devdocs.io/trio> rdf:type :Tutorial .
+<https://devdocs.io/trio> :hasTopic :trio .
+
+:php rdf:type :Topic .
+<https://devdocs.io/php> rdf:type :Tutorial .
+<https://devdocs.io/php> :hasTopic :php .
+
+:d3 rdf:type :Topic .
+<https://devdocs.io/d3> rdf:type :Tutorial .
+<https://devdocs.io/d3> :hasTopic :d3 .
+
+:webpack rdf:type :Topic .
+<https://devdocs.io/webpack> rdf:type :Tutorial .
+<https://devdocs.io/webpack> :hasTopic :webpack .
+
+:ruby rdf:type :Topic .
+<https://devdocs.io/ruby> rdf:type :Tutorial .
+<https://devdocs.io/ruby> :hasTopic :ruby .
+
+:pygame rdf:type :Topic .
+<https://devdocs.io/pygame> rdf:type :Tutorial .
+<https://devdocs.io/pygame> :hasTopic :pygame .
+
+:rxjs rdf:type :Topic .
+<https://devdocs.io/rxjs> rdf:type :Tutorial .
+<https://devdocs.io/rxjs> :hasTopic :rxjs .
+
+:pony rdf:type :Topic .
+<https://devdocs.io/pony> rdf:type :Tutorial .
+<https://devdocs.io/pony> :hasTopic :pony .
+
+:express rdf:type :Topic .
+<https://devdocs.io/express> rdf:type :Tutorial .
+<https://devdocs.io/express> :hasTopic :express .
+
+:electron rdf:type :Topic .
+<https://devdocs.io/electron> rdf:type :Tutorial .
+<https://devdocs.io/electron> :hasTopic :electron .
+
+:crystal rdf:type :Topic .
+<https://devdocs.io/crystal> rdf:type :Tutorial .
+<https://devdocs.io/crystal> :hasTopic :crystal .
+
+:reactivex rdf:type :Topic .
+<https://devdocs.io/reactivex> rdf:type :Tutorial .
+<https://devdocs.io/reactivex> :hasTopic :reactivex .
+
+:scala rdf:type :Topic .
+<https://devdocs.io/scala> rdf:type :Tutorial .
+<https://devdocs.io/scala> :hasTopic :scala .
+
+:wordpress rdf:type :Topic .
+<https://devdocs.io/wordpress> rdf:type :Tutorial .
+<https://devdocs.io/wordpress> :hasTopic :wordpress .
+
+:async rdf:type :Topic .
+<https://devdocs.io/async> rdf:type :Tutorial .
+<https://devdocs.io/async> :hasTopic :async .
+
+:eslint rdf:type :Topic .
+<https://devdocs.io/eslint> rdf:type :Tutorial .
+<https://devdocs.io/eslint> :hasTopic :eslint .
+
+:codeigniter rdf:type :Topic .
+<https://devdocs.io/codeigniter> rdf:type :Tutorial .
+<https://devdocs.io/codeigniter> :hasTopic :codeigniter .
+
+:gnu_cobol rdf:type :Topic .
+<https://devdocs.io/gnu_cobol> rdf:type :Tutorial .
+<https://devdocs.io/gnu_cobol> :hasTopic :gnu_cobol .
+
+:apache_pig rdf:type :Topic .
+<https://devdocs.io/apache_pig> rdf:type :Tutorial .
+<https://devdocs.io/apache_pig> :hasTopic :apache_pig .
+
+:qt rdf:type :Topic .
+<https://devdocs.io/qt> rdf:type :Tutorial .
+<https://devdocs.io/qt> :hasTopic :qt .
+
+:vulkan rdf:type :Topic .
+<https://devdocs.io/vulkan> rdf:type :Tutorial .
+<https://devdocs.io/vulkan> :hasTopic :vulkan .
+
+:less rdf:type :Topic .
+<https://devdocs.io/less> rdf:type :Tutorial .
+<https://devdocs.io/less> :hasTopic :less .
+
+:yarn rdf:type :Topic .
+<https://devdocs.io/yarn> rdf:type :Tutorial .
+<https://devdocs.io/yarn> :hasTopic :yarn .
+
+:apache_http_server rdf:type :Topic .
+<https://devdocs.io/apache_http_server> rdf:type :Tutorial .
+<https://devdocs.io/apache_http_server> :hasTopic :apache_http_server .
+
+:phpunit rdf:type :Topic .
+<https://devdocs.io/phpunit> rdf:type :Tutorial .
+<https://devdocs.io/phpunit> :hasTopic :phpunit .
+
+:rust rdf:type :Topic .
+<https://devdocs.io/rust> rdf:type :Tutorial .
+<https://devdocs.io/rust> :hasTopic :rust .
+
+:vue rdf:type :Topic .
+<https://devdocs.io/vue> rdf:type :Tutorial .
+<https://devdocs.io/vue> :hasTopic :vue .
+
+:kotlin rdf:type :Topic .
+<https://devdocs.io/kotlin> rdf:type :Tutorial .
+<https://devdocs.io/kotlin> :hasTopic :kotlin .
+
+:typescript rdf:type :Topic .
+<https://devdocs.io/typescript> rdf:type :Tutorial .
+<https://devdocs.io/typescript> :hasTopic :typescript .
+
+:love rdf:type :Topic .
+<https://devdocs.io/love> rdf:type :Tutorial .
+<https://devdocs.io/love> :hasTopic :love .
+
+:git rdf:type :Topic .
+<https://devdocs.io/git> rdf:type :Tutorial .
+<https://devdocs.io/git> :hasTopic :git .
+
+:vue_router rdf:type :Topic .
+<https://devdocs.io/vue_router> rdf:type :Tutorial .
+<https://devdocs.io/vue_router> :hasTopic :vue_router .
+
+:django rdf:type :Topic .
+<https://devdocs.io/django> rdf:type :Tutorial .
+<https://devdocs.io/django> :hasTopic :django .
+
+:homebrew rdf:type :Topic .
+<https://devdocs.io/homebrew> rdf:type :Tutorial .
+<https://devdocs.io/homebrew> :hasTopic :homebrew .
+
+:q rdf:type :Topic .
+<https://devdocs.io/q> rdf:type :Tutorial .
+<https://devdocs.io/q> :hasTopic :q .
+
+:phaser rdf:type :Topic .
+<https://devdocs.io/phaser> rdf:type :Tutorial .
+<https://devdocs.io/phaser> :hasTopic :phaser .
+
+:symfony rdf:type :Topic .
+<https://devdocs.io/symfony> rdf:type :Tutorial .
+<https://devdocs.io/symfony> :hasTopic :symfony .
+
+:haxe rdf:type :Topic .
+<https://devdocs.io/haxe> rdf:type :Tutorial .
+<https://devdocs.io/haxe> :hasTopic :haxe .
+
+:composer rdf:type :Topic .
+<https://devdocs.io/composer> rdf:type :Tutorial .
+<https://devdocs.io/composer> :hasTopic :composer .
+
+:gnu_fortran rdf:type :Topic .
+<https://devdocs.io/gnu_fortran> rdf:type :Tutorial .
+<https://devdocs.io/gnu_fortran> :hasTopic :gnu_fortran .
+
+:laravel rdf:type :Topic .
+<https://devdocs.io/laravel> rdf:type :Tutorial .
+<https://devdocs.io/laravel> :hasTopic :laravel .
+
+:redis rdf:type :Topic .
+<https://devdocs.io/redis> rdf:type :Tutorial .
+<https://devdocs.io/redis> :hasTopic :redis .
+
+:twig rdf:type :Topic .
+<https://devdocs.io/twig> rdf:type :Tutorial .
+<https://devdocs.io/twig> :hasTopic :twig .
+
+:immutable rdf:type :Topic .
+<https://devdocs.io/immutable> rdf:type :Tutorial .
+<https://devdocs.io/immutable> :hasTopic :immutable .
+
+:cordova rdf:type :Topic .
+<https://devdocs.io/cordova> rdf:type :Tutorial .
+<https://devdocs.io/cordova> :hasTopic :cordova .
+
+:bash rdf:type :Topic .
+<https://devdocs.io/bash> rdf:type :Tutorial .
+<https://devdocs.io/bash> :hasTopic :bash .
+
+:jekyll rdf:type :Topic .
+<https://devdocs.io/jekyll> rdf:type :Tutorial .
+<https://devdocs.io/jekyll> :hasTopic :jekyll .
+
+:cypress rdf:type :Topic .
+<https://devdocs.io/cypress> rdf:type :Tutorial .
+<https://devdocs.io/cypress> :hasTopic :cypress .
+
+:go rdf:type :Topic .
+<https://devdocs.io/go> rdf:type :Tutorial .
+<https://devdocs.io/go> :hasTopic :go .
+
+:saltstack rdf:type :Topic .
+<https://devdocs.io/saltstack> rdf:type :Tutorial .
+<https://devdocs.io/saltstack> :hasTopic :saltstack .
+
+:rethinkdb rdf:type :Topic .
+<https://devdocs.io/rethinkdb> rdf:type :Tutorial .
+<https://devdocs.io/rethinkdb> :hasTopic :rethinkdb .
+
+:codeceptjs rdf:type :Topic .
+<https://devdocs.io/codeceptjs> rdf:type :Tutorial .
+<https://devdocs.io/codeceptjs> :hasTopic :codeceptjs .
+
+:padrino rdf:type :Topic .
+<https://devdocs.io/padrino> rdf:type :Tutorial .
+<https://devdocs.io/padrino> :hasTopic :padrino .
+
+:babel rdf:type :Topic .
+<https://devdocs.io/babel> rdf:type :Tutorial .
+<https://devdocs.io/babel> :hasTopic :babel .
+
+:phoenix rdf:type :Topic .
+<https://devdocs.io/phoenix> rdf:type :Tutorial .
+<https://devdocs.io/phoenix> :hasTopic :phoenix .
+
+:vagrant rdf:type :Topic .
+<https://devdocs.io/vagrant> rdf:type :Tutorial .
+<https://devdocs.io/vagrant> :hasTopic :vagrant .
+
+:godot rdf:type :Topic .
+<https://devdocs.io/godot> rdf:type :Tutorial .
+<https://devdocs.io/godot> :hasTopic :godot .
+
+:flow rdf:type :Topic .
+<https://devdocs.io/flow> rdf:type :Tutorial .
+<https://devdocs.io/flow> :hasTopic :flow .
+
+:leaflet rdf:type :Topic .
+<https://devdocs.io/leaflet> rdf:type :Tutorial .
+<https://devdocs.io/leaflet> :hasTopic :leaflet .
+
+:react_native rdf:type :Topic .
+<https://devdocs.io/react_native> rdf:type :Tutorial .
+<https://devdocs.io/react_native> :hasTopic :react_native .
+
+:coffeescript rdf:type :Topic .
+<https://devdocs.io/coffeescript> rdf:type :Tutorial .
+<https://devdocs.io/coffeescript> :hasTopic :coffeescript .
+
+:pandas rdf:type :Topic .
+<https://devdocs.io/pandas> rdf:type :Tutorial .
+<https://devdocs.io/pandas> :hasTopic :pandas .
+
+:rails rdf:type :Topic .
+<https://devdocs.io/rails> rdf:type :Tutorial .
+<https://devdocs.io/rails> :hasTopic :rails .
+
+:ramda rdf:type :Topic .
+<https://devdocs.io/ramda> rdf:type :Tutorial .
+<https://devdocs.io/ramda> :hasTopic :ramda .
+
+:django_rest_framework rdf:type :Topic .
+<https://devdocs.io/django_rest_framework> rdf:type :Tutorial .
+<https://devdocs.io/django_rest_framework> :hasTopic :django_rest_framework .
+
 :dojo rdf:type :Topic .
+<https://devdocs.io/dojo> rdf:type :Tutorial .
 <https://devdocs.io/dojo> :hasTopic :dojo .
 
 :terraform rdf:type :Topic .
+<https://devdocs.io/terraform> rdf:type :Tutorial .
 <https://devdocs.io/terraform> :hasTopic :terraform .
 
-:angular rdf:type :Topic .
-<https://devdocs.io/angular> :hasTopic :angular .
-
-:async rdf:type :Topic .
-<https://devdocs.io/async> :hasTopic :async .
-
-:fish rdf:type :Topic .
-<https://devdocs.io/fish> :hasTopic :fish .
-
-:sequelize rdf:type :Topic .
-<https://devdocs.io/sequelize> :hasTopic :sequelize .
-
-:rethinkdb rdf:type :Topic .
-<https://devdocs.io/rethinkdb> :hasTopic :rethinkdb .
-
-:bottle rdf:type :Topic .
-<https://devdocs.io/bottle> :hasTopic :bottle .
-
-:bower rdf:type :Topic .
-<https://devdocs.io/bower> :hasTopic :bower .
-
-:tensorflow rdf:type :Topic .
-<https://devdocs.io/tensorflow> :hasTopic :tensorflow .
-
-:jquery rdf:type :Topic .
-<https://devdocs.io/jquery> :hasTopic :jquery .
+:moment rdf:type :Topic .
+<https://devdocs.io/moment> rdf:type :Tutorial .
+<https://devdocs.io/moment> :hasTopic :moment .
 
