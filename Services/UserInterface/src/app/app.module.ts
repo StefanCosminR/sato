@@ -42,6 +42,7 @@ import { PaginatedResultsListComponent } from './components/shared/paginated-res
 import { UserInterestsPageComponent } from './components/pages/user-interests-page/user-interests-page.component';
 import { InfiniteLoadComponent } from './components/shared/infinite-load/infinite-load.component';
 import {NgSelectModule} from '@ng-select/ng-select';
+import { LinkPreviewWrapperComponent } from './components/shared/link-preview-wrapper/link-preview-wrapper.component';
 
 @NgModule({
     declarations: [
@@ -59,7 +60,8 @@ import {NgSelectModule} from '@ng-select/ng-select';
         ResourceNameExtractorPipe,
         UserInterestsPageComponent,
         SuggestionsLayoutComponent,
-        PaginatedResultsListComponent
+        PaginatedResultsListComponent,
+        LinkPreviewWrapperComponent
     ],
     imports: [
         NgbModule,

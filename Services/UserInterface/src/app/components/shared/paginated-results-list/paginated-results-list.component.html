@@ -4,12 +4,16 @@
     </div>
 
     <mat-card class="resource" *ngFor="let resource of resources">
-        <ngx-link-preview [apiRoute]="'http://127.0.0.1:3050'"
-                          [getApiEndpoint$]="apiCallbackFunction"
-                          [useHtmlLinkDefaultClickEvent]="true"
-                          [links]="[resource.url]"
-                          [showLinkUrl]="true">
-        </ngx-link-preview>
+<!--        <ngx-link-preview [apiRoute]="'http://127.0.0.1:3050'"-->
+<!--                          [getApiEndpoint$]="apiCallbackFunction"-->
+<!--                          [useHtmlLinkDefaultClickEvent]="true"-->
+<!--                          [links]="[resource.url]"-->
+<!--                          [showLinkUrl]="true">-->
+<!--        </ngx-link-preview>-->
+        <sato-link-preview-wrapper
+            [link]="resource.url"
+            [callbackFn]="apiCallbackFunction"
+        ></sato-link-preview-wrapper>
     </mat-card>
 
     <div *ngIf="!!resources.length">

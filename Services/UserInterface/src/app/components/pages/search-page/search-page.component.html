@@ -1,14 +1,28 @@
 <div class="main__container">
     <sato-main-menu-bar showSearch="true" [searchInputValue]="searchContent"></sato-main-menu-bar>
     <div class="main__content">
-        <mat-card class="smaller-padding" *ngFor="let resource of trackedResources">
+<!--        <mat-card class="smaller-padding" *ngFor="let resource of trackedResources">-->
 
-            <ngx-link-preview [apiRoute]="'http://127.0.0.1:3050'"
-                              [getApiEndpoint$]="apiCallbackFn"
-                              [links]="[resource.url]"
-                              [showLinkUrl]="true"
-                              [useHtmlLinkDefaultClickEvent]="true"
-            ></ngx-link-preview>
-        </mat-card>
+<!--            <ngx-link-preview [apiRoute]="'http://127.0.0.1:3050'"-->
+<!--                              [getApiEndpoint$]="apiCallbackFn"-->
+<!--                              [links]="[resource.url]"-->
+<!--                              [showLinkUrl]="true"-->
+<!--                              [useHtmlLinkDefaultClickEvent]="true"-->
+<!--                              class="custom-preview"-->
+<!--            ></ngx-link-preview>-->
+<!--        </mat-card>-->
+
+
+        <sato-infinite-load [loadingMessage]="'Loading...'"
+                            [loading]="loading">
+        </sato-infinite-load>
+
+        <sato-paginated-results-list *ngIf="!loading"
+                                     [onPageChange]="collectPageResources"
+                                     [totalResources]="totalResources"
+                                     [resourceType]="resourceType"
+                                     [resources]="resources"
+                                     [page]="page">
+        </sato-paginated-results-list>
     </div>
 </div>

@@ -1,0 +1,24 @@
+.preview-theme {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.wrapper {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px;
+    float: left;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    background-color: #fff;
+
+    ::ng-deep .ngx-link-preview-container {
+        margin-bottom: 6px;
+        background-color: #fff;
+    }
+
+    &.red {
+        color: black;
+        background-color: #fff;
+    }
+}
