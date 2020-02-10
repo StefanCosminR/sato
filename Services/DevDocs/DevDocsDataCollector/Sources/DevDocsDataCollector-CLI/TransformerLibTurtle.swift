@@ -22,7 +22,7 @@ public func transformLibrariesToTurtle(_ libraries: [String: Library]) -> String
         let libraryName = ":\(library.name)"
         
         let topic = "\(libraryName) rdf:type :Topic .\n"
-        var entriesTurtle = "\(devdocsUrl)\(library.name)\n"
+        var entriesTurtle = "<\(devdocsUrl)\(library.name)> :hasTopic \(libraryName) .\n"
         
 //        for tutorial in meta.entries {
 //            guard !tutorial.path.contains(where: {c in c == "<" || c == ">"}) else { continue }
