@@ -535,6 +535,73 @@ SELECT DISTINCT ?url WHERE {
 } 
 LIMIT 5
                 </pre>
+                <pre>
+# collect articles and news about Web Development that were created in the
+# last year (2019)
+PREFIX : &lthttp://www.semanticweb.org/wade/ontologies/sato#> 
+PREFIX rdf: &lthttp://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX rdfs: &lthttp://www.w3.org/2000/01/rdf-schema#> 
+SELECT DISTINCT ?url WHERE { 
+    ?s rdf:type :Resource . 
+    BIND(?s AS ?url) . 
+    ?s rdf:type ?type . 
+    FILTER (?type IN (:Article, :News)) . 
+    ?s :hasTopic ?topic . 
+    FILTER (?topic IN (:Web_development) || CONTAINS(STR(?s), ':Web_development')) . 
+    ?s :createdAt ?date . 
+    FILTER(?date >= '2019-01-01'^^xsd:date) 
+}
+                </pre>
+                <pre>
+# collect all resources available about Web Frameworks that are not related
+# to JavaScript starting 2018
+PREFIX : &lthttp://www.semanticweb.org/wade/ontologies/sato#> 
+PREFIX rdf: &lthttp://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX rdfs: &lthttp://www.w3.org/2000/01/rdf-schema#> 
+SELECT DISTINCT ?url WHERE { 
+    ?s rdf:type :Resource .
+    BIND(?s AS ?url) . 
+    ?s :hasTopic ?topic . 
+    FILTER (
+        ?topic IN (:webframework, &lthttp://en.wikipedia.org/Software_framework>,
+                   :web-framework)
+        || CONTAINS(STR(?s), 'webframework')
+        || CONTAINS(STR(?s), 'http://en.wikipedia.org/Software_framework')
+        || CONTAINS(STR(?s), 'web-framework')
+    ) .
+    FILTER NOT EXISTS { 
+        ?s :hasTopic &lthttp://en.wikipedia.org/JavaScript> 
+    } . 
+    FILTER NOT EXISTS { 
+        ?s :hasTopic :JavaScript 
+    } . 
+    FILTER NOT EXISTS { 
+        ?s :hasTopic :javascript
+    } . 
+    ?s :createdAt ?date . 
+    FILTER(?date >= '2020-01-12'^^xsd:date)
+}
+                </pre>
+                <pre>
+# collect all resources about Big Data that are dated after 2020-01-12
+PREFIX : &lthttp://www.semanticweb.org/wade/ontologies/sato#> 
+PREFIX rdf: &lthttp://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX rdfs: &lthttp://www.w3.org/2000/01/rdf-schema#> 
+SELECT DISTINCT ?url WHERE { 
+    ?s rdf:type :Resource . 
+    BIND(?s AS ?url) . 
+    ?s :hasTopic ?topic . 
+    FILTER (?topic IN (&lthttp://en.wikipedia.org/Big_data>, 
+                       &lthttp://en.wikipedia.org/Apache_Hadoop>, 
+                       &lthttp://en.wikipedia.org/Apache_Spark>) 
+            || CONTAINS(STR(?s), 'http://en.wikipedia.org/Big_data')
+            || CONTAINS(STR(?s), 'http://en.wikipedia.org/Apache_Hadoop')
+            || CONTAINS(STR(?s), 'http://en.wikipedia.org/Apache_Spark')
+    ) . 
+    ?s :createdAt ?date . 
+    FILTER(?date >= '2020-01-12'^^xsd:date) 
+}
+                </pre>
             </section>
         </section>
 
