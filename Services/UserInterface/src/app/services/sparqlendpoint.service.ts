@@ -230,7 +230,7 @@ export class SPARQLEndpointService {
                 const endDateString = `${endDate.getFullYear()}-${this.appendLeadingZeroes(endDate.getMonth() + 1)}-${this.appendLeadingZeroes(endDate.getDate())}`;
                 constraints = `${constraints}
                 ?s :createdAt ?date .
-                FILTER(?date <= '${startDateString}'^^xsd:date && ?date <= '${endDateString}'^^xsd:date)`;
+                FILTER(?date >= '${startDateString}'^^xsd:date && ?date <= '${endDateString}'^^xsd:date)`;
             }
         }
 
