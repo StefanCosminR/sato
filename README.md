@@ -1,5 +1,8 @@
 ## Welcome to SATO project 
 
+### Blog link: https://wade-sato.web.app/
+
+
 ## Description
 Information about software development is readily available on the web today, unfortunately it is mostly simply data, _*understandable by humans in the right context but very hard to aggregate and search by computers*_. 
 
